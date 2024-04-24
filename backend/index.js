@@ -31,3 +31,9 @@ app.get("/users/", usersController.listUsers);
 
 // Endpoint para buscar un usuario por su id
 app.get("/users/:id", usersController.getUser);
+
+// Endpoint para actualizar un usuario por su id
+app.patch('/edit/:id', usersController.editUser);
+
+// Endpoint para eliminar un usuario por su id
+app.delete('/delete/:id', usersController.deleteUser);

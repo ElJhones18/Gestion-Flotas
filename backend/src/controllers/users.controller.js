@@ -46,8 +46,57 @@ const getUser = async (req, res) => {
     }
 }
 
+const editUser = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const {
+            email,
+            username,
+            lastname,
+            active_user,
+            createdAt,
+            updatesAt,
+        } = req.body;
+
+        const userEdit = {
+            email: email,
+            username: username,
+            lastname: lastname,
+            active_user: active_user,
+            createdAt: createdAt,
+            updatesAt: updatesAt,
+
+        };
+        const avatar = req.file ? userEdit.avatar = req.file.filename : null;
+
+        const user = await prisma.users.update({
+            where: { id : id},
+            data: userEdit
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
+};
+
+const deleteUser = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const user = await prisma.users.delete ({
+            where: { id : id}
+        });
+        console.log(user);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+
+    }
+};
+
 module.exports = {
     createUser,
     listUsers,
-    getUser
+    getUser,
+    editUser,
+    deleteUser
 }
