@@ -25,6 +25,29 @@ const createUser = async (req, res) => {
     }
 };
 
+
+const listUsers = async (req, res) => {
+    try {
+        const allUsers = await prisma.users.findMany();
+        res.json(allUsers);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener los usuarios');
+    }
+}
+
+const getUser = async (req, res) => {
+    try {
+        const user = await prisma.users.findUnique({ where: { id: req.params.id } });
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener el usuario');
+    }
+}
+
 module.exports = {
-    createUser
+    createUser,
+    listUsers,
+    getUser
 }

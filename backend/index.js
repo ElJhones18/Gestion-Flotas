@@ -25,3 +25,9 @@ const upload = multer({ storage: storage });
 
 // Endpoint para crear un nuevo usuario 
 app.post('/users/create', upload.single('avatar'), usersController.createUser);
+
+// Endpoint para listar todos los usuarios 
+app.get("/users/", usersController.listUsers);
+
+// Endpoint para buscar un usuario por su id
+app.get("/users/:id", usersController.getUser);
