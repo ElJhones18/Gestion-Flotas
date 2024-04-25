@@ -1,7 +1,10 @@
 import './App.css';
+import { CreateUserComponent } from './components/users/CreateUserComponent';
 
 function App() {
-  return
+  return (
+  <CreateUserComponent />
+);
 }
 
 export default App;

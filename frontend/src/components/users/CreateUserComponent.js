@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 export const CreateUserComponent =() => {
-    useEffect = () => {
+    useEffect (() => {
         console.log('CreateUserComponent');
-    },[];
+    },[]);
 
     return (
         <div>
