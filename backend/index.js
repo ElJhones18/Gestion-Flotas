@@ -33,7 +33,7 @@ app.get("/users/", usersController.listUsers);
 app.get("/users/:id", usersController.getUser);
 
 // Endpoint para actualizar un usuario por su id
-app.patch('/edit/:id', usersController.editUser);
+app.patch('/users/edit/:id', usersController.editUser);
 
 // Endpoint para eliminar un usuario por su id
-app.delete('/delete/:id', usersController.deleteUser);
+app.delete('/users/delete/:id', usersController.deleteUser);
