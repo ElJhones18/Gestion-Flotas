@@ -1,49 +1,54 @@
 import { PATHS } from "../utils/config";
 
-export class User{
+export class User {
     baseApi = PATHS.BASE_PATH;
     createUsersPath = PATHS.API_ROUTES.CREATE_USER;
 
-    createUser = async () => { 
+    createUser = async (data) => {
         try {
-            console.log(`${baseApi}${createUser}`);
-            const response = await fetch(`${baseApi}${createUser}`, 
-                {    
-                    method: 'POST',
-                    body: formData
-                }
-            );
+            const URL = `${baseApi}${createUsersPath}`
+            console.log(URL);
+
+            const formData = new FormData();
+            const params = {
+                method: "POST",
+                body: formData
+            }
+            console.log(params);
+            const response = await fetch(URL, params);
             console.log(response);
+            const result = response.json();
+            console.log(result);
         } catch (error) {
-            
+
         }
-     }
-    getUser = async() => { 
+    }
+    getUser = async () => {
         try {
-            
+
         } catch (error) {
-            
+
         }
-     }
-    getUserById = async() => { 
+    }
+    getUserById = async () => {
         try {
-            
+
         } catch (error) {
-            
+
         }
-     }
-    getUserByIdAndUpdate = async() => { 
+    }
+    getUserByIdAndUpdate = async () => {
         try {
-            
+
         } catch (error) {
-            
+
         }
-     }
-    getUserByIdAndDelete = async() => { 
+    }
+    getUserByIdAndDelete = async () => {
         try {
-            
+
         } catch (error) {
-            
+
         }
-     }
+    }
 }

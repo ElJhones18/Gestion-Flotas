@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
+export const CreateUserComponent = () => {
 
-export const CreateUserComponent =() => {
-    useEffect (() => {
-        console.log('CreateUserComponent');
-    },[]);
+    const dispatch = useDispatch();
+        useEffect(async () => {
+            await dispatch();
+            console.log('CreateUserComponent');
+        }, []);
 
     return (
         <div>
