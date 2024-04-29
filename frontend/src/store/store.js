@@ -1,3 +1,5 @@
-import {createStore} from 'react-redux'
+import {combineReducers} from 'redux'
 
-const store = createStore();
+const store = combineReducers({});
+
+export default store;
