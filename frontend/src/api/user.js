@@ -7,10 +7,10 @@ export class User {
     createUser = async (formData) => {
         try {
             console.log("api", formData);
-            const URL = `${baseApi}${createUsersPath}`
+            const URL = `${this.baseApi}${this.createUsersPath}`
             console.log(URL);
 
-            const formData = new FormData();
+            // const formData = new FormData();
             const params = {
                 method: "POST",
                 body: formData
