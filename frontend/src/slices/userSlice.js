@@ -5,11 +5,11 @@ const initialState = {
     username: "",
     lastname: "",
     avatar: "",
-    active_user: ""
+    active_user: false,
 }
 
 
-export const userSlide = createSlice ({
+export const userSlice = createSlice ({
     name: "user",
     initialState,
     reducers: {
@@ -41,5 +41,5 @@ export const userSlide = createSlice ({
 
 });
 
-export const {addUser, getUsers, getUsersById, editUserById, deleteUser} = userSlide.actions;
-export default userSlide.reducer;
+export const {addUser, getUsers, getUsersById, editUserById, deleteUser} = userSlice.actions;
+export default userSlice.reducer;

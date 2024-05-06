@@ -40,7 +40,8 @@ export const CreateUserComponent = () => {
             formDataToSend.append("username", formData.username);
             formDataToSend.append("lastname", formData.lastname);
             formDataToSend.append("avatar", formData.avatar);
-            // formDataToSend.append("current_password", formData.current_password);
+            formDataToSend.append("active_user", formData.active_user);
+            //formDataToSend.append("current_password", formData.current_password);
 
             console.log(formDataToSend);
 
@@ -56,7 +57,7 @@ export const CreateUserComponent = () => {
             })
 
         } catch (error) {
-
+            console.log("Error al crear usuario: ", error);
         }
     }
 
@@ -114,9 +115,9 @@ export const CreateUserComponent = () => {
                     <input
                         type='file'
                         id="avatar"
-                        value={formData.avatar}
+                        //value={formData.avatar}
                         onChange={handleAvatarChange}
-                        accept='image/*'
+                        required
                     ></input>
                 </div>
 

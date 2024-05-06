@@ -19,7 +19,7 @@ model Users {
   username    String
   lastname    String
   avatar      String
-  active_user Boolean  @default(true)
+  active_user Boolean  
   createdAt   DateTime @default(now())
   updatesAt   DateTime @updatedAt
 }

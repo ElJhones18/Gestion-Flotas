@@ -6,6 +6,7 @@ export class User {
 
     createUser = async (formData) => {
         try {
+            console.log(formData.active_user);
             console.log("api", formData);
             const URL = `${this.baseApi}${this.createUsersPath}`
             console.log(URL);
