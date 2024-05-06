@@ -4,8 +4,9 @@ export class User {
     baseApi = PATHS.BASE_PATH;
     createUsersPath = PATHS.API_ROUTES.CREATE_USER;
 
-    createUser = async (data) => {
+    createUser = async (formData) => {
         try {
+            console.log("api", formData);
             const URL = `${baseApi}${createUsersPath}`
             console.log(URL);
 
