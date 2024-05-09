@@ -50,19 +50,37 @@ export class User {
             console.error(error);
         }
     };
-    
-    getUserByIdAndUpdate = async () => {
+
+    editUserById = async (userId, updatedData) => {
         try {
-
+            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            console.log(URL);
+            const params = {
+                method: "PUT",
+                body: JSON.stringify(updatedData), // Convert updated data to JSON string
+            }
+            const response = await fetch(URL, params);
+            const result = await response.json();
+            console.log(result);
+            return result;
         } catch (error) {
-
+            console.error(error);
         }
-    }
-    getUserByIdAndDelete = async () => {
+    };
+
+    deleteUserById = async (userId) => {
         try {
-
+            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            console.log(URL);
+            const params = {
+                method: "DELETE",
+            }
+            const response = await fetch(URL, params);
+            const message = await response.text(); // Convert response to text
+            console.log(message);
+            return message;
         } catch (error) {
-
+            console.error(error);
         }
     }
 }
