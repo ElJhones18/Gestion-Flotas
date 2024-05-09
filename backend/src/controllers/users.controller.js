@@ -2,7 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
-    const { email, username, lastname, active_user } = req.body; console.log(req.body);
+    const { email, username, lastname, active_user } = req.body; 
+    console.log(req.body);
     const avatar = req.file ? req.file.filename : null;
     console.log(avatar);
 
@@ -13,7 +14,7 @@ const createUser = async (req, res) => {
                 username: username,
                 lastname: lastname,
                 avatar: avatar,
-                active_user: active_user,
+                active_user: false,
             },
         });
 
