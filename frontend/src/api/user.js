@@ -2,6 +2,8 @@ import { PATHS } from "../utils/config";
 
 export class User {
     baseApi = PATHS.BASE_PATH;
+    listUsersPath = PATHS.API_ROUTES.LIST_USERS;
+    getUsersPath = PATHS.API_ROUTES.GET_USER;
     createUsersPath = PATHS.API_ROUTES.CREATE_USER;
 
     createUser = async (formData) => {
@@ -25,20 +27,30 @@ export class User {
 
         }
     }
-    getUser = async () => {
+    getUsers = async () => {
         try {
-
+            const URL = `${this.baseApi}${this.listUsersPath}`;
+            console.log(URL);
+            const response = await fetch(URL);
+            const users = response.json();
+            return users;
         } catch (error) {
-
+            console.log(error);
         }
     }
-    getUserById = async () => {
+
+    getUserById = async (userId) => {
         try {
-
+            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            console.log(URL);
+            const response = await fetch(URL);
+            const user = response.json();
+            return user;
         } catch (error) {
-
+            console.error(error);
         }
-    }
+    };
+    
     getUserByIdAndUpdate = async () => {
         try {
 
