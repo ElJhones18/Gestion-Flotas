@@ -4,11 +4,17 @@ import { User } from "../../api/user";
 
 export const ListComponent = () => {
     const dispatch = useDispatch();
-    const users = useSelector((state) => state.User.users);
+    //const users = useSelector((state) => state.User.users);
     const userApi = new User();
 
+    const [users, setUsers] = useState([]);
+
     useEffect( () => {
-       userApi.getUsers();
+        const fetchUsers = async () => {
+            const data = await userApi.getUsers();
+            setUsers(data);
+        }
+        fetchUsers();
     }, []);
 
     return (
