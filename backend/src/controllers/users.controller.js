@@ -33,7 +33,7 @@ const listUsers = async (req, res) => {
         res.json(allUsers);
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error al obtener los usuarios');
+        res.status(500).send('Error al listar los usuarios');
     }
 }
 

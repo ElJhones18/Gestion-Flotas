@@ -19,7 +19,35 @@ model Users {
   username    String
   lastname    String
   avatar      String
-  active_user Boolean  
+  active_user Boolean
   createdAt   DateTime @default(now())
   updatesAt   DateTime @updatedAt
+}
+
+model Conductor {
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre                 String
+  apellido               String
+  cedula                 Int
+  celular                Int
+  email                  String
+  rendimiento_conduccion String
+  historial_viajes       viajes[]
+  tareas_realizar        tareas[]
+}
+
+model viajes {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  ruta        String
+  tiempo      String
+  conductorId String    @db.ObjectId
+  conductor   Conductor @relation(fields: [conductorId], references: [id])
+}
+
+model tareas {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  tipo        String
+  descripcion String
+  conductorId String    @db.ObjectId
+  conductor   Conductor @relation(fields: [conductorId], references: [id])
 }

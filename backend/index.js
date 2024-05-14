@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const usersController = require('./src/controllers/users.controller');
+const conductorController = require('./src/controllers/conductor.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -25,6 +26,8 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage });
 
+//----------------------------------------------------------------
+
 // Endpoint para crear un nuevo usuario 
 app.post('/users/create', upload.single('avatar'), usersController.createUser);
 
@@ -39,3 +42,20 @@ app.patch('/users/edit/:id', usersController.editUser);
 
 // Endpoint para eliminar un usuario por su id
 app.delete('/users/delete/:id', usersController.deleteUser);
+
+//----------------------------------------------------------------
+
+// Endpoint para crear un conductor
+app.post('/conductor/create', conductorController.CreateConductor);
+
+// Endpoint para listar todos los conductores
+app.get('/conductor/', conductorController.ListConductor);
+
+// Endpoint para buscar un conductor por su id
+app.get('/conductor/:id', conductorController.getConductor);
+
+// Endpoint para actualizar un conductor por su id
+app.put('/conductor/edit/:id', conductorController.editConductor);
+
+// Endpoint para eliminar un conductor por su id
+app.delete('/conductor/delete/:id', conductorController.deleteConductor);
