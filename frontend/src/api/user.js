@@ -5,6 +5,7 @@ export class User {
     listUsersPath = PATHS.API_ROUTES.LIST_USERS;
     getUsersPath = PATHS.API_ROUTES.GET_USER;
     createUsersPath = PATHS.API_ROUTES.CREATE_USER;
+    deleteUserPath = PATHS.API_ROUTES.DELETE_USER;
 
     createUser = async (formData) => {
         try {
@@ -70,7 +71,7 @@ export class User {
 
     deleteUserById = async (userId) => {
         try {
-            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            const URL = `${this.baseApi}${this.deleteUserPath}${userId}`;
             console.log(URL);
             const params = {
                 method: "DELETE",
