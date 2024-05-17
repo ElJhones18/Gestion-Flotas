@@ -37,8 +37,18 @@ export const userSlice = createSlice({
         getUsersById: (state, action) => {
         },
         editUserById: (state, action) => {
+            const { id, email, username, lastname, avatar, active_user } = action.payload;
+            const existingUser = state.users.find(user => user.id === id);
+            if (existingUser) {
+                existingUser.email = email;
+                existingUser.username = username;
+                existingUser.lastname = lastname;
+                existingUser.avatar = avatar;
+                existingUser.active_user = active_user;
+            }
         },
         deleteUserById: (state, action) => {
+            state.users = state.users.filter(user => user.id !== action.payload);
         }
     }
 });

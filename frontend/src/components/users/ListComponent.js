@@ -26,6 +26,14 @@ export const ListComponent = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
+    const [formData, setFormData] = useState({
+        email: "",
+        username: "",
+        lastname: "",
+        avatar: "",
+        active_user: false,
+    });
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -41,6 +49,7 @@ export const ListComponent = () => {
 
     const handleEdit = (id) => {
         const user = users.find((user) => user.id === id);
+        console.log(user);
         setSelectedUser(user);
         setIsModalVisible(true);
     };
@@ -70,12 +79,34 @@ export const ListComponent = () => {
         setSelectedUser(null);
     };
 
+    // const handleUpload = (event) => {
+    //     setFormData({
+    //         ...formData,
+    //         avatar: event.target.files[0]
+    //     });
+    // }
+
     const handleOk = () => {
+
+        formData.email = selectedUser.email;
+        formData.username = selectedUser.username;
+        formData.lastname = selectedUser.lastname;
+        formData.active_user = selectedUser.active_user;
+
+        const formDataToSend = new FormData();
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("username", formData.username);
+        formDataToSend.append("lastname", formData.lastname);
+        formDataToSend.append("avatar", formData.avatar);
+        formDataToSend.append("active_user", formData.active_user);
+        //formDataToSend.append("current_password", formData.current_password);
+        console.log(formDataToSend);
+
         userApi
-            .editUserById(selectedUser.id, selectedUser)
+            .editUserById(selectedUser.id, formDataToSend)
             .then((result) => {
                 dispatch(
-                    editUserById({ userId: selectedUser.id, updatedUserData: result })
+                    editUserById(result)
                 );
                 setIsModalVisible(false);
                 setSelectedUser(null);
@@ -192,12 +223,21 @@ export const ListComponent = () => {
                         <Form.Item label="Avatar">
                             <Upload
                                 accept="image/*"
-                                beforeUpload={(file) => {
+                                beforeUpload={() => {
                                     return false;
                                 }}
                                 onChange={(info) => {
                                     console.log(info.fileList);
+
+                                    if (info.fileList.length > 0) {
+                                        const file = info.fileList[0].originFileObj;
+                                        setFormData({
+                                            ...formData,
+                                            avatar: file,
+                                        });
+                                    }
                                 }}
+                                // onChange={handleUpload}
                                 fileList={[]}>
                                 <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
                             </Upload>
