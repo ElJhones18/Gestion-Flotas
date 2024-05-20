@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const createUser = async (req, res) => {
     const { email, username, lastname, rol, active_user } = req.body;
     console.log(req.body);
-    const avatar = req.file ? req.file.filename : null;
+    const avatar = req.file ? req.file.filename : "cocacola-logo.jpg";
     console.log(avatar);
 
     try {
@@ -61,7 +61,9 @@ const editUser = async (req, res) => {
             updatesAt,
         } = req.body;
 
-        const avatar = req.file ? req.file.filename : undefined;
+        const existingUser = await prisma.users.findUnique({ where: { id: id } });
+
+        const avatar = req.file ? req.file.filename : existingUser.avatar;
 
         const userEdit = {
             email: email,
