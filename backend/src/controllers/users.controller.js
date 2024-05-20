@@ -58,25 +58,29 @@ const editUser = async(req, res) => {
             createdAt,
             updatesAt,
         } = req.body;
+        
+        const avatar = req.file ?  req.file.filename : undefined;
 
         const userEdit = {
             email: email,
             username: username,
             lastname: lastname,
-            active_user: active_user,
+            avatar: avatar,
+            active_user: active_user === 'true' ? true : false,
             createdAt: createdAt,
             updatesAt: updatesAt,
 
         };
-        const avatar = req.file ? userEdit.avatar = req.file.filename : null;
-
+        console.log(userEdit);
         const user = await prisma.users.update({
             where: { id : id},
             data: userEdit
         });
+        console.log(user);
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message});
+        console.log(error);
     }
 };
 

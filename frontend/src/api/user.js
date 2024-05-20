@@ -2,9 +2,11 @@ import { PATHS } from "../utils/config";
 
 export class User {
     baseApi = PATHS.BASE_PATH;
+    createUsersPath = PATHS.API_ROUTES.CREATE_USER;
     listUsersPath = PATHS.API_ROUTES.LIST_USERS;
     getUsersPath = PATHS.API_ROUTES.GET_USER;
-    createUsersPath = PATHS.API_ROUTES.CREATE_USER;
+    deleteUserPath = PATHS.API_ROUTES.DELETE_USER;
+    editUserPath = PATHS.API_ROUTES.EDIT_USER;
 
     createUser = async (formData) => {
         try {
@@ -53,11 +55,15 @@ export class User {
 
     editUserById = async (userId, updatedData) => {
         try {
-            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            const URL = `${this.baseApi}${this.editUserPath}${userId}`;
             console.log(URL);
             const params = {
-                method: "PUT",
-                body: JSON.stringify(updatedData), // Convert updated data to JSON string
+                method: "PATCH",
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // },
+                // body: JSON.stringify(updatedData), // Convert updated data to JSON string
+                body: updatedData, // Convert updated data to JSON string
             }
             const response = await fetch(URL, params);
             const result = await response.json();
@@ -70,7 +76,7 @@ export class User {
 
     deleteUserById = async (userId) => {
         try {
-            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            const URL = `${this.baseApi}${this.deleteUserPath}${userId}`;
             console.log(URL);
             const params = {
                 method: "DELETE",
