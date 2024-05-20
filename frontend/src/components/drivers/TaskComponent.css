@@ -1,0 +1,143 @@
+/*
+    ** All elements border-box
+*/
+*,
+*:before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+    ** Root element font size
+    ** No default margins and paddings
+*/
+html,
+body {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+    **root elements display block
+*/
+html,
+body {
+  display: block;
+}
+
+/*
+    ** Body main style
+*/
+body {
+  line-height: 1.317101995;
+  scroll-behavior: smooth;
+}
+
+button:focus {
+  outline: 0;
+}
+
+img,
+embed,
+svg,
+audio,
+canvas,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+h1, h1, h3, h4, p{
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+body{
+  background-color: #f4f4f5;
+  padding: 40px;
+  padding-top: 5%;
+  display: grid;
+  place-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+  color: #3b3b53;
+  text-align: center;
+}
+
+/*
+    **Drag and Drop component
+*/
+
+
+.icon-react{
+    width: 60px;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F8FC;
+    width: 400px;
+    min-height: 100px;
+    padding: 24px 12px;
+    border-radius: 8px;
+    border-top: 7px solid;
+    box-shadow: 0 8px 16px rgba(#333, 0.1);
+}
+
+.column--1{
+    border-color: #FF9E4A;
+}
+
+.column--1 .title{
+    color: #FF9E4A;
+}
+
+.column--2{
+    border-color: #C56BE2;
+}
+
+.column--2 .title{
+    color: #C56BE2;
+}
+
+.column--3{
+    border-color: #6FD2AF;
+}
+
+.column--3 .title{
+    color: #6FD2AF;
+}
+
+/* DRAG AND DROP */
+.drag-and-drop{
+    display: flex;
+    grid-gap: 40px;
+}
+
+.dd-zone{
+    display: flex;
+    flex-direction: column;
+    grid-gap: 16px;
+    height: 100%;
+}
+
+.dd-element{
+    font-size: 18px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 26px 20px;
+    cursor: pointer;
+    color: #5b5b73;
+}
+
+.dd-element .body{
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
