@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const usersController = require('./src/controllers/users.controller');
 const driversController = require('./src/controllers/driver.controller');
+const tasksController = require('./src/controllers/task.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -57,3 +58,20 @@ app.patch('/drivers/edit/:id', driversController.editDriver);
 
 // Endpoint para eliminar un conductor por su id
 app.delete('/drivers/delete/:id', driversController.deleteDriver);
+
+// --------------------------------------------
+
+// Endpoint para crear una nueva tarea
+app.post('/tasks/create', tasksController.createTask);
+
+// Endpoint para listar todas las tareas
+app.get("/tasks/", tasksController.listTask);
+
+// Endpoint para buscar una tarea por su id
+app.get("/tasks/:id", tasksController.getTask);
+
+// Endpoint para actualizar una tarea por su id
+app.patch('/tasks/edit/:id', tasksController.editTask);
+
+// Endpoint para eliminar una tarea por su id
+app.delete('/tasks/delete/:id', tasksController.deleteTask);

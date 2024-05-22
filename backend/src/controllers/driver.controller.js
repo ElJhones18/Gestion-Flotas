@@ -90,7 +90,7 @@ const editDriver = async (req, res) => {
         if (tasks && tasks.id) {
             driverEdit.tasks = {
                 update: {
-                    where: { id: tasks.driverId },
+                    where: { id: tasks.id },  // Usar tasks.id para identificar la tarea
                     data: {
                         type: tasks.type || undefined,
                         description: tasks.description || undefined,
@@ -104,7 +104,9 @@ const editDriver = async (req, res) => {
         const driverUpdate = await prisma.drivers.update({
             where: { id: id },
             data: driverEdit,
-            
+            include: {
+                tasks: true,
+            },
         });
 
         res.status(200).json(driverUpdate);
