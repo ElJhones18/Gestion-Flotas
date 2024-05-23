@@ -24,3 +24,23 @@ model Users {
   createdAt   DateTime @default(now())
   updatesAt   DateTime @updatedAt
 }
+
+model Drivers {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  username           String
+  lastname           String
+  cedula             Int
+  phone              Int
+  email              String
+  performance_driver String
+  tasks              Tasks[]
+}
+
+model Tasks {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  type        String
+  state       String
+  description String
+  driverId    String  @db.ObjectId
+  driver      Drivers @relation(fields: [driverId], references: [id])
+}
