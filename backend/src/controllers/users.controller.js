@@ -2,9 +2,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
-    const { email, username, lastname, active_user } = req.body; 
+    const { email, username, lastname, rol, active_user } = req.body;
     console.log(req.body);
-    const avatar = req.file ? req.file.filename : null;
+    const avatar = req.file ? req.file.filename : "cocacola-logo.jpg";
     console.log(avatar);
 
     try {
@@ -13,6 +13,7 @@ const createUser = async (req, res) => {
                 email: email,
                 username: username,
                 lastname: lastname,
+                rol: rol,
                 avatar: avatar,
                 active_user: false,
             },
@@ -47,24 +48,28 @@ const getUser = async (req, res) => {
     }
 }
 
-const editUser = async(req, res) => {
+const editUser = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const {
             email,
             username,
             lastname,
+            rol,
             active_user,
             createdAt,
             updatesAt,
         } = req.body;
-        
-        const avatar = req.file ?  req.file.filename : undefined;
+
+        const existingUser = await prisma.users.findUnique({ where: { id: id } });
+
+        const avatar = req.file ? req.file.filename : existingUser.avatar;
 
         const userEdit = {
             email: email,
             username: username,
             lastname: lastname,
+            rol: rol,
             avatar: avatar,
             active_user: active_user === 'true' ? true : false,
             createdAt: createdAt,
@@ -73,27 +78,27 @@ const editUser = async(req, res) => {
         };
         console.log(userEdit);
         const user = await prisma.users.update({
-            where: { id : id},
+            where: { id: id },
             data: userEdit
         });
         console.log(user);
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message});
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 };
 
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
     try {
-        const {id} = req.params;
-        const user = await prisma.users.delete ({
-            where: { id : id}
+        const { id } = req.params;
+        const user = await prisma.users.delete({
+            where: { id: id }
         });
         console.log(user);
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message});
+        res.status(500).json({ message: error.message });
 
     }
 };

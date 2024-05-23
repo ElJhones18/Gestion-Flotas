@@ -18,7 +18,8 @@ model Users {
   email       String   @unique
   username    String
   lastname    String
-  avatar      String
+  rol         String
+  avatar      String?
   active_user Boolean
   createdAt   DateTime @default(now())
   updatesAt   DateTime @updatedAt
