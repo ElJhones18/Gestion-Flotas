@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { User } from "../../api/user";
-import { getUsers, editUserById, deleteUserById } from "../../slices/userSlice";
+import { User } from "../../../api/user";
+import { getUsers, editUserById, deleteUserById } from "../../../slices/userSlice";
 import {
     Table,
     Avatar,
@@ -184,7 +184,7 @@ export const ListComponent = () => {
 
     return (
         <div className="container">
-            <h2>Users List</h2>
+    <h2>Users List</h2>
             <Table dataSource={users} columns={columns} rowKey="id" />
             {selectedUser && (
                 <Modal
