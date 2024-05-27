@@ -48,7 +48,7 @@ model Tasks {
 
 model Travel {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  distance    String
+  distance    String?
   origin      String
   destination String
   stops       Stop[]
@@ -61,8 +61,8 @@ model Travel {
 model Stop {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   direction String
-  latitude  String
-  longitude String
+  latitude  String?
+  longitude String?
   travelId  String @db.ObjectId
   travel    Travel @relation(fields: [travelId], references: [id])
 }
