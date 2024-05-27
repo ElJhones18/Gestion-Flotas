@@ -3,6 +3,7 @@ const multer = require('multer');
 const usersController = require('./src/controllers/users.controller');
 const driversController = require('./src/controllers/driver.controller');
 const tasksController = require('./src/controllers/task.controller');
+const travelsController = require('./src/controllers/travel.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -78,3 +79,20 @@ app.patch('/tasks/edit/:id', tasksController.editTask);
 
 // Endpoint para eliminar una tarea por su id
 app.delete('/tasks/delete/:id', tasksController.deleteTask);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo viaje
+app.post('/travel/create', travelsController.createTravel);
+
+// Endpoint para listar todos los viajes
+app.get("/travels/", travelsController.listTravel);
+
+// Endpoint para buscar un viaje por su id
+app.get("/travel/:id", travelsController.getTravel);
+
+// Endpoint para actualizar un viaje por su id
+app.patch('/travel/edit/:id', travelsController.editTravel);
+
+// Endpoint para eliminar un viaje por su id
+app.delete('/travel/delete/:id', travelsController.deleteTravel);
