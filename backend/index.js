@@ -70,6 +70,9 @@ app.get("/tasks/", tasksController.listTask);
 // Endpoint para buscar una tarea por su id
 app.get("/tasks/:id", tasksController.getTask);
 
+// Endpoint para buscar tareas de un usuario
+app.get("/tasks/user/:id", tasksController.getTasksByUser);
+
 // Endpoint para actualizar una tarea por su id
 app.patch('/tasks/edit/:id', tasksController.editTask);
 

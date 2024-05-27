@@ -5,6 +5,7 @@ import { ListComponent } from "../pages/adminPages/users/ListComponent";
 import { AdminLayout } from "../layouts/adminLayouts/AdminLayout";
 import { DragAndDrop } from "../pages/adminPages/drivers/TaskComponent";
 import { Home } from "../pages/Home";
+import { ListDriversComponent } from "../pages/adminPages/drivers/ListDriversComponent";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -17,9 +18,9 @@ export const AdminRoutes = () => {
     return (
         <Routes>
             <Route path="/admin/users" element={loadLayout(AdminLayout, ListComponent)} />
-            <Route path="/admin/tasks" element={loadLayout(AdminLayout, DragAndDrop)} />
+            <Route path="/admin/drivers" element={loadLayout(AdminLayout, ListDriversComponent)} />
+            <Route path="/admin/tasks/:driverId" element={loadLayout(AdminLayout, DragAndDrop)} />
             <Route path="/" element={loadLayout(AdminLayout, Home)} />
-
         </Routes>
     )
 }

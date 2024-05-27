@@ -137,7 +137,8 @@ h1 {
   border-radius: 8px;
   padding: 26px 20px;
   cursor: pointer;
-  color: #5b5b73;
+  color: #000;
+  /* color: #5b5b73; */
 }
 
 .dd-element .body {

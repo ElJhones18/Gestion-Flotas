@@ -43,6 +43,20 @@ const getTask = async (req, res) => {
     }
 };
 
+const getTasksByUser = async (req, res) => {
+    try {
+        const tasks = await prisma.tasks.findMany({
+            where: {
+                driverId: req.params.id
+            }
+        });
+        res.json(tasks);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error al obtener las tareas' });
+    }
+};
+
 const editTask = async (req, res) => {
     try {
         const { id } = req.params;
@@ -87,4 +101,5 @@ module.exports = {
     getTask,
     editTask,
     deleteTask,
+    getTasksByUser
 }

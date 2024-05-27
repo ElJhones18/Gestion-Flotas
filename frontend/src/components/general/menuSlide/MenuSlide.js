@@ -10,22 +10,27 @@ const items = [
         children: [
             {
                 key: "/admin/users",
-                label: <Link to="/admin/users">Todos los usuarios</Link>,
+                label: <Link to="/admin/users">Usuarios</Link>,
                 // label: "Todos los usuarios",
             },
-        ],
-    },
-    {
-        key: "sub2",
-        label: "Tareas",
-        icon: <AppstoreOutlined />,
-        children: [
             {
-                key: "5",
-                label: <Link to="/admin/tasks">Gestionar tareas</Link>,
-            },
+                key: "/admin/drivers",
+                label: <Link to="/admin/drivers">Conductores</Link>,
+                // label: "Todos los usuarios",
+            }
         ],
     },
+    // {
+    //     key: "sub2",
+    //     label: "Tareas",
+    //     icon: <AppstoreOutlined />,
+    //     children: [
+    //         {
+    //             key: "5",
+    //             label: <Link to="/admin/tasks">Gestionar tareas</Link>,
+    //         },
+    //     ],
+    // },
     {
         type: "divider",
     },
