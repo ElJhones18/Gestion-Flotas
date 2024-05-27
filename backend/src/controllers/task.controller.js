@@ -5,6 +5,7 @@ const createTask = async (req, res) => {
     const { type, description, state, driverId } = req.body;
     
     try {
+        
         // Verificar si el driver existe
         const driver = await prisma.drivers.findUnique({
             where: {
