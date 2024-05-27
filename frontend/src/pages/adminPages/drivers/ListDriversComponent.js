@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { User } from "../../../api/user";
-import { getUsers, editUserById, deleteUserById } from "../../../slices/userSlice";
+import { Driver } from "../../../api/driver";
+import { getDrivers, editDriverById, deleteDriverById } from "../../../slices/driverSlice";
 import {
     Table,
     Avatar,
@@ -20,39 +20,50 @@ import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
-export const ListComponent = () => {
+export const ListDriversComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const users = useSelector((state) => state.user.users);
-    const userApi = new User();
+    const drivers = useSelector((state) => state.driver.drivers);
+    const driverApi = new Driver();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedDriver, setSelectedDriver] = useState(null);
 
     const [formData, setFormData] = useState({
-        email: "",
-        username: "",
+        drivername: "",
         lastname: "",
-        avatar: "",
-        active_user: false,
+        cedula: "",
+        phone: "",
+        email: "",
+        performance_driver: "",
+        tasks: []
     });
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchDrivers = async () => {
             try {
-                const usersData = await userApi.getUsers();
-                dispatch(getUsers(usersData));
+                const driversData = await driverApi.getDrivers();
+                dispatch(getDrivers(driversData));
             } catch (error) {
-                console.error("Failed to fetch users", error);
+                console.error("Failed to fetch drivers", error);
             }
         };
 
-        fetchUsers();
+        fetchDrivers();
     }, [dispatch]);
 
+    const handleTask = (id) => {
+        console.log("IIIIIIIDDDDDD", id);
+        const driver = drivers.find((driver) => driver.id === id);
+        console.log(driver);
+        /* setSelectedDriver(driver);
+        setIsModalVisible(true); */
+        navigate(`/admin/tasks/${id}`);
+    };
+
     const handleEdit = (id) => {
-        const user = users.find((user) => user.id === id);
-        console.log(user);
-        setSelectedUser(user);
+        const driver = drivers.find((driver) => driver.id === id);
+        console.log(driver);
+        setSelectedDriver(driver);
         setIsModalVisible(true);
     };
 
@@ -61,13 +72,13 @@ export const ListComponent = () => {
             title: "¿Quiere eliminar este usuario?",
             content: "Esta elección no se puede revertir",
             onOk() {
-                userApi
-                    .deleteUserById(id)
+                driverApi
+                    .deleteDriverById(id)
                     .then(() => {
-                        dispatch(deleteUserById(id));
+                        dispatch(deleteDriverById(id));
                     })
                     .catch((error) => {
-                        console.error("Failed to delete user", error);
+                        console.error("Failed to delete driver", error);
                     });
             },
             onCancel() {
@@ -78,7 +89,7 @@ export const ListComponent = () => {
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setSelectedUser(null);
+        setSelectedDriver(null);
     };
 
     // const handleUpload = (event) => {
@@ -90,45 +101,45 @@ export const ListComponent = () => {
 
     const handleOk = () => {
 
-        formData.email = selectedUser.email;
-        formData.username = selectedUser.username;
-        formData.lastname = selectedUser.lastname;
-        formData.active_user = selectedUser.active_user;
+        formData.email = selectedDriver.email;
+        formData.drivername = selectedDriver.drivername;
+        formData.lastname = selectedDriver.lastname;
+        formData.active_driver = selectedDriver.active_driver;
 
         const formDataToSend = new FormData();
         formDataToSend.append("email", formData.email);
-        formDataToSend.append("username", formData.username);
+        formDataToSend.append("drivername", formData.drivername);
         formDataToSend.append("lastname", formData.lastname);
         formDataToSend.append("avatar", formData.avatar);
-        formDataToSend.append("active_user", formData.active_user);
+        formDataToSend.append("active_driver", formData.active_driver);
         //formDataToSend.append("current_password", formData.current_password);
         console.log(formDataToSend);
 
-        userApi
-            .editUserById(selectedUser.id, formDataToSend)
+        driverApi
+            .editDriverById(selectedDriver.id, formDataToSend)
             .then((result) => {
                 dispatch(
-                    editUserById(result)
+                    editDriverById(result)
                 );
                 setIsModalVisible(false);
-                setSelectedUser(null);
+                setSelectedDriver(null);
             })
             .catch((error) => {
-                console.error("Failed to edit user", error);
+                console.error("Failed to edit driver", error);
             });
     };
 
     const handleChange = (e) => {
-        setSelectedUser({
-            ...selectedUser,
+        setSelectedDriver({
+            ...selectedDriver,
             [e.target.name]: e.target.value,
         });
     };
 
     const handleSwitchChange = (checked) => {
-        setSelectedUser({
-            ...selectedUser,
-            active_user: checked,
+        setSelectedDriver({
+            ...selectedDriver,
+            active_driver: checked,
         });
     };
 
@@ -145,9 +156,9 @@ export const ListComponent = () => {
             key: "email",
         },
         {
-            title: "User Name",
-            dataIndex: "username",
-            key: "username",
+            title: "Driver Name",
+            dataIndex: "drivername",
+            key: "drivername",
         },
         {
             title: "Last Name",
@@ -156,10 +167,10 @@ export const ListComponent = () => {
         },
         {
             title: "Active",
-            dataIndex: "active_user",
-            key: "active_user",
+            dataIndex: "active_driver",
+            key: "active_driver",
             render: (text, record) => (
-                <span>{record.active_user ? "Yes" : "No"}</span>
+                <span>{record.active_driver ? "Yes" : "No"}</span>
             ),
         },
         {
@@ -167,6 +178,14 @@ export const ListComponent = () => {
             key: "actions",
             render: (text, record) => (
                 <Space size="middle">
+                    <Tooltip title="Tareas">
+                        <Button
+                            onClick={() => handleTask(record.id)}
+                            style={{ color: "Green", borderColor: "green" }}
+                        >
+                            Tareas
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Edit">
                         <EditOutlined
                             style={{ color: "blue", cursor: "pointer" }}
@@ -186,11 +205,11 @@ export const ListComponent = () => {
 
     return (
         <div className="container">
-            <h2>Users List</h2>
-            <Table dataSource={users} columns={columns} rowKey="id" />
-            {selectedUser && (
+            <h2>Drivers List</h2>
+            <Table dataSource={drivers} columns={columns} rowKey="id" />
+            {selectedDriver && (
                 <Modal
-                    title="Edit User"
+                    title="Edit Driver"
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}>
@@ -198,27 +217,27 @@ export const ListComponent = () => {
                         <Form.Item label="Email">
                             <Input
                                 name="email"
-                                value={selectedUser.email}
+                                value={selectedDriver.email}
                                 onChange={handleChange}
                             />
                         </Form.Item>
-                        <Form.Item label="User Name">
+                        <Form.Item label="Driver Name">
                             <Input
-                                name="username"
-                                value={selectedUser.username}
+                                name="drivername"
+                                value={selectedDriver.drivername}
                                 onChange={handleChange}
                             />
                         </Form.Item>
                         <Form.Item label="Last Name">
                             <Input
                                 name="lastname"
-                                value={selectedUser.lastname}
+                                value={selectedDriver.lastname}
                                 onChange={handleChange}
                             />
                         </Form.Item>
                         <Form.Item label="Active">
                             <Switch
-                                checked={selectedUser.active_user}
+                                checked={selectedDriver.active_driver}
                                 onChange={handleSwitchChange}
                             />
                         </Form.Item>
