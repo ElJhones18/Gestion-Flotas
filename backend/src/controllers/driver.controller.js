@@ -11,14 +11,7 @@ const createDriver = async (req, res) => {
                 cedula: cedula,
                 phone: phone,
                 email: email,
-                performance_driver: performance_driver,
-                tasks: {
-                    create: {
-                        type: tasks.type,
-                        description: tasks.description,
-                        state: tasks.state
-                    }
-                }
+                performance_driver: performance_driver
             }
         })
         res.json(newDriver);
@@ -43,7 +36,10 @@ const getDriver = async (req, res) => {
         const driver = await prisma.drivers.findUnique({
             where: {
                 id: req.params.id
-            }
+            },
+            include: {
+                tasks: true,
+            },
         });
         res.json(driver);
     } catch (error) {
@@ -61,16 +57,12 @@ const editDriver = async (req, res) => {
             cedula,
             phone,
             email,
-            performance_driver,
-            tasks
+            performance_driver
         } = req.body;
 
         // Obtener el conductor existente
         const driverExistente = await prisma.drivers.findUnique({
-            where: { id: id },
-            include: {
-                tasks: true,
-            },
+            where: { id: id }
         });
 
         if (!driverExistente) {
@@ -87,26 +79,10 @@ const editDriver = async (req, res) => {
             performance_driver: performance_driver || driverExistente.performance_driver,
         };
 
-        if (tasks && tasks.id) {
-            driverEdit.tasks = {
-                update: {
-                    where: { id: tasks.id },  // Usar tasks.id para identificar la tarea
-                    data: {
-                        type: tasks.type || undefined,
-                        description: tasks.description || undefined,
-                        state: tasks.state || undefined,
-                    },
-                },
-            };
-        }
-
         // Actualizar el conductor
         const driverUpdate = await prisma.drivers.update({
             where: { id: id },
-            data: driverEdit,
-            include: {
-                tasks: true,
-            },
+            data: driverEdit
         });
 
         res.status(200).json(driverUpdate);
