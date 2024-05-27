@@ -3,7 +3,20 @@ const prisma = new PrismaClient();
 
 const createTask = async (req, res) => {
     const { type, description, state, driverId } = req.body;
+    
     try {
+        // Verificar si el driver existe
+        const driver = await prisma.drivers.findUnique({
+            where: {
+                id: driverId
+            }
+        });
+
+        if (!driver) {
+            return res.status(404).json({ error: 'Driver no encontrado' });
+        }
+
+        // Crear la nueva tarea si el driver existe
         const newTask = await prisma.tasks.create({
             data: {
                 type: type,
@@ -11,13 +24,15 @@ const createTask = async (req, res) => {
                 state: state,
                 driverId: driverId
             }
-        })
+        });
+
         res.json(newTask);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al crear la tarea' });
     }
 };
+
 
 const listTask = async (req, res) => {
     try {
