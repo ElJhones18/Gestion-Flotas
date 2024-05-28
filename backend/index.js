@@ -4,6 +4,7 @@ const usersController = require('./src/controllers/users.controller');
 const driversController = require('./src/controllers/driver.controller');
 const tasksController = require('./src/controllers/task.controller');
 const travelsController = require('./src/controllers/travel.controller');
+const stopsController = require('./src/controllers/stop.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -96,3 +97,20 @@ app.patch('/travel/edit/:id', travelsController.editTravel);
 
 // Endpoint para eliminar un viaje por su id
 app.delete('/travel/delete/:id', travelsController.deleteTravel);
+
+// --------------------------------------------
+
+// Endpoint para crear una nueva parada
+app.post('/stop/create', stopsController.createStop);
+
+// Endpoint para listar todas las paradas
+app.get("/stops/", stopsController.listStop);
+
+// Endpoint para buscar una parada por su id
+app.get("/stop/:id", stopsController.getStop);
+
+// Endpoint para actualizar una parada por su id
+app.patch('/stop/edit/:id', stopsController.editStop);
+
+// Endpoint para eliminar una parada por su id
+app.delete('/stop/delete/:id', stopsController.deleteStop);
