@@ -79,12 +79,10 @@ model Truck {
   maintenance          Total_maintenance[]
   trip_history         Travel[]
   tires                Tires[]
-  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   fuelId               String?             @unique @db.ObjectId
-  availabilityId       String?             @unique @db.ObjectId
-  checklistId          String?             @unique @db.ObjectId
-  availability         Availability?       @relation(fields: [availabilityId], references: [id])
-  checklist            Checklist?          @relation(fields: [checklistId], references: [id])
+  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
+  availability         Availability?
+  checklist            Checklist?
 }
 
 model Checklist {
@@ -93,7 +91,8 @@ model Checklist {
   oil_level     String
   tire_pressure String
   lights        String
-  truck         Truck?
+  truckId       String @unique @db.ObjectId
+  truck         Truck  @relation(fields: [truckId], references: [id])
 }
 
 model Total_maintenance {
@@ -110,7 +109,8 @@ model Availability {
   fuel_level           String
   tire_pressure        String
   engine_performance   String
-  truck                Truck?
+  truckId              String @unique @db.ObjectId
+  truck                Truck  @relation(fields: [truckId], references: [id])
 }
 
 model Fuel {
@@ -118,7 +118,6 @@ model Fuel {
   coast     String
   eficiency String
   brand     String
-  truckId   String? @unique @db.ObjectId
   truck     Truck[]
 }
 
