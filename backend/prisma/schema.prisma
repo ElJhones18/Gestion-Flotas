@@ -70,17 +70,17 @@ model Stop {
 model Truck {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   plate                String
-  color                String
-  rotation_programming DateTime
-  fuel_consumption     String
-  model                String
   brand                String
+  model                String
+  color                String
+  fuel_consumption     String
   load_capacity        String
+  rotation_programming String
+  fuelId               String?             @unique @db.ObjectId
+  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   maintenance          Total_maintenance[]
   trip_history         Travel[]
   tires                Tires[]
-  fuelId               String?             @unique @db.ObjectId
-  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   availability         Availability?
   checklist            Checklist?
 }
@@ -114,11 +114,11 @@ model Availability {
 }
 
 model Fuel {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  coast     String
-  eficiency String
-  brand     String
-  truck     Truck[]
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  cost       Int
+  efficiency String
+  brand      String
+  truck      Truck[]
 }
 
 model Tires {
