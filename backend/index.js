@@ -6,6 +6,7 @@ const tasksController = require('./src/controllers/task.controller');
 const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
+const trucksController = require('./src/controllers/truck.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -132,3 +133,20 @@ app.patch('/fuel/edit/:id', fuelController.editFuel);
 
 // Endpoint para eliminar un combustible por su id
 app.delete('/fuel/delete/:id', fuelController.deleteFuel);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo camion
+app.post('/truck/create', trucksController.createTruck);
+
+// Endpoint para listar todos los camiones
+app.get("/trucks/", trucksController.listTruck);
+
+// Endpoint para buscar un camion por su id
+app.get("/truck/:id", trucksController.getTruck);
+
+// Endpoint para actualizar un camion por su id
+app.patch('/truck/edit/:id', trucksController.editTruck);
+
+// Endpoint para eliminar un camion por su id
+app.delete('/truck/delete/:id', trucksController.deleteTruck);
