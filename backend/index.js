@@ -5,6 +5,7 @@ const driversController = require('./src/controllers/driver.controller');
 const tasksController = require('./src/controllers/task.controller');
 const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
+const fuelController = require('./src/controllers/fuel.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -114,3 +115,20 @@ app.patch('/stop/edit/:id', stopsController.editStop);
 
 // Endpoint para eliminar una parada por su id
 app.delete('/stop/delete/:id', stopsController.deleteStop);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo combustible
+app.post('/fuel/create', fuelController.createFuel);
+
+// Endpoint para listar todos los combustibles
+app.get("/fuels/", fuelController.listFuel);
+
+// Endpoint para buscar un combustible por su id
+app.get("/fuel/:id", fuelController.getFuel);
+
+// Endpoint para actualizar un combustible por su id
+app.patch('/fuel/edit/:id', fuelController.editFuel);
+
+// Endpoint para eliminar un combustible por su id
+app.delete('/fuel/delete/:id', fuelController.deleteFuel);
