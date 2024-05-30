@@ -59,29 +59,30 @@ model Travel {
 }
 
 model Stop {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
   direction String
   latitude  String?
   longitude String?
-  travelId  String @db.ObjectId
-  travel    Travel @relation(fields: [travelId], references: [id])
+  travelId  String  @db.ObjectId
+  travel    Travel  @relation(fields: [travelId], references: [id])
 }
 
 model Truck {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   plate                String
   color                String
-  rotation_programming DateTime
+  rotation_programming String
   fuel_consumption     String
+  model                String
+  brand                String
+  load_capacity        String
   maintenance          Total_maintenance[]
   trip_history         Travel[]
   tires                Tires[]
-  fuelId               String              @unique @db.ObjectId
-  availabilityId       String              @unique @db.ObjectId
-  checklistId          String              @unique @db.ObjectId
-  fuel                 Fuel?               @relation("TruckFuel")
-  availability         Availability?       @relation("TruckAvailability")
-  checklist            Checklist?          @relation("TruckChecklist")
+  fuelId               String?             @unique @db.ObjectId
+  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
+  availability         Availability?
+  checklist            Checklist?
 }
 
 model Checklist {
@@ -91,7 +92,7 @@ model Checklist {
   tire_pressure String
   lights        String
   truckId       String @unique @db.ObjectId
-  truck         Truck  @relation("TruckChecklist", fields: [truckId], references: [id])
+  truck         Truck  @relation(fields: [truckId], references: [id])
 }
 
 model Total_maintenance {
@@ -109,15 +110,15 @@ model Availability {
   tire_pressure        String
   engine_performance   String
   truckId              String @unique @db.ObjectId
-  truck                Truck  @relation("TruckAvailability", fields: [truckId], references: [id])
+  truck                Truck  @relation(fields: [truckId], references: [id])
 }
 
 model Fuel {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
   coast     String
   eficiency String
-  truckId   String @unique @db.ObjectId
-  truck     Truck  @relation("TruckFuel", fields: [truckId], references: [id])
+  brand     String
+  truck     Truck[]
 }
 
 model Tires {
