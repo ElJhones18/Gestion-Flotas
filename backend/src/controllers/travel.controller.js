@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const createTravel = async (req, res) => {
     const { distance, origin, destination, driverId, truckId } = req.body;
     try {
-
+      
         if (!driverId || !truckId) {
             return res.status(400).json({ error: 'El ID del conductor y del camión son requeridos' });
         }
@@ -48,7 +48,8 @@ const createTravel = async (req, res) => {
 
 const listTravel = async (req, res) => {
     try {
-        const travel = await prisma.travel.findMany();
+
+      const travel = await prisma.travel.findMany();
         res.json(travel);
     } catch (error) {
         console.log(error);
@@ -58,7 +59,8 @@ const listTravel = async (req, res) => {
 
 const getTravel = async (req, res) => {
     try {
-        const travel = await prisma.travel.findUnique({
+
+      const travel = await prisma.travel.findUnique({
             where: {
                 id: req.params.id
             },
