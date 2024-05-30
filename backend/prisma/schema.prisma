@@ -71,16 +71,16 @@ model Truck {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   plate                String
   brand                String
-  model                String
   color                String
-  fuel_consumption     String
-  load_capacity        String
   rotation_programming String
-  fuelId               String?             @unique @db.ObjectId
-  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
+  fuel_consumption     String
+  model                String
+  load_capacity        String
   maintenance          Total_maintenance[]
   trip_history         Travel[]
   tires                Tires[]
+  fuelId               String?             @unique @db.ObjectId
+  fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   availability         Availability?
   checklist            Checklist?
 }

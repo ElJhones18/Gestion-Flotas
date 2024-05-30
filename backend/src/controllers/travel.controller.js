@@ -4,7 +4,33 @@ const prisma = new PrismaClient();
 const createTravel = async (req, res) => {
     const { distance, origin, destination, driverId, truckId } = req.body;
     try {
-        const newTravel = await prisma.travels.create({
+
+        if (!driverId || !truckId) {
+            return res.status(400).json({ error: 'El ID del conductor y del camión son requeridos' });
+        }
+
+        //validar que el conductor y el camion existan
+        const driverExist = await prisma.drivers.findUnique({
+            where: {
+                id: driverId
+            }
+        });
+
+        if (!driverExist) {
+            return res.status(400).json({ error: 'El conductor no existe' });
+        }
+
+        const truckExist = await prisma.truck.findUnique({
+            where: {
+                id: truckId
+            }
+        });
+
+        if (!truckExist) {
+            return res.status(400).json({ error: 'El camion no existe' });
+        }
+
+        const newTravel = await prisma.travel.create({
             data: {
                 distance: distance,
                 origin: origin,
@@ -22,7 +48,7 @@ const createTravel = async (req, res) => {
 
 const listTravel = async (req, res) => {
     try {
-        const travel = await prisma.travels.findMany();
+        const travel = await prisma.travel.findMany();
         res.json(travel);
     } catch (error) {
         console.log(error);
@@ -32,7 +58,7 @@ const listTravel = async (req, res) => {
 
 const getTravel = async (req, res) => {
     try {
-        const travel = await prisma.travels.findUnique({
+        const travel = await prisma.travel.findUnique({
             where: {
                 id: req.params.id
             },
@@ -78,7 +104,7 @@ const editTravel = async (req, res) => {
             truckId: truckId || travelExist.truckId
         }
 
-        const travel = await prisma.travels.update({
+        const travel = await prisma.travel.update({
             where: {
                 id: id
             },
@@ -100,11 +126,11 @@ const deleteTravel = async (req, res) => {
         const { id } = req.params;
 
         //eliminar las paradas asociadas al viaje
-        await prisma.Stop.deleteMany({
+        await prisma.stop.deleteMany({
             where: { travelId: id }
         });
 
-        await prisma.travels.delete({
+        await prisma.travel.delete({
             where: {
                 id: id
             }
