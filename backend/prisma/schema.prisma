@@ -70,11 +70,11 @@ model Stop {
 model Truck {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   plate                String
+  brand                String
   color                String
   rotation_programming String
   fuel_consumption     String
   model                String
-  brand                String
   load_capacity        String
   maintenance          Total_maintenance[]
   trip_history         Travel[]
@@ -114,11 +114,11 @@ model Availability {
 }
 
 model Fuel {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  coast     String
-  eficiency String
-  brand     String
-  truck     Truck[]
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  cost       Int
+  efficiency String
+  brand      String
+  truck      Truck[]
 }
 
 model Tires {
