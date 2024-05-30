@@ -115,9 +115,9 @@ export const DragAndDrop = () => {
             className="dd-zone"
             droppable="true"
             onDragOver={(evt) => draggingOver(evt)}
-            onDrop={(evt) => onDrop(evt, "Por realizar")}
+            onDrop={(evt) => onDrop(evt, "En progreso")}
           >
-            {getList("Por realizar").map((item, index) => (
+            {getList("En progreso").map((item, index) => (
               <div
                 className="dd-element"
                 key={index}
@@ -137,9 +137,9 @@ export const DragAndDrop = () => {
             className="dd-zone"
             droppable="true"
             onDragOver={(evt) => draggingOver(evt)}
-            onDrop={(evt) => onDrop(evt, "Realizadas")}
+            onDrop={(evt) => onDrop(evt, "Realizada")}
           >
-            {getList("Realizadas").map((item, index) => (
+            {getList("Realizada").map((item, index) => (
               <div
                 className="dd-element"
                 key={index}
