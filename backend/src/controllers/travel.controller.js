@@ -64,7 +64,8 @@ const getTravel = async (req, res) => {
             },
             include: {
                 driver: true,
-                truck: true
+                truck: true,
+                stops: true
             }
         });
         res.json(travel);
