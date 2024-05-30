@@ -71,7 +71,7 @@ model Truck {
   id                   String              @id @default(auto()) @map("_id") @db.ObjectId
   plate                String
   color                String
-  rotation_programming DateTime
+  rotation_programming String
   fuel_consumption     String
   model                String
   brand                String
