@@ -1,36 +1,33 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { Driver } from "../../../api/driver";
-import "./TaskComponent.css";
+import "./ListTaskComponent.css";
 import { useParams } from "react-router-dom";
+import { TaskModal } from "../../../components/drivers/TaskModal";
+import { CreateTaskComponent } from "./CreateTaskComponent";
+import { Task } from "../../../api/task";
+import { useDispatch, useSelector } from "react-redux";
+import { getTasks } from "../../../slices/taskSlice";
 
 export const DragAndDrop = () => {
-  const driverApi = new Driver();
-
-  // montanchez imported this
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const tasks = useSelector((state) => state.task);
+  const dispatch = useDispatch();
   const { driverId } = useParams();
-
-  const [tasks, setTasks] = useState([
-    { id: "", type: "", description: "", state: "" },
-  ]);
+  const driverApi = new Driver();
+  const taskApi = new Task();
 
   useEffect(() => {
-
     if (driverId) {
-      // Lógica para cargar las tareas del usuario con el driverId
       fetchTasks(driverId);
     }
-  }, [driverId]);
+  }, [driverId]); // en el momento en que alguna de estas dependencias cambie, se ejecuta el useEffect
 
-  const fetchTasks = async (userId) => {
+  const fetchTasks = (driverId) => {
     // there was a try catch
-    fetch(`${driverApi.baseApi}/tasks/user/${userId}`)
+
+    taskApi.getTaskByUser(driverId)
       .then((response) => {
-        response.json().then((responseJson) => {
-          setTasks(responseJson.length > 0 ? responseJson : [{
-            id: "", type: "", description: "", state: ""
-          }]);
-        })
+        dispatch(getTasks(response.data))
       })
       .catch((error) => {
         console.log(error);
@@ -50,6 +47,12 @@ export const DragAndDrop = () => {
     evt.preventDefault();
   };
 
+  // COMENTARIO DE MONTANCHEZ PARA JULI DEL FUTURO
+  // tener en cuenta que el estado de las tareas se maneja en el slide
+  // entonces se deben crear funciones dentro del slice para cambiar el estado de las tareas
+  // y no hacerlo directamente en el componente como se venia trabajando anteriormente
+  // me refiero a la función onDrop
+
   const onDrop = (evt, state) => {
     const itemID = evt.dataTransfer.getData("itemID");
     const item = tasks.find((item) => item.id == itemID);
@@ -60,15 +63,28 @@ export const DragAndDrop = () => {
       if (task.id === itemID) return newItem;
       return task;
     });
+/* 
+    dispatch(axios.patch(`http://localhost:3001/tasks/edit/${itemID}`, { state }));
+    setTasks(newState); */
+  };
 
-    setTasks(newState);
+  /*Lógica para agregar tareas*/
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
   return (
     <>
-      <h1>Arrastrar y Soltar &nbsp;</h1>
+      <h1>Tablero de tareas&nbsp;</h1>
       <br />
 
+      {/* BOTÓN AGREGAR TAREAS */}
+      <div className="container">
+        <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea</button>
+        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+      </div>
+
+      {/* TABLAS PARA LAS TAREAS */}
       <div className="drag-and-drop">
         <div className="column column--1">
           <h3>Tareas por hacer</h3>

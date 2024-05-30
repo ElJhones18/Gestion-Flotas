@@ -22,7 +22,6 @@ const { confirm } = Modal;
 
 export const ListComponent = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const users = useSelector((state) => state.user.users);
     const userApi = new User();
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -191,7 +190,7 @@ export const ListComponent = () => {
             {selectedUser && (
                 <Modal
                     title="Edit User"
-                    visible={isModalVisible}
+                    open={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}>
                     <Form>

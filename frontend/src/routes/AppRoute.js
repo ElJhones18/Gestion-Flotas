@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ListComponent } from "../pages/adminPages/users/ListComponent";
 // import { ListVehicleComponent } from "../pages/AdminPages/vehicles/ListVehicleComponent";
 import { AdminLayout } from "../layouts/adminLayouts/AdminLayout";
-import { DragAndDrop } from "../pages/adminPages/drivers/TaskComponent";
+import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Home } from "../pages/Home";
 import { ListDriversComponent } from "../pages/adminPages/drivers/ListDriversComponent";
 

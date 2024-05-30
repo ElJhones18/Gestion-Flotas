@@ -146,3 +146,25 @@ h1 {
   margin-top: 20px;
   margin-bottom: 0;
 }
+
+.btn-agregar {
+  
+}
+
+.pulse-effect {
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #007bff; /* Color base del botón */
+  transition: transform 0.3s ease-in-out; /* Transición suave del efecto de pulsación */
+}
+
+.pulse-effect:hover {
+  background-color: #0056b3; /* Cambia el color al pasar el cursor sobre el botón */
+}
+
+.pulse-effect:active {
+  transform: scale(0.90); /* Reduce ligeramente el tamaño del botón cuando se hace clic */
+}

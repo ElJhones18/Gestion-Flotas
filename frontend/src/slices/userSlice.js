@@ -9,7 +9,6 @@ const initialState = {
     users: [],
 }
 
-
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -28,8 +27,6 @@ export const userSlice = createSlice({
             state.lastname = lastname;
             state.avatar = avatar;
             state.active_user = active_user;
-
-
         },
         getUsers: (state, action) => {
             state.users = action.payload;
