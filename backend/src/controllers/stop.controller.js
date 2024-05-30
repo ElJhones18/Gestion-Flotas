@@ -4,7 +4,23 @@ const prisma = new PrismaClient();
 const createStop = async (req, res) => {
     const { direction, latitude, longitude, travelId } = req.body;
     try {
-        const newStop = await prisma.stops.create({
+
+        if (!travelId) {
+            return res.status(400).json({ error: 'El ID del viaje es requerido' });
+        }
+
+        //validar que el viaje exista
+        const travelExist = await prisma.travel.findUnique({
+            where: {
+                id: travelId
+            }
+        });
+
+        if (!travelExist) {
+            return res.status(400).json({ error: 'El viaje no existe' });
+        }
+
+        const newStop = await prisma.stop.create({
             data: {
                 direction: direction,
                 latitude: latitude,
@@ -21,7 +37,7 @@ const createStop = async (req, res) => {
 
 const listStop = async (req, res) => {
     try {
-        const stop = await prisma.stops.findMany();
+        const stop = await prisma.stop.findMany();
         res.json(stop);
     } catch (error) {
         console.log(error);
@@ -31,9 +47,12 @@ const listStop = async (req, res) => {
 
 const getStop = async (req, res) => {
     try {
-        const stop = await prisma.stops.findUnique({
+        const stop = await prisma.stop.findUnique({
             where: {
                 id: req.params.id
+            },
+            include: {
+                travel: true
             }
         });
         res.json(stop);
@@ -53,7 +72,7 @@ const editStop = async (req, res) => {
             travelId
         } = req.body;
 
-        const stopExists = await prisma.stops.findUnique({
+        const stopExists = await prisma.stop.findUnique({
             where: {
                 id: id
             }
@@ -66,7 +85,7 @@ const editStop = async (req, res) => {
             travelId: travelId || stopExists.travelId
         }
 
-        const stop = await prisma.stops.update({
+        const stop = await prisma.stop.update({
             where: {
                 id: id
             },
@@ -83,7 +102,7 @@ const editStop = async (req, res) => {
 const deleteStop = async (req, res) => {
     try {
         const { id } = req.params;
-        await prisma.stops.delete({
+        await prisma.stop.delete({
             where: {
                 id: id
             }
