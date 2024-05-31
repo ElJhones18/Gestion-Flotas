@@ -52,7 +52,7 @@ const getTravel = async (req, res) => {
                 id: req.params.id
             },
             include: {
-                driver: true
+                driver: true,
                 stops: true
             }
         });
