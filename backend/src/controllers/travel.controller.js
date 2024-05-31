@@ -5,12 +5,12 @@ const createTravel = async (req, res) => {
     const { distance, origin, destination, driverId, truckId } = req.body;
     try {
 
-        if (!driverId || !truckId) {
+        if (!driverId) {
             return res.status(400).json({ error: 'El ID del conductor y del camión son requeridos' });
         }
 
         //validar que el conductor y el camion existan
-        const driverExist = await prisma.drivers.findUnique({
+        const driverExist = await prisma.users.findUnique({
             where: {
                 id: driverId
             }
@@ -20,23 +20,12 @@ const createTravel = async (req, res) => {
             return res.status(400).json({ error: 'El conductor no existe' });
         }
 
-        const truckExist = await prisma.truck.findUnique({
-            where: {
-                id: truckId
-            }
-        });
-
-        if (!truckExist) {
-            return res.status(400).json({ error: 'El camion no existe' });
-        }
-
         const newTravel = await prisma.travel.create({
             data: {
                 distance: distance,
                 origin: origin,
                 destination: destination,
-                driverId: driverId,
-                truckId: truckId
+                driverId: driverId
             }
         })
         res.json(newTravel);
@@ -63,8 +52,7 @@ const getTravel = async (req, res) => {
                 id: req.params.id
             },
             include: {
-                driver: true,
-                truck: true
+                driver: true
             }
         });
         res.json(travel);
@@ -81,8 +69,7 @@ const editTravel = async (req, res) => {
             distance,
             origin,
             destination,
-            driverId,
-            truckId
+            driverId
         } = req.body;
 
         const travelExist = await prisma.travel.findUnique({
@@ -90,8 +77,7 @@ const editTravel = async (req, res) => {
                 id: id
             },
             include: {
-                driver: true,
-                truck: true
+                driver: true
             }
         });
 
@@ -100,8 +86,7 @@ const editTravel = async (req, res) => {
             distance: distance || travelExist.distance,
             origin: origin || travelExist.origin,
             destination: destination || travelExist.destination,
-            driverId: driverId || travelExist.driverId,
-            truckId: truckId || travelExist.truckId
+            driverId: driverId || travelExist.driverId
         }
 
         const travel = await prisma.travel.update({
@@ -110,8 +95,7 @@ const editTravel = async (req, res) => {
             },
             data: travelEdit,
             include: {
-                driver: true,
-                truck: true
+                driver: true
             }
         });
         res.json(travel);
