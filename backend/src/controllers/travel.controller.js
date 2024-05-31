@@ -53,6 +53,7 @@ const getTravel = async (req, res) => {
             },
             include: {
                 driver: true
+                stops: true
             }
         });
         res.json(travel);
