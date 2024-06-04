@@ -2,8 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
-    const { email, username, lastname, rol, active_user } = req.body;
-    console.log(req.body);
+    const { email, username, lastname, cedula, phone, rol, performance_driver, active_user, } = req.body;
     const avatar = req.file ? req.file.filename : "cocacola-logo.jpg";
     console.log(avatar);
 
@@ -13,7 +12,10 @@ const createUser = async (req, res) => {
                 email: email,
                 username: username,
                 lastname: lastname,
+                cedula: cedula,
+                phone: phone,
                 rol: rol,
+                performance_driver: performance_driver,
                 avatar: avatar,
                 active_user: false,
             },
@@ -30,7 +32,13 @@ const createUser = async (req, res) => {
 
 const listUsers = async (req, res) => {
     try {
-        const allUsers = await prisma.users.findMany();
+        const allUsers = await prisma.users.findMany({
+            include: {
+                tasks: true,
+                history_travel: true,
+                truck: true,
+            }
+        });
         res.json(allUsers);
     } catch (error) {
         console.error(error);
@@ -40,7 +48,15 @@ const listUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const user = await prisma.users.findUnique({ where: { id: req.params.id } });
+        const user = await prisma.users.findUnique(
+            {
+                where: { id: req.params.id },
+                include: {
+                    tasks: true,
+                    history_travel: true,
+                    truck: true,
+                }
+            });
         res.json(user);
     } catch (error) {
         console.error(error);
@@ -55,7 +71,10 @@ const editUser = async (req, res) => {
             email,
             username,
             lastname,
+            cedula,
+            phone,
             rol,
+            performance_driver,
             active_user,
             createdAt,
             updatesAt,
@@ -69,19 +88,20 @@ const editUser = async (req, res) => {
             email: email,
             username: username,
             lastname: lastname,
+            cedula: cedula,
+            phone: phone,
             rol: rol,
+            performance_driver: performance_driver,
             avatar: avatar,
             active_user: active_user === 'true' ? true : false,
             createdAt: createdAt,
             updatesAt: updatesAt,
 
         };
-        console.log(userEdit);
         const user = await prisma.users.update({
             where: { id: id },
             data: userEdit
         });
-        console.log(user);
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -92,10 +112,15 @@ const editUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
+
+        const deleteTasks = await prisma.tasks.deleteMany({
+            where: {
+                driverId: id
+            }
+        });
         const user = await prisma.users.delete({
             where: { id: id }
         });
-        console.log(user);
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });

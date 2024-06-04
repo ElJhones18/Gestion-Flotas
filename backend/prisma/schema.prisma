@@ -14,36 +14,30 @@ datasource db {
 }
 
 model Users {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  email       String   @unique
-  username    String
-  lastname    String
-  rol         String
-  avatar      String?
-  active_user Boolean
-  createdAt   DateTime @default(now())
-  updatesAt   DateTime @updatedAt
-}
-
-model Drivers {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  email              String   @unique
   username           String
   lastname           String
-  cedula             Int
-  phone              Int
-  email              String
-  performance_driver String
+  cedula             String
+  phone              String
+  rol                String
+  performance_driver String?
+  avatar             String?
+  active_user        Boolean
   history_travel     Travel[]
   tasks              Tasks[]
+  truck              Truck[]
+  createdAt          DateTime @default(now())
+  updatesAt          DateTime @updatedAt
 }
 
 model Tasks {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   type        String
   state       String
   description String
-  driverId    String  @db.ObjectId
-  driver      Drivers @relation(fields: [driverId], references: [id])
+  driverId    String @db.ObjectId
+  driver      Users  @relation(fields: [driverId], references: [id])
 }
 
 model Travel {
@@ -52,10 +46,8 @@ model Travel {
   origin      String
   destination String
   stops       Stop[]
-  truckId     String  @db.ObjectId
   driverId    String  @db.ObjectId
-  truck       Truck   @relation(fields: [truckId], references: [id])
-  driver      Drivers @relation(fields: [driverId], references: [id])
+  driver      Users   @relation(fields: [driverId], references: [id])
 }
 
 model Stop {
@@ -77,12 +69,13 @@ model Truck {
   model                String
   load_capacity        String
   maintenance          Total_maintenance[]
-  trip_history         Travel[]
   tires                Tires[]
   fuelId               String?             @unique @db.ObjectId
+  driverId             String?             @db.ObjectId
   fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   availability         Availability?
   checklist            Checklist?
+  driver               Users?              @relation(fields: [driverId], references: [id])
 }
 
 model Checklist {
