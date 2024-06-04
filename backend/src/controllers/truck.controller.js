@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createTruck = async (req, res) => {
-    const { plate, brand, model, color, fuel_consumption, load_capacity, rotation_programming, fuelId } = req.body;
+    const { plate, brand, model, color, fuel_consumption, load_capacity, rotation_programming, fuelId, driverId } = req.body;
 
     try {
 
@@ -15,6 +15,7 @@ const createTruck = async (req, res) => {
                 fuel_consumption: fuel_consumption,
                 load_capacity: load_capacity,
                 rotation_programming: rotation_programming,
+                driverId: driverId,
                 fuelId: fuelId
             }
         });
@@ -40,6 +41,9 @@ const getTruck = async (req, res) => {
         const truck = await prisma.truck.findUnique({
             where: {
                 id: req.params.id
+            },
+            include: {
+                fuel: true,
             }
         });
         res.json(truck);
@@ -60,7 +64,8 @@ const editTruck = async (req, res) => {
             fuel_consumption,
             load_capacity,
             rotation_programming,
-            fuelId
+            fuelId,
+            driverId
         } = req.body;
 
         const truckExistente = await prisma.truck.findUnique({
@@ -81,7 +86,8 @@ const editTruck = async (req, res) => {
             fuel_consumption: fuel_consumption || truckExistente.fuel_consumption,
             load_capacity: load_capacity || truckExistente.load_capacity,
             rotation_programming: rotation_programming || truckExistente.rotation_programming,
-            fuelId: fuelId || truckExistente.fuelId
+            fuelId: fuelId || truckExistente.fuelId,
+            driverId: driverId || truckExistente.driverId
 
         }
 
