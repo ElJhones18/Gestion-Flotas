@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
-    const { email, username, lastname, cedula, phone, rol, performance_driver, active_user, } = req.body;
+    const { email, password, username, lastname, cedula, phone, rol, performance_driver, active_user, } = req.body;
     const avatar = req.file ? req.file.filename : "cocacola-logo.jpg";
     console.log(avatar);
 
@@ -10,6 +10,7 @@ const createUser = async (req, res) => {
         const newUser = await prisma.users.create({
             data: {
                 email: email,
+                password: password,
                 username: username,
                 lastname: lastname,
                 cedula: cedula,
@@ -69,6 +70,7 @@ const editUser = async (req, res) => {
         const { id } = req.params;
         const {
             email,
+            password,
             username,
             lastname,
             cedula,
@@ -86,6 +88,7 @@ const editUser = async (req, res) => {
 
         const userEdit = {
             email: email,
+            password: password, // Encriptar
             username: username,
             lastname: lastname,
             cedula: cedula,
