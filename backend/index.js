@@ -48,6 +48,8 @@ app.delete('/users/delete/:id', usersController.deleteUser);
 
 app.post('/signup', authController.signup);
 
+app.post('/login', authController.login)
+
 // --------------------------------------------
 
 // Endpoint para crear una nueva tarea
