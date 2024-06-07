@@ -6,6 +6,7 @@ const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
+const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -49,6 +50,10 @@ app.patch('/users/edit/:id', upload.single('avatar'), usersController.editUser);
 
 // Endpoint para eliminar un usuario por su id
 app.delete('/users/delete/:id', usersController.deleteUser);
+
+app.post('/signup', authController.signup);
+
+app.post('/login', authController.login)
 
 // --------------------------------------------
 
