@@ -69,6 +69,7 @@ model Truck {
   fuel_consumption     String
   model                String
   load_capacity        String
+  photo                 String?
   maintenance          Total_maintenance[]
   tires                Tires[]
   fuelId               String?             @unique @db.ObjectId
