@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const createTruck = async (req, res) => {
     const { plate, brand, model, color, fuel_consumption, load_capacity, rotation_programming, fuelId, driverId } = req.body;
-
+    const photo = req.file ? req.file.filename: "Truck.jpg";
     try {
 
         const newTruck = await prisma.truck.create({
@@ -15,6 +15,7 @@ const createTruck = async (req, res) => {
                 fuel_consumption: fuel_consumption,
                 load_capacity: load_capacity,
                 rotation_programming: rotation_programming,
+                photo: photo,
                 driverId: driverId,
                 fuelId: fuelId
             }
@@ -68,11 +69,14 @@ const editTruck = async (req, res) => {
             driverId
         } = req.body;
 
+
         const truckExistente = await prisma.truck.findUnique({
             where: {
                 id: id
             }
         });
+
+        const photo = req.file ? req.file.filename : truckExistente.foto;
 
         if (!truckExistente) {
             return res.status(404).json({ error: 'El camión no existe' });
@@ -86,6 +90,7 @@ const editTruck = async (req, res) => {
             fuel_consumption: fuel_consumption || truckExistente.fuel_consumption,
             load_capacity: load_capacity || truckExistente.load_capacity,
             rotation_programming: rotation_programming || truckExistente.rotation_programming,
+            photo: photo || truckExistente.photo,
             fuelId: fuelId || truckExistente.fuelId,
             driverId: driverId || truckExistente.driverId
 

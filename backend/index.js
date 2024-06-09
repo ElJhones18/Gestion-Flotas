@@ -124,7 +124,7 @@ app.delete('/fuel/delete/:id', fuelController.deleteFuel);
 // --------------------------------------------
 
 // Endpoint para crear un nuevo camion
-app.post('/truck/create', trucksController.createTruck);
+app.post('/truck/create', upload.single('photo'), trucksController.createTruck);
 
 // Endpoint para listar todos los camiones
 app.get("/trucks/", trucksController.listTruck);
