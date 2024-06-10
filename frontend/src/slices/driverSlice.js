@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = {
+const initialState = [{
     drivername: "",
     lastname: "",
     cedula: "",
     phone: "",
     email: "",
     performance_driver: "",
-    tasks: []
-}
+}]
 
 export const driverSlice = createSlice({
     name: "driver",
@@ -32,7 +31,7 @@ export const driverSlice = createSlice({
             state.phone = phone;
         },
         getDrivers: (state, action) => {
-            state.drivers = action.payload;
+            return action.payload
         },
         getDriversById: (state, action) => {
         },

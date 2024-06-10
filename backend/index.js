@@ -14,7 +14,12 @@ const PORT = process.env.PORT || 3005;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000', // Cambia esto al dominio desde el que esperas recibir las solicitudes
+    optionsSuccessStatus: 200 // Algunos navegadores antiguos (como IE11) necesitan esto
+}
+
+app.use(cors(corsOptions));
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

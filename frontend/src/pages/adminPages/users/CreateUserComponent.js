@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { addUser } from '../../slices/userSlice';
-import { User } from '../../api/user'
+import { addUser } from '../../../slices/userSlice';
+import { User } from '../../../api/user'
 export const CreateUserComponent = () => {
 
     const dispatch = useDispatch();
@@ -10,8 +10,15 @@ export const CreateUserComponent = () => {
         email: "",
         username: "",
         lastname: "",
+        cedula: "",
+        phone: "",
+        rol: "",
+        performance_driver: "",
         avatar: "",
-        active_user: false
+        active_user: false,
+        history_travel: [],
+        tasks: [],
+        truck: []
     });
 
     const handleChange = (event) => {
@@ -28,10 +35,6 @@ export const CreateUserComponent = () => {
         });
     }
 
-
-
-
-
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
@@ -39,21 +42,33 @@ export const CreateUserComponent = () => {
             formDataToSend.append("email", formData.email);
             formDataToSend.append("username", formData.username);
             formDataToSend.append("lastname", formData.lastname);
+            formDataToSend.append("cedula", formData.cedula);
+            formDataToSend.append("phone", formData.phone);
+            formDataToSend.append("rol", formData.rol);
+            formDataToSend.append("performance_driver", formData.performance_driver);
             formDataToSend.append("avatar", formData.avatar);
             formDataToSend.append("active_user", formData.active_user);
-            //formDataToSend.append("current_password", formData.current_password);
+            formDataToSend.append("history_travel", formData.history_travel);
+            formDataToSend.append("tasks", formData.tasks);
+            formDataToSend.append("truck", formData.truck);
 
-            console.log(formDataToSend);
-
+            console.log("formDataToSend: ", formDataToSend);
+            
             await userApi.createUser(formDataToSend);
             dispatch(addUser(formData));
             setFormData({
                 email: "",
                 username: "",
                 lastname: "",
+                cedula: "",
+                phone: "",
+                rol: "",
+                performance_driver: "",
                 avatar: "",
                 active_user: false,
-                // current_password: "",
+                history_travel: [],
+                tasks: [],
+                truck: []
             })
 
         } catch (error) {
@@ -99,16 +114,48 @@ export const CreateUserComponent = () => {
                     ></input>
                 </div>
 
-                {/* <div>
-                    <label htmlFor='current_password'>Contraseña:</label>
+                <div> 
+                    <label htmlFor='cedula'>Cedula:</label>
                     <input
-                        type='password'
-                        id="current_password"
-                        value={formData.email}
+                        type='text'
+                        id="cedula"
+                        value={formData.cedula}
                         onChange={handleChange}
                         required
                     ></input>
-                </div> */}
+                </div>
+
+                <div>
+                    <label htmlFor='phone'>Telefono:</label>
+                    <input
+                        type='text'
+                        id="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                    ></input>
+                </div>
+
+                <div>
+                    <label htmlFor='rol'>Rol:</label>
+                    <input
+                        type='text'
+                        id="rol"
+                        value={formData.rol}
+                        onChange={handleChange}
+                        required
+                    ></input>
+                </div>
+
+                <div>
+                    <label htmlFor='performance_driver'>Performance Driver:</label>
+                    <input
+                        type='text'
+                        id="performance_driver"
+                        value={formData.performance_driver}
+                        onChange={handleChange}
+                    ></input>
+                </div>
 
                 <div>
                     <label htmlFor='avatar'>Avatar:</label>
@@ -117,7 +164,6 @@ export const CreateUserComponent = () => {
                         id="avatar"
                         //value={formData.avatar}
                         onChange={handleAvatarChange}
-                        required
                     ></input>
                 </div>
 

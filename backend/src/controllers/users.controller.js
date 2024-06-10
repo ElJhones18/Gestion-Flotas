@@ -34,11 +34,11 @@ const createUser = async (req, res) => {
 const listUsers = async (req, res) => {
     try {
         const allUsers = await prisma.users.findMany({
-            include: {
-                tasks: true,
-                history_travel: true,
-                truck: true,
-            }
+        include: {
+            tasks: true,
+            history_travel: true,
+            truck: true,
+        }
         });
         res.json(allUsers);
     } catch (error) {

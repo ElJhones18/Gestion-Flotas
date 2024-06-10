@@ -1,19 +1,23 @@
-import { React } from "react";
-import { MenuSlide } from "../../components/general/menuSlide/MenuSlide"
-import { Link } from "react-router-dom";
+import { React, useState } from "react";
+import { MenuSide } from "../../components/general/menuSlide/MenuSide"
+import logo from "../../uploads/images/logoCocaCola.svg"
 import './AdminLayout.css'
+import {
+    UserOutlined,
+} from '@ant-design/icons';
 
 export const AdminLayout = (props) => {
     const { children } = props
+    const [collapsed, setCollapsed] = useState(false);
+
     return (
-        <div className='admin-layout'>
-            <div className='admin-layout__left'>
-                <img></img>
-                <MenuSlide />
-            </div>
+        <div className='admin-layout' style={collapsed ? { "grid-template-columns": "80px 1fr" } : { "grid-template-columns": "200px 1fr" }}>
             <div className='admin-layout__header'>
-                <h2><Link className="link" to="/">Coca Cola Flotas</Link></h2>
-                <h3>Logout</h3>
+                <a className="logo" href="/"><img src={logo} alt="Logo" href="/" /></a>
+                <UserOutlined style={{ fontSize: '23px' }} />
+            </div>
+            <div className='admin-layout__left'>
+                <MenuSide collapsed={collapsed} setCollapsed={setCollapsed} />
             </div>
             <div className='admin-layout__rigth'>
                 <div className='admin-layout__rigth-content'>

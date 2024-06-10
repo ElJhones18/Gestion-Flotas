@@ -23,7 +23,7 @@ const { confirm } = Modal;
 export const ListDriversComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const drivers = useSelector((state) => state.driver.drivers);
+    const drivers = useSelector((state) => state.driver);
     const driverApi = new Driver();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedDriver, setSelectedDriver] = useState(null);

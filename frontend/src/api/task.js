@@ -1,61 +1,69 @@
 import { PATHS } from "../utils/config";
-
-export class User {
+import axios from "axios"
+export class Task {
     baseApi = PATHS.BASE_PATH;
-    createUsersPath = PATHS.API_ROUTES.CREATE_USER;
-    listUsersPath = PATHS.API_ROUTES.LIST_USERS;
-    getUsersPath = PATHS.API_ROUTES.GET_USER;
-    deleteUserPath = PATHS.API_ROUTES.DELETE_USER;
-    editUserPath = PATHS.API_ROUTES.EDIT_USER;
+    createTaskPath = PATHS.API_ROUTES.CREATE_TASK;
+    listTasksPath = PATHS.API_ROUTES.LIST_TASKS;
+    getTaskPath = PATHS.API_ROUTES.GET_TASK;
+    getTaskByUserPath = PATHS.API_ROUTES.GET_TASK_BY_USER;
+    deleteTaskPath = PATHS.API_ROUTES.DELETE_TASK;
+    editTaskPath = PATHS.API_ROUTES.EDIT_TASK;
 
-    createUser = async (formData) => {
+    createTask = async (data) => {
         try {
-            console.log(formData.active_user);
-            console.log("api", formData);
-            const URL = `${this.baseApi}${this.createUsersPath}`
-            console.log(URL);
-
-            // const formData = new FormData();
-            const params = {
-                method: "POST",
-                body: formData
-            }
-            console.log(params);
-            const response = await fetch(URL, params);
-            console.log(response);
-            const result = response.json();
-            console.log(result);
-        } catch (error) {
-
-        }
-    }
-    getUsers = async () => {
-        try {
-            const URL = `${this.baseApi}${this.listUsersPath}`;
-            console.log(URL);
-            const response = await fetch(URL);
-            const users = response.json();
-            return users;
+            const URL = `${this.baseApi}${this.createTaskPath}`
+            // console.log(`ESTA ES LA URL ${URL}`);
+            // const params = {
+            //     method: "POST",
+            //     body: data
+            // }
+            return axios.post(URL, data)
         } catch (error) {
             console.log(error);
         }
     }
 
-    getUserById = async (userId) => {
+    getTasks = async () => {
         try {
-            const URL = `${this.baseApi}${this.getUsersPath}${userId}`;
+            const URL = `${this.baseApi}${this.listTasksPath}`;
             console.log(URL);
             const response = await fetch(URL);
-            const user = response.json();
-            return user;
+            const tasks = response.json();
+            return tasks
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getTaskById = async (taskId) => {
+        try {
+            const URL = `${this.baseApi}${this.getTaskPath}${taskId}`;
+            // console.log(URL);
+            // const response = await fetch(URL);
+            // const task = response.json();
+            // return task;
+            return axios.get(URL)
         } catch (error) {
             console.error(error);
         }
     };
 
-    editUserById = async (userId, updatedData) => {
+    getTaskByUser = async (userId) => {
         try {
-            const URL = `${this.baseApi}${this.editUserPath}${userId}`;
+            const URL = `${this.baseApi}${this.getTaskByUserPath}${userId}`;
+            // console.log(URL);
+            // const response = await fetch(URL);
+            // const task = response.json();
+            // return task;
+            return axios.get(URL)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    editTaskById = async (taskId, updatedData) => {
+        try {
+            const URL = `${this.baseApi}${this.editTaskPath}${taskId}`;
             console.log(URL);
             const params = {
                 method: "PATCH",
@@ -74,9 +82,9 @@ export class User {
         }
     };
 
-    deleteUserById = async (userId) => {
+    deleteTaskById = async (taskId) => {
         try {
-            const URL = `${this.baseApi}${this.deleteUserPath}${userId}`;
+            const URL = `${this.baseApi}${this.deleteTaskPath}${taskId}`;
             console.log(URL);
             const params = {
                 method: "DELETE",
@@ -89,4 +97,5 @@ export class User {
             console.error(error);
         }
     }
+
 }
