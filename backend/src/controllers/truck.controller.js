@@ -69,7 +69,6 @@ const editTruck = async (req, res) => {
             driverId
         } = req.body;
 
-
         const truckExistente = await prisma.truck.findUnique({
             where: {
                 id: id
@@ -93,7 +92,6 @@ const editTruck = async (req, res) => {
             photo: photo || truckExistente.photo,
             fuelId: fuelId || truckExistente.fuelId,
             driverId: driverId || truckExistente.driverId
-
         }
 
         const truck = await prisma.truck.update({

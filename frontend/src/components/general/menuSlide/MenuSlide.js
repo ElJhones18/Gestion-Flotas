@@ -11,13 +11,31 @@ const items = [
             {
                 key: "/admin/users",
                 label: <Link to="/admin/users">Usuarios</Link>,
-                // label: "Todos los usuarios",
+                children: [
+                    {
+                        key: "/admin/users/create",
+                        label: <Link to="/admin/users/create">Crear usuario</Link>,
+                    },
+                ],
             },
+            
+        ],
+    },
+    {
+        key: "sub2",
+        label: "Camiones",
+        icon: <AppstoreOutlined />,
+        children: [
             {
-                key: "/admin/drivers",
-                label: <Link to="/admin/drivers">Conductores</Link>,
-                // label: "Todos los usuarios",
-            }
+                key: "/admin/trucks",
+                label: <Link to="/admin/trucks">Camiones</Link>,
+                children: [
+                    {
+                        key: "/admin/truck/create",
+                        label: <Link to="/admin/truck/create">Crear camión</Link>,
+                    },
+                ],
+            },
         ],
     },
     // {

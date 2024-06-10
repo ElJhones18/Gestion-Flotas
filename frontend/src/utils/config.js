@@ -23,6 +23,13 @@ export const PATHS = {
         GET_TASK: `/tasks/`,
         GET_TASK_BY_USER: `/tasks/user/`,
         EDIT_TASK: `/tasks/edit/`,
-        DELETE_TASK: `/tasks/delete/`
+        DELETE_TASK: `/tasks/delete/`,
+
+        /* CAMIONES */
+        CREATE_TRUCK: `/truck/create`,
+        LIST_TRUCKS: `/trucks`,
+        GET_TRUCK: `/truck/`,
+        EDIT_TRUCK: `/truck/edit/`,
+        DELETE_TRUCK: `/truck/delete/`,
     }
 }

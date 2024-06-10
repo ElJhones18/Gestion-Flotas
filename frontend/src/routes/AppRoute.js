@@ -1,10 +1,18 @@
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import { ListComponent } from "../pages/adminPages/users/ListComponent";
-// import { ListVehicleComponent } from "../pages/AdminPages/vehicles/ListVehicleComponent";
-import { AdminLayout } from "../layouts/adminLayouts/AdminLayout";
-import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
+
 import { Home } from "../pages/Home";
+import { AdminLayout } from "../layouts/adminLayouts/AdminLayout";
+
+/* USUARIOS */
+import { ListComponent } from "../pages/adminPages/users/ListComponent";
+import { CreateUserComponent } from "../pages/adminPages/users/CreateUserComponent";
+
+/* CAMIONES */
+import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
+import { CreateTruckComponent } from "../pages/adminPages/trucks/CreateTruckComponent";
+
+import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { ListDriversComponent } from "../pages/adminPages/drivers/ListDriversComponent";
 
 export const AdminRoutes = () => {
@@ -17,10 +25,18 @@ export const AdminRoutes = () => {
     }
     return (
         <Routes>
+            <Route path="/" element={loadLayout(AdminLayout, Home)} />
+            
+            {/* USUARIOS */}
             <Route path="/admin/users" element={loadLayout(AdminLayout, ListComponent)} />
+            <Route path="/admin/users/create" element={loadLayout(AdminLayout, CreateUserComponent)} />
+
+            {/* CAMIONES */}
+            <Route path="/admin/trucks" element={loadLayout(AdminLayout, ListTruckComponent)} />
+            <Route path="/admin/truck/create" element={loadLayout(AdminLayout, CreateTruckComponent)} />
+
             <Route path="/admin/drivers" element={loadLayout(AdminLayout, ListDriversComponent)} />
             <Route path="/admin/tasks/:driverId" element={loadLayout(AdminLayout, DragAndDrop)} />
-            <Route path="/" element={loadLayout(AdminLayout, Home)} />
         </Routes>
     )
 }

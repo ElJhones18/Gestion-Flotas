@@ -136,7 +136,7 @@ export const ListComponent = () => {
             title: "Avatar",
             dataIndex: "avatar",
             key: "avatar",
-            render: (text, record) => <Avatar src={record.avatar} />,
+            render: (text, record) => <Avatar src={`http://localhost:3001/uploads/avatars/${record.avatar}`} />,
         },
         {
             title: "Email",

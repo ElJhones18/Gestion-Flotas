@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Driver } from "../../../api/driver";
 import "./ListTaskComponent.css";
 import { useParams } from "react-router-dom";
-import { TaskModal } from "../../../components/drivers/TaskModal";
 import { CreateTaskComponent } from "./CreateTaskComponent";
 import { Task } from "../../../api/task";
 import { useDispatch, useSelector } from "react-redux";
