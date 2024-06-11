@@ -3,29 +3,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { User } from "../../../api/user";
 import { getUsers, editUserById, deleteUserById } from "../../../slices/userSlice";
 import {
-    Table,
     Avatar,
-    Space,
-    Tooltip,
-    Modal,
+    Button,
     Form,
     Input,
+    Modal,
+    Space,
     Switch,
+    Table,
+    Tooltip,
     Upload,
-    Button,
 } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../routes/index"
 
 const { confirm } = Modal;
 
 export const ListComponent = () => {
     const dispatch = useDispatch();
-    const users = useSelector((state) => state.user.users);
+    const users = useSelector((state) => state.user);
     const userApi = new User();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         email: "",
@@ -39,6 +41,7 @@ export const ListComponent = () => {
         const fetchUsers = async () => {
             try {
                 const usersData = await userApi.getUsers();
+                console.log(usersData);
                 dispatch(getUsers(usersData));
             } catch (error) {
                 console.error("Failed to fetch users", error);
@@ -185,7 +188,11 @@ export const ListComponent = () => {
 
     return (
         <div className="container">
-            <h2>Users List</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h2>Lista de Usuarios</h2>
+                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_USER)}>Crear usuario</Button>
+            </div>
+            <img src={`http://localhost:3001/uploads/avatars/pollitoNegro.png`} />
             <Table dataSource={users} columns={columns} rowKey="id" />
             {selectedUser && (
                 <Modal

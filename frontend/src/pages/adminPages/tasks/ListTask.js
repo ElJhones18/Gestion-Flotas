@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Driver } from "../../../api/driver";
 import "./ListTaskComponent.css";
 import { useParams } from "react-router-dom";
-import { CreateTaskComponent } from "./CreateTaskComponent";
+import { CreateTaskComponent } from "./CreateTask";
 import { Task } from "../../../api/task";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks } from "../../../slices/taskSlice";
@@ -62,9 +62,9 @@ export const DragAndDrop = () => {
       if (task.id === itemID) return newItem;
       return task;
     });
-/* 
-    dispatch(axios.patch(`http://localhost:3001/tasks/edit/${itemID}`, { state }));
-    setTasks(newState); */
+    /* 
+        dispatch(axios.patch(`http://localhost:3001/tasks/edit/${itemID}`, { state }));
+        setTasks(newState); */
   };
 
   /*Lógica para agregar tareas*/

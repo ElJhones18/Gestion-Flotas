@@ -9,9 +9,12 @@ import {
     UsergroupAddOutlined,
     TruckOutlined,
     RightOutlined,
-    LeftOutlined
+    LeftOutlined,
+    HomeOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { ROUTES } from "../../../routes/index";
+
 const { Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -24,13 +27,14 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('Usuarios', 'user', <Link to="/admin/users"><TeamOutlined /></Link>, [
-        getItem('Listar usuarios', 'list-users', <Link to="/admin/users"><TeamOutlined /></Link>),
-        getItem('Crear usuario', 'create-user', <Link to="/admin/users/create"><UsergroupAddOutlined /></Link>),
+    getItem('Home', 'home', <Link to="/"><HomeOutlined /></Link>),
+    getItem('Usuarios', 'user', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>, [
+        getItem('Listar usuarios', 'list-users', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>),
+        getItem('Crear usuario', 'create-user', <Link to={ROUTES.ADMIN_CREATE_USER}><UsergroupAddOutlined /></Link>),
     ]),
-    getItem('Camiones', 'truck', <Link to="/admin/trucks"><TruckOutlined /></Link>, [
-        getItem('Listar camiones', 'list-trucks', <Link to="/admin/trucks"><TruckOutlined /></Link>),
-        getItem('Crear camión', 'create-truck', <Link to="/admin/truck/create"><TruckOutlined /></Link>),
+    getItem('Camiones', 'truck', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>, [
+        getItem('Listar camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
+        getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>),
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
@@ -41,7 +45,7 @@ export const MenuSide = (props) => {
 
     return (
         <Sider trigger={null} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <Menu theme="light" defaultSelectedKeys={['user']} mode="inline" items={items} />
+            <Menu theme="light" defaultSelectedKeys={['home']} mode="inline" items={items} />
             <div onClick={() => setCollapsed(!collapsed)} style={{ display: "flex", justifyContent: "center" }}>
                 {collapsed ? <RightOutlined /> : <LeftOutlined />}
             </div>
