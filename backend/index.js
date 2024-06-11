@@ -6,6 +6,7 @@ const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
+const tiresController = require('./src/controllers/tire.controller');
 const checklistController = require('./src/controllers/checklist.controller');
 const availabilityController = require('./src/controllers/availability.controller');
 const maintenanceController = require('./src/controllers/maintenance.controller');
@@ -176,6 +177,21 @@ app.delete('/checklist/delete/:id', checklistController.deleteChecklist);
 
 // --------------------------------------------
 
+// Endpoint para crear un nuevo neumatico
+app.post('/tire/create', tiresController.createTire);
+
+// Endpoint para listar todos los neumaticos
+app.get("/tires/", tiresController.listTire);
+
+// Endpoint para buscar un neumatico por su id
+app.get("/tire/:id", tiresController.getTire);
+
+// Endpoint para actualizar un neumatico por su id
+app.patch('/tire/edit/:id', tiresController.editTire);
+
+// Endpoint para eliminar un neumatico por su id
+app.delete('/tire/delete/:id', tiresController.deleteTire);
+
 // Endpoint para crear una nueva disponibilidad
 app.post('/availability/create', availabilityController.createAvailability);
 
@@ -205,4 +221,5 @@ app.patch('/maintenance/edit/:id', maintenanceController.editMaintenance);
 
 // Endpoint para eliminar un mantenimiento por su id
 app.delete('/maintenance/delete/:id', maintenanceController.deleteMaintenance);
+
 
