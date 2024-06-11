@@ -13,7 +13,7 @@ import { CreateUserComponent } from "../pages/adminPages/users/CreateUserCompone
 import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
 import { CreateTruckComponent } from "../pages/adminPages/trucks/CreateTruckComponent";
 
-import { DragAndDrop } from "../pages/adminPages/tasks/ListTask";
+import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { ListDriversComponent } from "../pages/adminPages/drivers/ListDriversComponent";
 
 export const AdminRoutes = () => {

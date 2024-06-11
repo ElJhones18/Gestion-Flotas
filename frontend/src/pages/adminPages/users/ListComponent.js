@@ -134,6 +134,14 @@ export const ListComponent = () => {
         });
     };
 
+    const handleTask = (id) => {
+        const user = users.find((user) => user.id === id);
+        console.log(user);
+        /* setSelectedDriver(driver);
+        setIsModalVisible(true); */
+        navigate(`/admin/tasks/${id}`);
+    };
+
     const columns = [
         {
             title: "Avatar",
@@ -169,6 +177,14 @@ export const ListComponent = () => {
             key: "actions",
             render: (text, record) => (
                 <Space size="middle">
+                    <Tooltip title="Tareas">
+                        <Button
+                            onClick={() => handleTask(record.id)}
+                            style={{ color: "Green", borderColor: "green" }}
+                        >
+                            Tareas
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Edit">
                         <EditOutlined
                             style={{ color: "blue", cursor: "pointer" }}
@@ -192,7 +208,6 @@ export const ListComponent = () => {
                 <h2>Lista de Usuarios</h2>
                 <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_USER)}>Crear usuario</Button>
             </div>
-            <img src={`http://localhost:3001/uploads/avatars/pollitoNegro.png`} />
             <Table dataSource={users} columns={columns} rowKey="id" />
             {selectedUser && (
                 <Modal

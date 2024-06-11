@@ -61,22 +61,11 @@ export class Task {
         }
     };
 
-    editTaskById = async (taskId, updatedData) => {
+    editTaskById = (taskId, updatedData) => {
         try {
             const URL = `${this.baseApi}${this.editTaskPath}${taskId}`;
             console.log(URL);
-            const params = {
-                method: "PATCH",
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // },
-                // body: JSON.stringify(updatedData), // Convert updated data to JSON string
-                body: updatedData, // Convert updated data to JSON string
-            }
-            const response = await fetch(URL, params);
-            const result = await response.json();
-            console.log(result);
-            return result;
+            return axios.patch(URL, updatedData)
         } catch (error) {
             console.error(error);
         }
