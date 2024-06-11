@@ -49,14 +49,14 @@ export const Register = () => {
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
-        // console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values);
         const user = {
             email: values.email,
             password: values.password,
             username: values.username,
             lastname: values.lastname,
             cedula: values.cedula,
-            phone: values.phone
+            phone: "+" + values.prefix + values.phone
         }
         console.log(user);
 
