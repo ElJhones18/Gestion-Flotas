@@ -33,5 +33,12 @@ export const PATHS = {
         GET_TRUCK: `/truck/`,
         EDIT_TRUCK: `/truck/edit/`,
         DELETE_TRUCK: `/truck/delete/`,
+
+        /* MANTENIMIENTOS */
+        CREATE_MAINTENANCE: `/maintenance/create`,
+        LIST_MAINTENANCES: `/maintenances`,
+        GET_MAINTENANCE: `/maintenance/`,
+        EDIT_MAINTENANCE: `/maintenance/edit/`,
+        DELETE_MAINTENANCE: `/maintenance/delete/`,
     }
 }

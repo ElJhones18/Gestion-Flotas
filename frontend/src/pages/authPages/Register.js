@@ -69,7 +69,7 @@ export const Register = () => {
             })
             .catch(error => {
                 console.error(error);
-                alert('Hubo un error al crear el usuario, intentalo mas tarde');
+                alert('Hubo un error al crear el usuario, inténtalo mas tarde');
             });
     };
 
@@ -88,12 +88,11 @@ export const Register = () => {
     return (
         <div className='form'>
             <h1>Bienvenidos a <br />
-                gestion de vehículos
+                Gestión de vehículos
             </h1>
             <Divider />
 
             <Form
-                {...formItemLayout}
                 form={form}
                 name="register"
                 onFinish={onFinish}
@@ -104,6 +103,7 @@ export const Register = () => {
                     maxWidth: 600,
                 }}
                 scrollToFirstError
+                {...formItemLayout}
             >
                 <Form.Item
                     name="email"
@@ -111,11 +111,11 @@ export const Register = () => {
                     rules={[
                         {
                             type: 'email',
-                            message: 'Introduce un E-mail correcto!',
+                            message: '¡Introduce un email correcto!',
                         },
                         {
                             required: true,
-                            message: 'Por favor introduce tu E-mail!',
+                            message: 'Por favor, introduce tu email',
                         },
                     ]}
                 >
@@ -128,7 +128,7 @@ export const Register = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor introduce tu contraseña!',
+                            message: 'Por favor, introduce tu contraseña',
                         },
                     ]}
                     hasFeedback
@@ -138,20 +138,21 @@ export const Register = () => {
 
                 <Form.Item
                     name="confirm"
-                    label="Confirmala"
+                    layout="vertical"
+                    label="Confirmar contraseña"
                     dependencies={['password']}
                     hasFeedback
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor confirma tu contraseña!',
+                            message: 'Por favor, confirma tu contraseña',
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value || getFieldValue('password') === value) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('Las contraseñas no coinciden!'));
+                                return Promise.reject(new Error('Las contraseñas no coinciden'));
                             },
                         }),
                     ]}
@@ -162,11 +163,11 @@ export const Register = () => {
                 <Form.Item
                     name="username"
                     label="Username"
-                    tooltip="Como quieres que te llamen los demás?"
+                    tooltip="¿Cómo quieres que te llamen los demás?"
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor introduce tu nombre de usuario!',
+                            message: 'Por favor, introduce tu nombre de usuario',
                             whitespace: true,
                         },
                     ]}
@@ -180,7 +181,7 @@ export const Register = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor introduce tu apellido!',
+                            message: 'Por favor, introduce tu apellido',
                             whitespace: true,
                         },
                     ]}
@@ -190,11 +191,11 @@ export const Register = () => {
 
                 <Form.Item
                     name="cedula"
-                    label="Cedula"
+                    label="Cédula"
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor introduce tu cedula!',
+                            message: 'Por favor, introduce tu cédula',
                         },
                     ]}
                 >
@@ -211,7 +212,7 @@ export const Register = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Por favor introduce tu número de celular!',
+                            message: 'Por favor, introduce tu número de celular',
                         },
                     ]}
                 >
@@ -231,7 +232,7 @@ export const Register = () => {
             </Form>
 
             <div className='login'>
-                <p>Ya tienes una cuenta?</p>
+                <p>¿Ya tienes una cuenta?</p>
                 <Link to="/login">Iniciar sesión</Link>
             </div>
         </div>

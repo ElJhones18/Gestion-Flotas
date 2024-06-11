@@ -48,7 +48,9 @@ model Travel {
   destination String
   stops       Stop[]
   driverId    String  @db.ObjectId
+  truckId     String  @db.ObjectId
   driver      Users   @relation(fields: [driverId], references: [id])
+  truck       Truck   @relation(fields: [truckId], references: [id])
 }
 
 model Stop {
@@ -74,6 +76,7 @@ model Truck {
   tires                Tires[]
   fuelId               String?             @unique @db.ObjectId
   driverId             String?             @db.ObjectId
+  travel               Travel[]
   fuel                 Fuel?               @relation(fields: [fuelId], references: [id])
   availability         Availability?
   checklist            Checklist?

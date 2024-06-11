@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-    Table,
     Avatar,
-    Space,
-    Tooltip,
-    Modal,
+    Button,
     Form,
     Input,
+    Modal,
+    Space,
     Switch,
+    Table,
+    Tooltip,
     Upload,
-    Button,
 } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
 import { Truck } from "../../../api/truck";
 import { getTrucks, editTruckById, deleteTruckById } from "../../../slices/truckSlice";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../routes/index"
 
 const { confirm } = Modal;
 
 export const ListTruckComponent = () => {
     const dispatch = useDispatch();
-    const trucks = useSelector((state) => state.truck.trucks);
+    const trucks = useSelector((state) => state.truck);
     const truckApi = new Truck();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedTruck, setSelectedTruck] = useState(null);
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         plate: "",
@@ -252,7 +255,10 @@ export const ListTruckComponent = () => {
 
     return (
         <div className="container">
-            <h2>Lista de Camiones</h2>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h2>Lista de Camiones</h2>
+                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRUCK)}>Crear camión</Button>
+            </div>
             <Table dataSource={trucks} columns={columns} rowKey="id" />
             {selectedTruck && (
                 <Modal
