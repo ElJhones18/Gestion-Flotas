@@ -6,6 +6,7 @@ const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
+const checklistController = require('./src/controllers/checklist.controller');
 const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
@@ -142,3 +143,20 @@ app.patch('/truck/edit/:id', trucksController.editTruck);
 
 // Endpoint para eliminar un camion por su id
 app.delete('/truck/delete/:id', trucksController.deleteTruck);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo checklist
+app.post('/checklist/create', checklistController.createChecklist);
+
+// Endpoint para listar todos los checklist
+app.get("/checklists/", checklistController.listChecklist);
+
+// Endpoint para buscar un checklist por su id
+app.get("/checklist/:id", checklistController.getChecklist);
+
+// Endpoint para actualizar un checklist por su id
+app.patch('/checklist/edit/:id', checklistController.editChecklist);
+
+// Endpoint para eliminar un checklist por su id
+app.delete('/checklist/delete/:id', checklistController.deleteChecklist);
