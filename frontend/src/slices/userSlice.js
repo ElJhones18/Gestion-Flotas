@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = {
+const initialState = [{
     email: "",
     username: "",
     lastname: "",
@@ -14,7 +14,7 @@ const initialState = {
     tasks: [],
     truck: [],
     users: [],
-}
+}]
 
 export const userSlice = createSlice({
     name: "user",
