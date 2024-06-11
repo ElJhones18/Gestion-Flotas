@@ -7,6 +7,7 @@ const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
 const checklistController = require('./src/controllers/checklist.controller');
+const availabilityController = require('./src/controllers/availability.controller');
 const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
@@ -171,3 +172,20 @@ app.patch('/checklist/edit/:id', checklistController.editChecklist);
 
 // Endpoint para eliminar un checklist por su id
 app.delete('/checklist/delete/:id', checklistController.deleteChecklist);
+
+// --------------------------------------------
+
+// Endpoint para crear una nueva disponibilidad
+app.post('/availability/create', availabilityController.createAvailability);
+
+// Endpoint para listar todas las disponibilidades
+app.get("/availabilities/", availabilityController.listAvailability);
+
+// Endpoint para buscar una disponibilidad por su id
+app.get("/availability/:id", availabilityController.getAvailability);
+
+// Endpoint para actualizar una disponibilidad por su id
+app.patch('/availability/edit/:id', availabilityController.updateAvailability);
+
+// Endpoint para eliminar una disponibilidad por su id
+app.delete('/availability/delete/:id', availabilityController.deleteAvailability);
