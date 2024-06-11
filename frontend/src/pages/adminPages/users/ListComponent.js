@@ -139,8 +139,7 @@ export const ListComponent = () => {
             title: "Avatar",
             dataIndex: "avatar",
             key: "avatar",
-            // render: (text, record) => <Avatar src={`http://localhost:3001/uploads/avatars/${record.avatar}`} />,
-            render: (text, record) => <Avatar src={record.avatar} />,
+            render: (text, record) => <Avatar src={`http://localhost:3001/uploads/avatars/${record.avatar}`} />,
         },
         {
             title: "Email",
@@ -193,6 +192,7 @@ export const ListComponent = () => {
                 <h2>Lista de Usuarios</h2>
                 <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_USER)}>Crear usuario</Button>
             </div>
+            <img src={`http://localhost:3001/uploads/avatars/pollitoNegro.png`} />
             <Table dataSource={users} columns={columns} rowKey="id" />
             {selectedUser && (
                 <Modal
