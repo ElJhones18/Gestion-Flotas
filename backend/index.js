@@ -6,6 +6,7 @@ const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
+const checklistController = require('./src/controllers/checklist.controller');
 const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
@@ -35,6 +36,17 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage: storage });
+
+// middleware para subir archivos
+const storage1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/truck');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+})
+const upload1 = multer({ storage: storage1 });
 
 // Endpoint para crear un nuevo usuario 
 app.post('/users/create', upload.single('avatar'), usersController.createUser);
@@ -129,7 +141,7 @@ app.delete('/fuel/delete/:id', fuelController.deleteFuel);
 // --------------------------------------------
 
 // Endpoint para crear un nuevo camion
-app.post('/truck/create', upload.single('photo'), trucksController.createTruck);
+app.post('/truck/create', upload1.single('photo'), trucksController.createTruck);
 
 // Endpoint para listar todos los camiones
 app.get("/trucks/", trucksController.listTruck);
@@ -138,7 +150,24 @@ app.get("/trucks/", trucksController.listTruck);
 app.get("/truck/:id", trucksController.getTruck);
 
 // Endpoint para actualizar un camion por su id
-app.patch('/truck/edit/:id', trucksController.editTruck);
+app.patch('/truck/edit/:id', upload1.single('photo'), trucksController.editTruck);
 
 // Endpoint para eliminar un camion por su id
 app.delete('/truck/delete/:id', trucksController.deleteTruck);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo checklist
+app.post('/checklist/create', checklistController.createChecklist);
+
+// Endpoint para listar todos los checklist
+app.get("/checklists/", checklistController.listChecklist);
+
+// Endpoint para buscar un checklist por su id
+app.get("/checklist/:id", checklistController.getChecklist);
+
+// Endpoint para actualizar un checklist por su id
+app.patch('/checklist/edit/:id', checklistController.editChecklist);
+
+// Endpoint para eliminar un checklist por su id
+app.delete('/checklist/delete/:id', checklistController.deleteChecklist);
