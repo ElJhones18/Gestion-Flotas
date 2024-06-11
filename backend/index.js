@@ -6,7 +6,10 @@ const travelsController = require('./src/controllers/travel.controller');
 const stopsController = require('./src/controllers/stop.controller');
 const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
+const tiresController = require('./src/controllers/tire.controller');
 const checklistController = require('./src/controllers/checklist.controller');
+const availabilityController = require('./src/controllers/availability.controller');
+const maintenanceController = require('./src/controllers/maintenance.controller');
 const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
@@ -171,3 +174,52 @@ app.patch('/checklist/edit/:id', checklistController.editChecklist);
 
 // Endpoint para eliminar un checklist por su id
 app.delete('/checklist/delete/:id', checklistController.deleteChecklist);
+
+// --------------------------------------------
+
+// Endpoint para crear un nuevo neumatico
+app.post('/tire/create', tiresController.createTire);
+
+// Endpoint para listar todos los neumaticos
+app.get("/tires/", tiresController.listTire);
+
+// Endpoint para buscar un neumatico por su id
+app.get("/tire/:id", tiresController.getTire);
+
+// Endpoint para actualizar un neumatico por su id
+app.patch('/tire/edit/:id', tiresController.editTire);
+
+// Endpoint para eliminar un neumatico por su id
+app.delete('/tire/delete/:id', tiresController.deleteTire);
+
+// Endpoint para crear una nueva disponibilidad
+app.post('/availability/create', availabilityController.createAvailability);
+
+// Endpoint para listar todas las disponibilidades
+app.get("/availabilities/", availabilityController.listAvailability);
+
+// Endpoint para buscar una disponibilidad por su id
+app.get("/availability/:id", availabilityController.getAvailability);
+
+// Endpoint para actualizar una disponibilidad por su id
+app.patch('/availability/edit/:id', availabilityController.updateAvailability);
+
+// Endpoint para eliminar una disponibilidad por su id
+app.delete('/availability/delete/:id', availabilityController.deleteAvailability);
+
+// Endpoint para crear un nuevo mantenimiento
+app.post('/maintenance/create', maintenanceController.createMaintenance);
+
+// Endpoint para listar todos los mantenimientos
+app.get("/maintenances/", maintenanceController.listMaintenance);
+
+// Endpoint para buscar un mantenimiento por su id
+app.get("/maintenance/:id", maintenanceController.getMaintenance);
+
+// Endpoint para actualizar un mantenimiento por su id
+app.patch('/maintenance/edit/:id', maintenanceController.editMaintenance);
+
+// Endpoint para eliminar un mantenimiento por su id
+app.delete('/maintenance/delete/:id', maintenanceController.deleteMaintenance);
+
+
