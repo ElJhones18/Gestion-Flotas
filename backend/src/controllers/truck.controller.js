@@ -45,6 +45,7 @@ const getTruck = async (req, res) => {
             },
             include: {
                 fuel: true,
+                travel: true,
             }
         });
         res.json(truck);
