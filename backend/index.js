@@ -8,6 +8,7 @@ const fuelController = require('./src/controllers/fuel.controller');
 const trucksController = require('./src/controllers/truck.controller');
 const checklistController = require('./src/controllers/checklist.controller');
 const availabilityController = require('./src/controllers/availability.controller');
+const maintenanceController = require('./src/controllers/maintenance.controller');
 const authController = require('./src/controllers/auth/auth.controller');
 const cors = require('cors');
 const app = express();
@@ -189,3 +190,19 @@ app.patch('/availability/edit/:id', availabilityController.updateAvailability);
 
 // Endpoint para eliminar una disponibilidad por su id
 app.delete('/availability/delete/:id', availabilityController.deleteAvailability);
+
+// Endpoint para crear un nuevo mantenimiento
+app.post('/maintenance/create', maintenanceController.createMaintenance);
+
+// Endpoint para listar todos los mantenimientos
+app.get("/maintenances/", maintenanceController.listMaintenance);
+
+// Endpoint para buscar un mantenimiento por su id
+app.get("/maintenance/:id", maintenanceController.getMaintenance);
+
+// Endpoint para actualizar un mantenimiento por su id
+app.patch('/maintenance/edit/:id', maintenanceController.editMaintenance);
+
+// Endpoint para eliminar un mantenimiento por su id
+app.delete('/maintenance/delete/:id', maintenanceController.deleteMaintenance);
+

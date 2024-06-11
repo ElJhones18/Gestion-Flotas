@@ -20,12 +20,37 @@ const createTravel = async (req, res) => {
             return res.status(400).json({ error: 'El conductor no existe' });
         }
 
+        const truckExist = await prisma.truck.findUnique({
+            where: {
+                id: truckId
+            }
+        });
+
+        if (!truckExist) {
+            return res.status(400).json({ error: 'El camión no existe' });
+        }
+
+        // Obtener el checklist asociado con el camión
+        const checklist = await prisma.checklist.findUnique({
+            where: { truckId: truckId }
+        });
+
+        if (!checklist) {
+            return res.status(400).json({ error: 'El checklist del camión no existe' });
+        }
+
+        // Verificar que los campos del checklist estén en true
+        if (!checklist.coolant || !checklist.oil_level || !checklist.tire_pressure || !checklist.lights) {
+            return res.status(400).json({ error: 'El checklist del camión no está completo. Todos los campos deben estar en true.' });
+        }
+
         const newTravel = await prisma.travel.create({
             data: {
                 distance: distance,
                 origin: origin,
                 destination: destination,
-                driverId: driverId
+                driverId: driverId,
+                truckId: truckId
             }
         })
         res.json(newTravel);

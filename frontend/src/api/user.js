@@ -1,4 +1,5 @@
 import { PATHS } from "../utils/config";
+import axios from "axios";
 
 export class User {
     baseApi = PATHS.BASE_PATH;
@@ -14,8 +15,6 @@ export class User {
             console.log("api", formData);
             const URL = `${this.baseApi}${this.createUsersPath}`
             console.log(URL);
-
-            // const formData = new FormData();
             const params = {
                 method: "POST",
                 body: formData
@@ -26,18 +25,18 @@ export class User {
             const result = response.json();
             console.log(result);
         } catch (error) {
-
+            console.log(error);
         }
     }
+
     getUsers = async () => {
         try {
             const URL = `${this.baseApi}${this.listUsersPath}`;
             console.log(URL);
-            const response = await fetch(URL);
-            const users = response.json();
-            return users;
+            const response = await axios.get(URL);
+            return response.data;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
