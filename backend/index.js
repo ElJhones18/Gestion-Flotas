@@ -37,6 +37,17 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage });
 
+// middleware para subir archivos
+const storage1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/truck');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+})
+const upload1 = multer({ storage: storage1 });
+
 // Endpoint para crear un nuevo usuario 
 app.post('/users/create', upload.single('avatar'), usersController.createUser);
 
@@ -130,7 +141,7 @@ app.delete('/fuel/delete/:id', fuelController.deleteFuel);
 // --------------------------------------------
 
 // Endpoint para crear un nuevo camion
-app.post('/truck/create', upload.single('photo'), trucksController.createTruck);
+app.post('/truck/create', upload1.single('photo'), trucksController.createTruck);
 
 // Endpoint para listar todos los camiones
 app.get("/trucks/", trucksController.listTruck);
@@ -139,7 +150,7 @@ app.get("/trucks/", trucksController.listTruck);
 app.get("/truck/:id", trucksController.getTruck);
 
 // Endpoint para actualizar un camion por su id
-app.patch('/truck/edit/:id', trucksController.editTruck);
+app.patch('/truck/edit/:id', upload1.single('photo'), trucksController.editTruck);
 
 // Endpoint para eliminar un camion por su id
 app.delete('/truck/delete/:id', trucksController.deleteTruck);
