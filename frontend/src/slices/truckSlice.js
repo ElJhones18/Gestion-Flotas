@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState = [{
     plate: "",
     brand: "",
     color: "",
@@ -13,9 +13,9 @@ const initialState = {
     tires: [],
     fuelId: "",
     driverId: "",
-/*     availability: [],
-    checklist: [], */
-}
+    /*     availability: [],
+        checklist: [], */
+}]
 
 export const truckSlice = createSlice({
     name: "truck",
@@ -35,8 +35,8 @@ export const truckSlice = createSlice({
                 tires,
                 fuelId,
                 driverId,
-/*                 availability,
-                checklist */
+                /*                 availability,
+                                checklist */
             } = action.payload
             console.log(action.payload)
             state.plate = plate;
@@ -51,12 +51,11 @@ export const truckSlice = createSlice({
             state.tires = tires;
             state.fuelId = fuelId;
             state.driverId = driverId;
-/*             state.availability = availability;
-            state.checklist = checklist; */
+            /*             state.availability = availability;
+                        state.checklist = checklist; */
         },
         getTrucks: (state, action) => {
-            state.trucks = action.payload;
-        
+            return action.payload
         },
         getTruckById: (state, action) => {
         },
@@ -76,8 +75,8 @@ export const truckSlice = createSlice({
                 existingTruck.tires = tires;
                 existingTruck.fuelId = fuelId;
                 existingTruck.driverId = driverId;
-/*                 existingTruck.availability = availability;
-                existingTruck.checklist = checklist; */
+                /*                 existingTruck.availability = availability;
+                                existingTruck.checklist = checklist; */
             }
         },
         deleteTruckById: (state, action) => {

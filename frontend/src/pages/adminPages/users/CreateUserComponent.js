@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from "antd"
 import { useDispatch } from 'react-redux'
 import { addUser } from '../../../slices/userSlice';
 import { User } from '../../../api/user'
-export const CreateUserComponent = () => {
+import { useNavigate } from "react-router-dom"
 
+export const CreateUserComponent = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const userApi = new User();
     const [formData, setFormData] = useState({
         email: "",
+        password: "password",
         username: "",
         lastname: "",
         cedula: "",
@@ -40,6 +44,7 @@ export const CreateUserComponent = () => {
         try {
             const formDataToSend = new FormData();
             formDataToSend.append("email", formData.email);
+            formDataToSend.append("password", formData.password);
             formDataToSend.append("username", formData.username);
             formDataToSend.append("lastname", formData.lastname);
             formDataToSend.append("cedula", formData.cedula);
@@ -53,7 +58,7 @@ export const CreateUserComponent = () => {
             formDataToSend.append("truck", formData.truck);
 
             console.log("formDataToSend: ", formDataToSend);
-            
+
             await userApi.createUser(formDataToSend);
             dispatch(addUser(formData));
             setFormData({
@@ -79,6 +84,7 @@ export const CreateUserComponent = () => {
 
     return (
         <>
+            <Button onClick={() => navigate(-1)}>Volver</Button>
             <h2>Create User</h2>
             <form onSubmit={handleCreateUser} encType='multipart/form-data'>
                 <div>
@@ -114,7 +120,7 @@ export const CreateUserComponent = () => {
                     ></input>
                 </div>
 
-                <div> 
+                <div>
                     <label htmlFor='cedula'>Cedula:</label>
                     <input
                         type='text'

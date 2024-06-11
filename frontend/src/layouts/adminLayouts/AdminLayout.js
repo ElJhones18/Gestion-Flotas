@@ -11,7 +11,7 @@ export const AdminLayout = (props) => {
     const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <div className='admin-layout' style={collapsed ? { "grid-template-columns": "80px 1fr" } : { "grid-template-columns": "200px 1fr" }}>
+        <div className='admin-layout' style={collapsed ? { gridTemplateColumns: "80px 1fr" } : { gridTemplateColumns: "200px 1fr" }}>
             <div className='admin-layout__header'>
                 <a className="logo" href="/"><img src={logo} alt="Logo" href="/" /></a>
                 <UserOutlined style={{ fontSize: '23px' }} />
