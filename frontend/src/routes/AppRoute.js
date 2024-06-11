@@ -24,9 +24,7 @@ export const AdminRoutes = () => {
         )
     }
     return (
-        <Routes>
-            <Route path="/" element={loadLayout(AdminLayout, Home)} />
-            
+        <Routes>            
             {/* USUARIOS */}
             <Route path="/admin/users" element={loadLayout(AdminLayout, ListComponent)} />
             <Route path="/admin/users/create" element={loadLayout(AdminLayout, CreateUserComponent)} />
