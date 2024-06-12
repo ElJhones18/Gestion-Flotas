@@ -8,16 +8,15 @@ import {
 } from "antd";
 import { Task } from '../../../api/task';
 import { useDispatch } from 'react-redux';
-import { addTask } from '../../../slices/taskSlice';
-
+import { addTask, editTaskById } from '../../../slices/taskSlice';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen }) => {
+export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, currentTask, setCurrentTask }) => {
     /* const [task, setTask] = useState(currentTask || { type: "", description: "", state: "", driverId: "" }); */
 
-    const [task, setTask] = useState({
+    const [task, setTask] = useState(currentTask || {
         type: "",
         description: "",
         state: "",
@@ -28,28 +27,44 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen }) =
     const dispatch = useDispatch();
 
     const handleCancel = () => {
+        setCurrentTask(null)
         setIsModalOpen(false);
     };
 
     const onFinish = (values) => {
         try {
-            // console.log("Informacion",values);
-            
-            taskApi.createTask({...values, driverId}).then((response)=> {
-                console.log("values:", driverId);
-                console.log("response:", response.data);
-            }).catch((e)=>{
-                console.log("error1", e)
-            })
-            console.log("object");
-            dispatch(addTask({...values, driverId}));
-            setTask({
-                type: "",
-                state: "",
-                description: "",
-                driverId: ""
-            });
-            setIsModalOpen(false);
+            if (currentTask) {
+                taskApi.editTaskById(currentTask.id, { ...values, driverId }).then((response) => {
+                    dispatch(editTaskById(response.data));
+                }).catch((e) => {
+                    console.log("error1", e)
+                })
+                setTask({
+                    type: "",
+                    state: "",
+                    description: "",
+                    driverId: ""
+                });
+                setCurrentTask(null)
+                setIsModalOpen(false);
+            } else {
+                taskApi.createTask({ ...values, driverId }).then((response) => {
+                    console.log("values:", driverId);
+                    console.log("response:", response.data);
+                    dispatch(addTask(response.data));
+                }).catch((e) => {
+                    console.log("error1", e)
+                })
+                setTask({
+                    type: "",
+                    state: "",
+                    description: "",
+                    driverId: ""
+                });
+                setCurrentTask(null);
+                setIsModalOpen(false);
+            }
+
         } catch (error) {
             console.error("Failed to create task", error);
         };
@@ -57,11 +72,18 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen }) =
 
     return (
         <Modal
-            title="Agregar Tarea"
+            title={currentTask ? "Editar Tarea" : "Agregar Tarea"}
             open={isModalOpen}
             //   onOk={handleOk}
-            onCancel={handleCancel}>
-            <Form onFinish={onFinish}>
+            onCancel={handleCancel}
+            footer={null}
+        >
+            <Form onFinish={onFinish} initialValues={currentTask || {
+                type: "",
+                description: "",
+                state: "",
+                driverId: driverId
+            }}>
                 <Form.Item label="Tipo" name="type">
                     <Select
                         name="type"
@@ -101,9 +123,14 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen }) =
                 </Form.Item>
 
                 <Form.Item>
-                    <Button htmlType="submit">
-                        Aceptar
-                    </Button>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Button onClick={handleCancel}>
+                            Cancelar
+                        </Button>
+                        <Button htmlType="submit">
+                            Aceptar
+                        </Button>
+                    </div>
                 </Form.Item>
             </Form>
         </Modal>

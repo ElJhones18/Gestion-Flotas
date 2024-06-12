@@ -13,16 +13,7 @@ export const taskSlice = createSlice({
     initialState,
     reducers: {
         addTask: (estado, action) => {
-            const {
-                type,
-                state,
-                description,
-                driverId
-            } = action.payload
-            estado.type = type;
-            estado.state = state;
-            estado.description = description;
-            estado.driverId = driverId;
+            return [...estado, action.payload]
         },
         getTasks: (estado, action) => {
             return action.payload
@@ -30,23 +21,10 @@ export const taskSlice = createSlice({
         getTaskById: (estado, action) => {
         },
         editTaskById: (estado, action) => {
-            /* const { id, type, state, description, driverId } = action.payload;
-            const existingTask = state.tasks.find(task => task.id === id);
-            if (existingTask) {
-                existingTask.type = type;
-                existingTask.state = state;
-                existingTask.description = description;
-                existingTask.driverId = driverId;
-            } */
-
-            const { updatedTaskData } = action.payload;
-            return {
-                ...estado,
-                tasks: estado.tasks.map(task => task.id === updatedTaskData.id ? updatedTaskData : task)
-            }
+            return estado.map(task => task.id === action.payload.id ? action.payload : task)
         },
         deleteTaskById: (estado, action) => {
-            estado.tasks = estado.tasks.filter(task => task.id !== action.payload);
+            return estado.filter(task => task.id !== action.payload);
         }
     }
 });

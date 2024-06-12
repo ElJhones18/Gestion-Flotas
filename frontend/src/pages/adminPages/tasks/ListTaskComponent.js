@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Driver } from "../../../api/driver";
 import "./ListTaskComponent.css";
 import { useParams } from "react-router-dom";
-import { CreateTaskComponent } from "./CreateTask";
+import { CreateTaskComponent } from "./CreateTaskComponent";
 import { Task } from "../../../api/task";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks } from "../../../slices/taskSlice";
+import { getTasks, editTaskById, deleteTaskById } from "../../../slices/taskSlice";
+import { Space, Tooltip, Modal } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+const { confirm } = Modal;
 
 export const DragAndDrop = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
   const tasks = useSelector((state) => state.task);
   const dispatch = useDispatch();
   const { driverId } = useParams();
-  const driverApi = new Driver();
   const taskApi = new Task();
 
   useEffect(() => {
@@ -46,31 +49,75 @@ export const DragAndDrop = () => {
     evt.preventDefault();
   };
 
-  // COMENTARIO DE MONTANCHEZ PARA JULI DEL FUTURO
-  // tener en cuenta que el estado de las tareas se maneja en el slide
-  // entonces se deben crear funciones dentro del slice para cambiar el estado de las tareas
-  // y no hacerlo directamente en el componente como se venia trabajando anteriormente
-  // me refiero a la función onDrop
-
   const onDrop = (evt, state) => {
     const itemID = evt.dataTransfer.getData("itemID");
     const item = tasks.find((item) => item.id == itemID);
     if (!item) return;
     const newItem = { ...item, state }
 
-    const newState = tasks.map((task) => {
-      if (task.id === itemID) return newItem;
-      return task;
-    });
-    /* 
-        dispatch(axios.patch(`http://localhost:3001/tasks/edit/${itemID}`, { state }));
-        setTasks(newState); */
+    taskApi.editTaskById(item.id, newItem).then((response) => {
+      dispatch(editTaskById(response.data))
+    })
+
   };
 
-  /*Lógica para agregar tareas*/
+  const handleEditTask = (id) => {
+    const task = tasks.find((task) => task.id === id);
+    setCurrentTask(task);
+    setIsModalOpen(true);
+  }
+
+  const handleDeleteTask = (id) => {
+    confirm({
+      title: "¿Quiere eliminar este usuario?",
+      content: "Esta elección no se puede revertir",
+      onOk() {
+        taskApi
+          .deleteTaskById(id)
+          .then(() => {
+            dispatch(deleteTaskById(id));
+          })
+          .catch((error) => {
+            console.error("Failed to delete user", error);
+          });
+      },
+      onCancel() {
+        console.log("Cancel delete");
+      },
+    });
+  }
+
   const showModal = () => {
     setIsModalOpen(true);
   };
+
+  const Card = (item, index) => {
+    return (
+      <div
+        className="dd-element"
+        key={index}
+        draggable
+        onDragStart={(evt) => startDrag(evt, item)}
+      >
+        <strong className="title">{item.type}</strong>
+        <p className="body">{item.description}</p>
+        <Space size="middle">
+          <Tooltip title="Edit">
+            <EditOutlined
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => handleEditTask(item.id)}
+            />
+          </Tooltip>
+          <Tooltip title="Delete">
+            <DeleteOutlined
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={() => handleDeleteTask(item.id)}
+            />
+          </Tooltip>
+        </Space>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -80,7 +127,7 @@ export const DragAndDrop = () => {
       {/* BOTÓN AGREGAR TAREAS */}
       <div className="container">
         <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea</button>
-        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} setCurrentTask={setCurrentTask} />}
       </div>
 
       {/* TABLAS PARA LAS TAREAS */}
@@ -94,15 +141,7 @@ export const DragAndDrop = () => {
             onDrop={(evt) => onDrop(evt, "Por hacer")}
           >
             {getList("Por hacer").map((item, index) => (
-              <div
-                className="dd-element"
-                key={index}
-                draggable
-                onDragStart={(evt) => startDrag(evt, item)}
-              >
-                <strong className="title">{item.type}</strong>
-                <p className="body">{item.description}</p>
-              </div>
+              Card(item, index)
             )
             )}
           </div>
@@ -117,15 +156,7 @@ export const DragAndDrop = () => {
             onDrop={(evt) => onDrop(evt, "En progreso")}
           >
             {getList("En progreso").map((item, index) => (
-              <div
-                className="dd-element"
-                key={index}
-                draggable
-                onDragStart={(evt) => startDrag(evt, item)}
-              >
-                <p className="title">{item.type}</p>
-                <p className="body">{item.description}</p>
-              </div>
+              Card(item, index)
             ))}
           </div>
         </div>
@@ -139,15 +170,7 @@ export const DragAndDrop = () => {
             onDrop={(evt) => onDrop(evt, "Realizada")}
           >
             {getList("Realizada").map((item, index) => (
-              <div
-                className="dd-element"
-                key={index}
-                draggable
-                onDragStart={(evt) => startDrag(evt, item)}
-              >
-                <strong className="title">{item.type}</strong>
-                <p className="body">{item.description}</p>
-              </div>
+              Card(item, index)
             ))}
           </div>
         </div>
