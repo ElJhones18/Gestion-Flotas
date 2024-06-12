@@ -12,6 +12,10 @@ export const PATHS = {
         SIGNUP: `/signup`,
         LOGIN: `/login`,
 
+        /* NOTIFICACIONES */
+        GET_NOTIFICATIONS_BY_EMAIL: `/notification/user/`,
+        UPDATE_NOTIFICATION: `/notification/edit/`,
+
         /* CONDUCTORES */
         CREATE_DRIVER: `/drivers/create`,
         LIST_DRIVERS: `/drivers`,

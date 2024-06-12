@@ -35,3 +35,12 @@
     padding: 20px;
     overflow-y: auto;
 }
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right > .bell {
+    margin-right: 20px;
+}
