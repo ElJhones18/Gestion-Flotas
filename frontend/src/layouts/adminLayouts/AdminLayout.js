@@ -5,6 +5,7 @@ import './AdminLayout.css'
 import {
     UserOutlined,
 } from '@ant-design/icons';
+import Notifications from "../../components/general/notifications/Notifications";
 
 export const AdminLayout = (props) => {
     const { children } = props
@@ -14,7 +15,12 @@ export const AdminLayout = (props) => {
         <div className='admin-layout' style={collapsed ? { gridTemplateColumns: "80px 1fr" } : { gridTemplateColumns: "200px 1fr" }}>
             <div className='admin-layout__header'>
                 <a className="logo" ><img src={logo} alt="Logo" /></a>
-                <UserOutlined style={{ fontSize: '23px' }} />
+                <div className="header-right">
+                    <div className="bell">
+                        <Notifications />
+                    </div>
+                    <UserOutlined style={{ fontSize: '23px' }} />
+                </div>
             </div>
             <div className='admin-layout__left'>
                 <MenuSide collapsed={collapsed} setCollapsed={setCollapsed} />

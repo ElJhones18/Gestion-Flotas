@@ -19,10 +19,10 @@ const PersistLogin = () => {
         !auth?.token ? loadAuth() : setLoading(false);
     }, [])
 
-    useEffect(() => {
-        console.log("is loading: ", loading);
-        console.log("token: ", auth?.token);
-    }, [loading])
+    // useEffect(() => {
+    //     console.log("is loading: ", loading);
+    //     console.log("token: ", auth?.token);
+    // }, [loading])
 
     return (
         loading ? <div>Cargando...</div> : <Outlet />
