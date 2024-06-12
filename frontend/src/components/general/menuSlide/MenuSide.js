@@ -27,7 +27,7 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('Home', 'home', <Link to="/"><HomeOutlined /></Link>),
+    getItem('Home', 'home', <Link to="/home"><HomeOutlined /></Link>),
     getItem('Usuarios', 'user', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>, [
         getItem('Listar usuarios', 'list-users', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>),
         getItem('Crear usuario', 'create-user', <Link to={ROUTES.ADMIN_CREATE_USER}><UsergroupAddOutlined /></Link>),

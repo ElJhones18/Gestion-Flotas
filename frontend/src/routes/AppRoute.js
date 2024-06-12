@@ -28,21 +28,25 @@ export const AdminRoutes = () => {
     }
     return (
         <Routes>
-            <Route element={<RequireAuth />}>
 
-                <Route path="/home" element={loadLayout(AdminLayout, Home)} />
-
-                {/* USUARIOS */}
+            <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
                 <Route path={ROUTES.ADMIN_LIST_USERS} element={loadLayout(AdminLayout, ListComponent)} />
                 <Route path={ROUTES.ADMIN_CREATE_USER} element={loadLayout(AdminLayout, CreateUserComponent)} />
-
-                {/* CAMIONES */}
-                <Route path="/admin/trucks" element={loadLayout(AdminLayout, ListTruckComponent)} />
                 <Route path={ROUTES.ADMIN_CREATE_TRUCK} element={loadLayout(AdminLayout, CreateTruckComponent)} />
-
-                <Route path="/admin/drivers" element={loadLayout(AdminLayout, ListDriversComponent)} />
                 <Route path={ROUTES.ADMIN_EDIT_TASK} element={loadLayout(AdminLayout, DragAndDrop)} />
             </Route>
-        </Routes>
+
+            <Route element={<RequireAuth allowedRoles={["Conductor", "Admin"]} />}>
+                <Route path="/home" element={loadLayout(AdminLayout, Home)} />
+                <Route path="/admin/trucks" element={loadLayout(AdminLayout, ListTruckComponent)} />
+                <Route path="/admin/drivers" element={loadLayout(AdminLayout, ListDriversComponent)} />
+            </Route>
+
+
+            {/* USUARIOS */}
+
+            {/* CAMIONES */}
+
+        </Routes >
     )
 }
