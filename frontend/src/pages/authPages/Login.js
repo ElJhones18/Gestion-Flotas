@@ -5,24 +5,35 @@ import './Login.css'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { PATHS } from '../../utils/config';
+// import { useContext } from 'react';
+// import AuthContext from '../../context/AuthProvider';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-    const onFinish = (values) => {
 
+    const { auth, setAuth } = useAuth();
+    const navigate = useNavigate();
+
+    const onFinish = async (values) => {
         const credentials = {
             email: values.email,
             password: values.password
         }
-        // console.log(credentials);
         const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LOGIN;
-        // console.log(URL);
-        axios.post(URL, credentials)
+
+        await axios.post(URL, credentials)
             .then((response) => {
                 console.log(response.data);
                 if (response.data.token) {
-                    console.log(response.data.token);
-                    // localStorage.setItem('token', response.data.token);
-                    // window.location.href = '/';
+                    const token = response.data.token;
+                    const role = response.data.user.rol
+                    // console.log(role);
+                    const user = values.email;
+                    setAuth({ user, role, token });
+
+                    //send to home
+                    navigate('/home');
                 }
             })
             .catch((error) => {
