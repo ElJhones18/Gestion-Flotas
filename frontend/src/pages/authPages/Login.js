@@ -31,7 +31,9 @@ export const Login = () => {
                     // console.log(role);
                     const user = values.email;
                     setAuth({ user, role, token });
-
+                    localStorage.setItem('user', values.email);
+                    localStorage.setItem('role', role);
+                    localStorage.setItem('token', token);
                     //send to home
                     navigate('/home');
                 }

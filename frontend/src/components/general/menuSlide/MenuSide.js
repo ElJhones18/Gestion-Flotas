@@ -6,6 +6,7 @@ import {
     PieChartOutlined,
     TeamOutlined,
     UserOutlined,
+    UserDeleteOutlined,
     UsergroupAddOutlined,
     TruckOutlined,
     RightOutlined,
@@ -38,6 +39,7 @@ const items = [
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
+    getItem('Cerrar Sesión', '10', <Link to="/logout"> <UserDeleteOutlined /> </Link>),
 ];
 
 export const MenuSide = (props) => {
