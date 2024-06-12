@@ -29,7 +29,11 @@ const createTruck = async (req, res) => {
 
 const listTruck = async (req, res) => {
     try {
-        const truck = await prisma.truck.findMany();
+        const truck = await prisma.truck.findMany({
+            include: {
+                checklist: true,
+            }
+        });
         res.json(truck);
     } catch (error) {
         console.log(error);

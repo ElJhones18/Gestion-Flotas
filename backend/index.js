@@ -11,6 +11,7 @@ const checklistController = require('./src/controllers/checklist.controller');
 const availabilityController = require('./src/controllers/availability.controller');
 const maintenanceController = require('./src/controllers/maintenance.controller');
 const authController = require('./src/controllers/auth/auth.controller');
+const notificationController = require("./src/controllers/notification.controller");
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -192,6 +193,8 @@ app.patch('/tire/edit/:id', tiresController.editTire);
 // Endpoint para eliminar un neumatico por su id
 app.delete('/tire/delete/:id', tiresController.deleteTire);
 
+// --------------------------------------------
+
 // Endpoint para crear una nueva disponibilidad
 app.post('/availability/create', availabilityController.createAvailability);
 
@@ -206,6 +209,8 @@ app.patch('/availability/edit/:id', availabilityController.updateAvailability);
 
 // Endpoint para eliminar una disponibilidad por su id
 app.delete('/availability/delete/:id', availabilityController.deleteAvailability);
+
+// --------------------------------------------
 
 // Endpoint para crear un nuevo mantenimiento
 app.post('/maintenance/create', maintenanceController.createMaintenance);
@@ -222,4 +227,19 @@ app.patch('/maintenance/edit/:id', maintenanceController.editMaintenance);
 // Endpoint para eliminar un mantenimiento por su id
 app.delete('/maintenance/delete/:id', maintenanceController.deleteMaintenance);
 
+// --------------------------------------------
 
+// Endpoint para crear una nuevoa notificacion
+app.post('/notification/create', notificationController.createNotification);
+
+// Endpoint para listar todas las notificaciones
+app.get("/notifications/", notificationController.listNotifications);
+
+// Endpoint para buscar una notificacion por su id
+app.get("/notification/:id", notificationController.getNotification);
+
+// Endpoint para actualizar una notificacion por su id
+app.patch('/notification/edit/:id', notificationController.editNotification);
+
+// Endpoint para eliminar una notificacion por su id
+app.delete('/notification/delete/:id', notificationController.deleteNotification);
