@@ -127,7 +127,7 @@ export const DragAndDrop = () => {
       {/* BOTÓN AGREGAR TAREAS */}
       <div className="container">
         <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea</button>
-        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} />}
+        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} setCurrentTask={setCurrentTask} />}
       </div>
 
       {/* TABLAS PARA LAS TAREAS */}

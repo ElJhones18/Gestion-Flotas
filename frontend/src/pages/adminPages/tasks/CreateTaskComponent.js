@@ -13,7 +13,7 @@ import { addTask, editTaskById } from '../../../slices/taskSlice';
 const { Option } = Select;
 const { TextArea } = Input;
 
-export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, currentTask }) => {
+export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, currentTask, setCurrentTask }) => {
     /* const [task, setTask] = useState(currentTask || { type: "", description: "", state: "", driverId: "" }); */
 
     const [task, setTask] = useState(currentTask || {
@@ -27,6 +27,7 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, cur
     const dispatch = useDispatch();
 
     const handleCancel = () => {
+        setCurrentTask(null)
         setIsModalOpen(false);
     };
 
@@ -44,6 +45,7 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, cur
                     description: "",
                     driverId: ""
                 });
+                setCurrentTask(null)
                 setIsModalOpen(false);
             } else {
                 taskApi.createTask({ ...values, driverId }).then((response) => {
@@ -59,6 +61,7 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, cur
                     description: "",
                     driverId: ""
                 });
+                setCurrentTask(null);
                 setIsModalOpen(false);
             }
 
@@ -69,7 +72,7 @@ export const CreateTaskComponent = ({ driverId, isModalOpen, setIsModalOpen, cur
 
     return (
         <Modal
-            title="Agregar Tarea"
+            title={currentTask ? "Editar Tarea" : "Agregar Tarea"}
             open={isModalOpen}
             //   onOk={handleOk}
             onCancel={handleCancel}
