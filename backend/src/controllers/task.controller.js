@@ -34,7 +34,6 @@ const createTask = async (req, res) => {
     }
 };
 
-
 const listTask = async (req, res) => {
     try {
         const task = await prisma.tasks.findMany();

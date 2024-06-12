@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const CONSTANTS = require('../parameters/constants');
 
 const createChecklist = async (req, res) => {
     const { coolant, oil_level, tire_pressure, lights, truckId } = req.body;
@@ -13,11 +14,22 @@ const createChecklist = async (req, res) => {
         const truckExist = await prisma.truck.findUnique({
             where: {
                 id: truckId
+            },
+            include: {
+                checklist: true
             }
         });
 
         if (!truckExist) {
             return res.status(400).json({ error: 'El camion no existe' });
+        }
+
+        if (truckExist.checklist) {
+            await prisma.checklist.delete({
+                where: {
+                    id: truckExist.checklist.id
+                }
+            });
         }
 
         const newChecklist = await prisma.checklist.create({
@@ -29,6 +41,40 @@ const createChecklist = async (req, res) => {
                 truckId: truckId
             }
         });
+
+        if (newChecklist.coolant && newChecklist.oil_level && newChecklist.tire_pressure && newChecklist.lights) {
+            const truck = await prisma.truck.findUnique({
+                where: {
+                    id: truckId
+                }
+            })
+
+            await prisma.notification.create({
+                data: {
+                    type: 'Camion disponible',
+                    description: `El Camion con placa ${truck.plate} está listo para un nuevo viaje`,
+                    read: false,
+                    userId: CONSTANTS.adminID
+                }
+            });
+
+        } else {
+            const truck = await prisma.truck.findUnique({
+                where: {
+                    id: truckId
+                }
+            })
+
+            await prisma.notification.create({
+                data: {
+                    type: 'Camion nececita mantenimiento',
+                    description: `El Camion con placa ${truck.plate} necesita mantenimiento`,
+                    read: false,
+                    userId: CONSTANTS.adminID
+                }
+            });
+        }
+
         res.json(newChecklist);
     } catch (error) {
         console.log(error);
@@ -91,7 +137,7 @@ const editChecklist = async (req, res) => {
             lights: (lights !== undefined) ? lights : checkoutExist.lights,
             truckId: (truckId !== undefined) ? truckId : checkoutExist.truckId
         };
-        
+
 
         const checkout = await prisma.checklist.update({
             where: { id: id },

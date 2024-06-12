@@ -14,8 +14,8 @@ datasource db {
 }
 
 model Users {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  email              String   @unique
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
+  email              String         @unique
   password           String
   username           String
   lastname           String
@@ -28,8 +28,9 @@ model Users {
   history_travel     Travel[]
   tasks              Tasks[]
   truck              Truck[]
-  createdAt          DateTime @default(now())
-  updatesAt          DateTime @updatedAt
+  Notifications      Notification[]
+  createdAt          DateTime       @default(now())
+  updatesAt          DateTime       @updatedAt
 }
 
 model Tasks {
@@ -39,6 +40,15 @@ model Tasks {
   description String
   driverId    String @db.ObjectId
   driver      Users  @relation(fields: [driverId], references: [id])
+}
+
+model Notification {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  type        String
+  description String
+  read        Boolean
+  userId      String  @db.ObjectId
+  user        Users   @relation(fields: [userId], references: [id])
 }
 
 model Travel {
