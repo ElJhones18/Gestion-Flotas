@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import logo from "../../uploads/images/logoCocaCola.svg"
 import coca from "../../uploads/images/register-login.png"
 import './AuthLayout.css'

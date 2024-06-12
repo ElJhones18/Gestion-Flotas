@@ -10,6 +10,7 @@ export const PATHS = {
         EDIT_USER: `/users/edit/`,
         DELETE_USER: `/users/delete/`,
         SIGNUP: `/signup`,
+        LOGIN: `/login`,
 
         /* CONDUCTORES */
         CREATE_DRIVER: `/drivers/create`,

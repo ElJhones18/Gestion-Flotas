@@ -13,7 +13,7 @@ export const AdminLayout = (props) => {
     return (
         <div className='admin-layout' style={collapsed ? { gridTemplateColumns: "80px 1fr" } : { gridTemplateColumns: "200px 1fr" }}>
             <div className='admin-layout__header'>
-                <a className="logo" href="/"><img src={logo} alt="Logo" href="/" /></a>
+                <a className="logo" ><img src={logo} alt="Logo" /></a>
                 <UserOutlined style={{ fontSize: '23px' }} />
             </div>
             <div className='admin-layout__left'>
