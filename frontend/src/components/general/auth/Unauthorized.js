@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export const Unauthorized = () => {
@@ -12,7 +13,7 @@ export const Unauthorized = () => {
             <h1>Desautorizado</h1>
             <br />
             <p>No tienes acceso a la esta pagina.</p>
-            <button onClick={goBack}>Regresar</button>
+            <Button onClick={goBack} type="primary">Regresar</Button>
         </div>
     )
 }
