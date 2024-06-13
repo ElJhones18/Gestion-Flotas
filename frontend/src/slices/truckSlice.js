@@ -61,7 +61,7 @@ export const truckSlice = createSlice({
         },
         editTruckById: (state, action) => {
             const { id, plate, brand, color, rotation_programming, fuel_consumption, model, load_capacity, photo, maintenance, tires, fuelId, driverId, availability, checklist } = action.payload;
-            const existingTruck = state.trucks.find(truck => truck.id === id);
+            const existingTruck = state.find(truck => truck.id === id);
             if (existingTruck) {
                 existingTruck.plate = plate;
                 existingTruck.brand = brand;
