@@ -25,7 +25,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-
+app.use('/uploads/avatars', express.static('uploads/avatars'));
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })

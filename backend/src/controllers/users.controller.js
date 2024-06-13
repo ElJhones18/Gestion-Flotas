@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
     const { email, password, username, lastname, cedula, phone, rol, performance_driver, active_user, } = req.body;
-    const avatar = req.file ? req.file.filename : "cocacola-logo.jpg";
+    const avatar = req.file ? req.file.filename : "gatodinero.jpg";
     console.log(avatar);
 
     try {
