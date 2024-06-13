@@ -9,6 +9,7 @@ const RequireAuth = ({ allowedRoles }) => {
 
         // console.log("auth" + auth),
         // console.log("user" + auth.user),
+        console.log(JSON.stringify(auth)),
 
         allowedRoles.includes(auth?.role)
             ? <Outlet />

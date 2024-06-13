@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-    DesktopOutlined,
     FileOutlined,
     PieChartOutlined,
     TeamOutlined,
-    UserOutlined,
     UserDeleteOutlined,
     UsergroupAddOutlined,
     TruckOutlined,
@@ -39,7 +37,7 @@ const items = [
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
-    getItem('Cerrar Sesión', '10', <Link to="/logout"> <UserDeleteOutlined /> </Link>),
+    getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}> <UserDeleteOutlined /> </Link>),
 ];
 
 export const MenuSide = (props) => {

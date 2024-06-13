@@ -6,6 +6,7 @@ import { Login } from "../pages/authPages/Login";
 import { Unauthorized } from "../components/general/auth/Unauthorized";
 import { AdminLayout } from "../layouts/adminLayouts/AdminLayout";
 import RequireNoAuth from "../components/general/auth/RequireNoAuth";
+import { ROUTES } from ".";
 
 export const OpenRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -19,11 +20,11 @@ export const OpenRoutes = () => {
         <Routes>
             <Route element={<RequireNoAuth />}>
                 <Route path="/" element={loadLayout(AuthLayout, Register)} />
-                <Route path="/register" element={loadLayout(AuthLayout, Register)} />
-                <Route path="/login" element={loadLayout(AuthLayout, Login)} />
+                <Route path={ROUTES.REGISTER} element={loadLayout(AuthLayout, Register)} />
+                <Route path={ROUTES.LOGIN} element={loadLayout(AuthLayout, Login)} />
             </Route>
-            
-            <Route path="/unauthorized" element={loadLayout(AdminLayout, Unauthorized)} />
+
+            <Route path={ROUTES.UNAUTHORIZED} element={loadLayout(AdminLayout, Unauthorized)} />
         </Routes>
     )
 }

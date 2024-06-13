@@ -1,4 +1,12 @@
 export const ROUTES = {
+    HOME: "/home",
+
+    /* AUTH */
+    LOGIN: "/login",
+    REGISTER: "/register",
+    UNAUTHORIZED: "/unauthorized",
+    LOGOUT: "/logout",
+
     /* USUARIOS */
     ADMIN_LIST_USERS: "/admin/users",
     ADMIN_CREATE_USER: "/admin/users/create",
