@@ -9,7 +9,6 @@ export const ROUTES = {
 
     /* USUARIOS */
     ADMIN_LIST_USERS: "/admin/users",
-    ADMIN_CREATE_USER: "/admin/users/create",
 
     /* CAMIONES */
     ADMIN_LIST_TRUCKS: "/admin/trucks",

@@ -10,7 +10,6 @@ import { ROUTES } from "./index"
 
 /* USUARIOS */
 import { ListComponent } from "../pages/adminPages/users/ListComponent";
-import { CreateUserComponent } from "../pages/adminPages/users/CreateUserComponent";
 
 /* CAMIONES */
 import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
@@ -34,7 +33,6 @@ export const AdminRoutes = () => {
 
                 <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
                     <Route path={ROUTES.ADMIN_LIST_USERS} element={loadLayout(AdminLayout, ListComponent)} />
-                    <Route path={ROUTES.ADMIN_CREATE_USER} element={loadLayout(AdminLayout, CreateUserComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_TRUCK} element={loadLayout(AdminLayout, CreateTruckComponent)} />
                     <Route path={ROUTES.ADMIN_EDIT_TASK} element={loadLayout(AdminLayout, DragAndDrop)} />
                 </Route>
