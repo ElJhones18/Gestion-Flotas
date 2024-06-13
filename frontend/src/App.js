@@ -1,6 +1,6 @@
 import './App.css';
 import { AdminRoutes } from './routes/AppRoute.js';
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { OpenRoutes } from './routes/OpenRoute.js';
 import { AuthProvider } from './context/AuthProvider';
 

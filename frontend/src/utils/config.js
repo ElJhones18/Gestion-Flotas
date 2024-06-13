@@ -44,5 +44,8 @@ export const PATHS = {
         GET_MAINTENANCE: `/maintenance/`,
         EDIT_MAINTENANCE: `/maintenance/edit/`,
         DELETE_MAINTENANCE: `/maintenance/delete/`,
+
+        /* COMBUSTIBLES */
+        LIST_FUELS: `/fuels`,
     }
 }

@@ -17,7 +17,6 @@ import {
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../routes/index"
 
 const { confirm } = Modal;
 
@@ -178,12 +177,17 @@ export const ListComponent = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Tooltip title="Tareas">
-                        <Button
-                            onClick={() => handleTask(record.id)}
-                            style={{ color: "Green", borderColor: "green" }}
-                        >
-                            Tareas
-                        </Button>
+
+                        {record.rol !== "Admin" ?
+                            <Button
+                                onClick={() => handleTask(record.id)}
+                                style={{ color: "Green", borderColor: "green" }}
+                            >
+                                Tareas
+                            </Button>
+                            : null
+                        }
+
                     </Tooltip>
                     <Tooltip title="Edit">
                         <EditOutlined
@@ -206,7 +210,6 @@ export const ListComponent = () => {
         <div className="container">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h2>Lista de Usuarios</h2>
-                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_USER)}>Crear usuario</Button>
             </div>
             <Table dataSource={users} columns={columns} rowKey="id" />
             {selectedUser && (

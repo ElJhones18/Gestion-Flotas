@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 const createTruck = async (req, res) => {
     const { plate, brand, model, color, fuel_consumption, load_capacity, rotation_programming, fuelId, driverId } = req.body;
     const photo = req.file ? req.file.filename: "Truck.jpg";
+    console.log(req.file);
     try {
 
         const newTruck = await prisma.truck.create({
@@ -32,6 +33,8 @@ const listTruck = async (req, res) => {
         const truck = await prisma.truck.findMany({
             include: {
                 checklist: true,
+                driver: true,
+                fuel: true,
             }
         });
         res.json(truck);
@@ -50,6 +53,7 @@ const getTruck = async (req, res) => {
             include: {
                 fuel: true,
                 travel: true,
+                driver: true,
             }
         });
         res.json(truck);
