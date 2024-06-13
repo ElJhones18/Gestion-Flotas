@@ -238,6 +238,9 @@ app.get("/notifications/", notificationController.listNotifications);
 // Endpoint para buscar una notificacion por su id
 app.get("/notification/:id", notificationController.getNotification);
 
+// Endpoint para buscar notificaciones de un usuario por su correo
+app.get("/notification/user/:email", notificationController.getNotificationsByEmail);
+
 // Endpoint para actualizar una notificacion por su id
 app.patch('/notification/edit/:id', notificationController.editNotification);
 
