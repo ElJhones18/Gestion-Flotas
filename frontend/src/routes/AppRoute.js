@@ -13,10 +13,10 @@ import { ListComponent } from "../pages/adminPages/users/ListComponent";
 
 /* CAMIONES */
 import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
-import { CreateTruckComponent } from "../pages/adminPages/trucks/CreateTruckComponent";
 
 import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Logout } from "../pages/authPages/Logout.js";
+import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {

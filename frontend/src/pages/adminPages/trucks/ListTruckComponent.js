@@ -7,13 +7,10 @@ import {
     Input,
     Modal,
     Space,
-    Switch,
     Table,
     Tooltip,
-    Upload,
 } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { UploadOutlined } from "@ant-design/icons";
 import { Truck } from "../../../api/truck";
 import { getTrucks, editTruckById, deleteTruckById } from "../../../slices/truckSlice";
 import { useNavigate } from "react-router-dom";
@@ -29,24 +26,6 @@ export const ListTruckComponent = () => {
     const [selectedTruck, setSelectedTruck] = useState(null);
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState({
-        plate: "",
-        brand: "",
-        color: "",
-        rotation_programming: "",
-        fuel_consumption: "",
-        model: "",
-        load_capacity: "",
-        photo: "",
-        maintenance: [],
-        tires: [],
-        fuelId: "",
-        driverId: "",
-        /*fuel: "",
-         availability: "",
-        checklist: [], */
-    });
-
     useEffect(() => {
         const fetchTrucks = async () => {
             try {
@@ -58,6 +37,7 @@ export const ListTruckComponent = () => {
         };
 
         fetchTrucks();
+        // console.log(JSON.stringify(trucks));
     }, [dispatch]);
 
     const handleEdit = (id) => {
@@ -92,29 +72,7 @@ export const ListTruckComponent = () => {
         setSelectedTruck(null);
     }
 
-    // const handleUpload = (event) => {
-    //     setFormData({
-    //         ...formData,
-    //         avatar: event.target.files[0]
-    //     });
-    // }
-
     const handleOk = () => {
-        /*  formData.plate = selectedTruck.plate;
-        formData.brand = selectedTruck.brand;
-        formData.color = selectedTruck.color;
-        formData.rotation_programming = selectedTruck.rotation_programming;
-        formData.fuel_consumption = selectedTruck.fuel_consumption;
-        formData.model = selectedTruck.model;
-        formData.load_capacity = selectedTruck.load_capacity;
-        formData.photo = selectedTruck.photo;
-        formData.maintenance = selectedTruck.maintenance;
-        formData.tires = selectedTruck.tires;
-        formData.fuelId = selectedTruck.fuelId;
-        formData.driverId = selectedTruck.driverId;
-        formData.fuel = selectedTruck.fuel;
-        formData.availability = selectedTruck.availability;
-        formData.checklist = selectedTruck.checklist; */
 
         const formDataToSend = new FormData();
         formDataToSend.append("plate", selectedTruck.plate);
@@ -129,12 +87,6 @@ export const ListTruckComponent = () => {
         formDataToSend.append("tires", selectedTruck.tires);
         formDataToSend.append("fuelId", selectedTruck.fuelId);
         formDataToSend.append("driverId", selectedTruck.driverId);
-        /*         formDataToSend.append("fuel", formData.fuel);
-                formDataToSend.append("availability", formData.availability);
-                formDataToSend.append("checklist", formData.checklist); */
-
-        // console.log("Lo que ingresa",formDataToSend);
-        // console.log("Lo que ingresa PLACA", formData.plate);
         console.log(selectedTruck);
 
         truckApi
@@ -202,40 +154,24 @@ export const ListTruckComponent = () => {
             key: "load_capacity",
         },
         {
-            title: "Mantenimiento",
-            dataIndex: "maintenance",
-            key: "maintenance",
-        },
-        {
             title: "Llantas",
             dataIndex: "tires",
             key: "tires",
         },
         {
-            title: "Id de combustible",
+            title: "Combustible",
             dataIndex: "fuelId",
+            // render: (record) => {
+            //     const fuel = JSON.stringify(JSON.parse(JSON.stringify(record.fuel)).username);
+            //     return fuel.slice(1, -1);
+            // },
             key: "fuelId",
         },
         {
-            title: "Id de conductor",
+            title: "Conductor",
             dataIndex: "driverId",
             key: "driverId",
         },
-        {
-            title: "Combustible",
-            dataIndex: "fuel",
-            key: "fuel",
-        },
-        /*         {
-                    title: "Disponibilidad",
-                    dataIndex: "availability",
-                    key: "availability",
-                },
-                {
-                    title: "Checklist",
-                    dataIndex: "checklist",
-                    key: "checklist",
-                }, */
         {
             title: "Acciones",
             key: "actions",
@@ -250,7 +186,6 @@ export const ListTruckComponent = () => {
                 </Space>
             ),
         },
-
     ]
 
     return (
@@ -260,6 +195,7 @@ export const ListTruckComponent = () => {
                 <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRUCK)}>Crear camión</Button>
             </div>
             <Table dataSource={trucks} columns={columns} rowKey="id" />
+
             {selectedTruck && (
                 <Modal
                     title="Editar Camión"
@@ -337,4 +273,4 @@ export const ListTruckComponent = () => {
         </div>
 
     )
-}
+}   

@@ -1,210 +1,208 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Truck } from "../../../api/truck";
-import { addTruck } from "../../../slices/truckSlice";
-import { DatePicker } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, DatePicker, Select, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Option } from 'antd/es/mentions';
+import { PATHS } from '../../../utils/config';
+import axios from 'axios';
 
-export const CreateTruckComponent = () => {
+const CreateTruckComponent = () => {
+    const [plate, setPlate] = useState('');
+    const [brand, setBrand] = useState('');
+    const [color, setColor] = useState('');
+    const [rotationProgramming, setRotationProgramming] = useState(null);
+    const [fuelConsumption, setFuelConsumption] = useState('');
+    const [photo, setPhoto] = useState('');
+    const [model, setModel] = useState('');
+    const [loadCapacity, setLoadCapacity] = useState('');
 
-    const dispatch = useDispatch();
-    const truckApi = new Truck();
-    const [formData, setFormData] = useState({
-        plate: "Karlitos",
-        brand: "Ferrari",
-        color: "Blanco",
-        rotation_programming: "",
-        fuel_consumption: "Medio",
-        model: "2010",
-        load_capacity: "Medio",
-        photo:"",
-        maintenance: [],
-        tires: [],
-        fuelId: "6657a227f83a4136f3f31b0b",
-        driverId: "665a7d026d82001062096343",
-/*         availability: "",
-        checklist: "", */
-    });
+    const [drivers, setDrivers] = useState([])
+    const [selectedDriver, setSelectedDriver] = useState('');
 
-    const handleChange = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.id]: event.target.value
-        });
-    }
+    const [fuels, setFuels] = useState([]);
+    const [selectedFuel, setSelectedFuel] = useState('');
 
-    const handleDateChange = (date, dateString) => {
-        setFormData({
-            ...formData,
-            rotation_programming: dateString
-        });
-    }
+    const handleSubmit = async () => {
+        const truck = {
+            plate,
+            brand,
+            color,
+            rotation_programming: rotationProgramming,
+            fuel_consumption: fuelConsumption,
+            model,
+            load_capacity: loadCapacity,
+            fuelId: selectedFuel,
+            driverId: selectedDriver,
+        };
+        console.log(truck);
 
-    const handleAvatarChange = (event) => {
-        setFormData({
-            ...formData,
-            photo: event.target.files[0]
-        });
-    }
-
-    const handleCreateTruck = async (e) => {
-        e.preventDefault();
         try {
-            const formDataToSend = new FormData();
-            formDataToSend.append("plate", formData.plate);
-            formDataToSend.append("brand", formData.brand);
-            formDataToSend.append("color", formData.color);
-            formDataToSend.append("rotation_programming", formData.rotation_programming);
-            formDataToSend.append("fuel_consumption", formData.fuel_consumption);
-            formDataToSend.append("model", formData.model);
-            formDataToSend.append("load_capacity", formData.load_capacity);
-            formDataToSend.append("photo", formData.photo);
-            formDataToSend.append("maintenance", formData.maintenance);
-            formDataToSend.append("tires", formData.tires);
-            formDataToSend.append("fuelId", formData.fuelId);
-            formDataToSend.append("driverId", formData.driverId);
-/*             formDataToSend.append("availability", formData.availability);
-            formDataToSend.append("checklist", formData.checklist); */
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_TRUCK;
+            console.log(URL);
 
-            console.log(formDataToSend);
+            const formData = new FormData();
+            // formData.append('photo', photo); actualmente no funciona
+            formData.append('plate', plate);
+            formData.append('brand', brand);
+            formData.append('color', color);
+            formData.append('rotation_programming', rotationProgramming);
+            formData.append('fuel_consumption', fuelConsumption);
+            formData.append('model', model);
+            formData.append('load_capacity', loadCapacity);
+            formData.append('fuelId', selectedFuel);
+            formData.append('driverId', selectedDriver);
 
-            await truckApi.createTruck(formData);
-            dispatch(addTruck(formData));
-            setFormData({
-                plate: "",
-                brand: "",
-                color: "",
-                rotation_programming: "",
-                fuel_consumption: "",
-                model: "",
-                load_capacity: "",
-                photo: "",
-                maintenance: [],
-                tires: [],
-                fuelId: "",
-                driverId: "",
-/*                 availability: "",
-                checklist: "", */
+            const response = await axios.post(URL, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
+
+            console.log(response);
+
         } catch (error) {
-            console.error(error);
+            console.error('Error creating truck:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        fetchDrivers();
+        fetchFuels();
+    }, []);
+
+    const fetchDrivers = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_USERS;
+            // console.log(URL);
+            const response = await axios.get(URL);
+            const drivers = response.data.filter((driver) => driver.rol === 'Conductor');
+            console.log(drivers);
+            setDrivers(drivers);
+        } catch (error) {
+            console.error('Error fetching drivers:', error);
+        }
+    };
+
+    const fetchFuels = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_FUELS;
+            // console.log(URL);
+            const response = await axios.get(URL);
+            const fuels = response.data;
+            console.log(fuels);
+            setFuels(fuels);
+        } catch (error) {
+            console.error('Error fetching fuels:', error);
+        }
+    };
 
     return (
         <>
-            <h2>Crear Camión</h2>
-            <form onSubmit={handleCreateTruck} encType="multipart/form-data">
-                <div>
-                    <label htmlFor="plate">Placa:</label>
-                    <input 
-                        type="text" 
-                        id="plate" 
-                        value={formData.plate} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+            <h2>Crear Camión</h2> <br />
 
-                <div>
-                    <label htmlFor="brand">Marca:</label>
-                    <input 
-                        type="text" 
-                        id="brand" 
-                        value={formData.brand} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+            <p>Complete el siguiente formulario para crear un nuevo camión</p>
+            <p>Los campos con asterísco son obligatorios.</p>
 
-                <div>
-                    <label htmlFor="color">Color:</label>
-                    <input 
-                        type="text" 
-                        id="color" 
-                        value={formData.color} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+            <Form onFinish={handleSubmit}>
+                <Form.Item label="Placa" name="plate" rules={[{ required: true }]}>
+                    <Input value={plate} onChange={(e) => setPlate(e.target.value)} />
+                </Form.Item>
 
-                <div>
-                    <label htmlFor="rotation_programming">Programación de rotación:</label>
-                    <DatePicker  
-                        id="rotation_programming" 
-                        format="DD-MM-YYYY"
-                       /*  value={formData.rotation_programming}  */
-                        onChange={handleDateChange}
-                        style={{ width: '100%' }}
-                        required
+                <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
+                    <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
+                </Form.Item>
+
+                <Form.Item label="Color" name="color" rules={[{ required: true }]}>
+                    <Input value={color} onChange={(e) => setColor(e.target.value)} />
+                </Form.Item>
+
+                <Form.Item label="Modelo" name="model" rules={[{ required: true }]}>
+                    <Input value={color} onChange={(e) => setModel(e.target.value)} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Programación de Rotación"
+                    name="rotationProgramming"
+                    rules={[{ required: true }]}
+                >
+                    <DatePicker
+                        format="DD/MM/YYYY"
+                        // value={rotationProgramming}
+                        onChange={(date, dateString) => setRotationProgramming(dateString)}
                     />
-                </div>
+                </Form.Item>
 
-                <div>
-                    <label htmlFor="fuel_consumption">Consumo de combustible:</label>
-                    <input 
-                        type="text" 
-                        id="fuel_consumption" 
-                        value={formData.fuel_consumption} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+                <Form.Item
+                    label="Consumo de Combustible"
+                    name="fuelConsumption"
+                    rules={[{ required: true }]}
+                >
+                    <Select value={fuelConsumption} onChange={(value) => setFuelConsumption(value)}>
+                        <Option value="Alto">Alto</Option>
+                        <Option value="Bajo">Bajo</Option>
+                        <Option value="Medio">Medio</Option>
+                    </Select>
+                </Form.Item>
 
-                <div>
-                    <label htmlFor="model">Modelo:</label>
-                    <input 
-                        type="text" 
-                        id="model" 
-                        value={formData.model} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
 
-                <div>
-                    <label htmlFor="load_capacity">Capacidad de carga:</label>
-                    <input 
-                        type="text" 
-                        id="load_capacity" 
-                        value={formData.load_capacity} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+                <Form.Item label="Capacidad de carga" name="loadCapacity" rules={[{ required: true }]}>
+                    <Select value={loadCapacity} onChange={(value) => setLoadCapacity(value)}>
+                        <Option value="Alta">Alta</Option>
+                        <Option value="Baja">Baja</Option>
+                        <Option value="Media">Media</Option>
+                    </Select>
+                </Form.Item>
 
-                <div>
-                    <label htmlFor="fuelId">ID de combustible:</label>
-                    <input 
-                        type="text" 
-                        id="fuelId" 
-                        value={formData.fuelId} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
+                <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
+                    <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
+                        {drivers.map((driver) => (
+                            <Option key={driver.id} value={driver.id}>
+                                {driver.username}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
 
-                <div>
-                    <label htmlFor="driverId">ID de conductor:</label>
-                    <input 
-                        type="text" 
-                        id="driverId" 
-                        value={formData.driverId} 
-                        onChange={handleChange}
-                        required>
-                    </input>
-                </div>
-                <div>
-                    <label htmlFor='photo'>Camión:</label>
-                    <input
-                        type='file'
-                        id="photo"
-                        value={formData.photo}
-                        onChange={handleAvatarChange}
-                    ></input>
-                </div>
+                <Form.Item label="Marca de combustible" name="fuel" rules={[{ required: true }]}>
+                    <Select value={selectedFuel} onChange={(value) => setSelectedFuel(value)}>
+                        {fuels.map((fuel) => (
+                            <Option key={fuel.id} value={fuel.id}>
+                                {fuel.brand}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
 
-                <button type="submit">Crear Camión</button>
-            </form>
+                <Form.Item label="Foto">
+                    <Upload
+                        accept="image/*"
+                        beforeUpload={() => {
+                            return false;
+                        }}
+                        onChange={(info) => {
+                            console.log(info.fileList);
+                            if (info.fileList.length > 0) {
+                                const file = info.fileList[0].originFileObj;
+                                // setFormData({
+                                //     ...formData,
+                                //     avatar: file,
+                                // });
+                                setPhoto(file);
+                            }
+                        }}
+                        // onChange={handleUpload}
+                        fileList={[]}>
+                        <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
+                    </Upload>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Crear camión
+                    </Button>
+                </Form.Item>
+            </Form>
         </>
-    )
-}
+    );
+};
+
+export default CreateTruckComponent;

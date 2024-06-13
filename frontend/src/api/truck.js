@@ -32,7 +32,7 @@ export class Truck {
         }
     }
     
-    getTrucks = async () => {
+    getTrucks =     async () => {
         try {
             const URL = `${this.baseApi}${this.listTrucksPath}`;
             console.log(URL);

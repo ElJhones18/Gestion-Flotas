@@ -19,7 +19,7 @@ export const OpenRoutes = () => {
     return (
         <Routes>
             <Route element={<RequireNoAuth />}>
-                <Route path="/" element={loadLayout(AuthLayout, Register)} />
+                <Route path="/" element={loadLayout(AuthLayout, Login)} />
                 <Route path={ROUTES.REGISTER} element={loadLayout(AuthLayout, Register)} />
                 <Route path={ROUTES.LOGIN} element={loadLayout(AuthLayout, Login)} />
             </Route>
