@@ -17,6 +17,7 @@ import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponen
 import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Logout } from "../pages/authPages/Logout.js";
 import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
+import ChecklistComponent from "../pages/adminPages/trucks/ChecklistComponent.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -41,6 +42,7 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.HOME} element={loadLayout(AdminLayout, Home)} />
                     <Route path={ROUTES.LOGOUT} element={loadLayout(AdminLayout, Logout)} />
                     <Route path={ROUTES.ADMIN_LIST_TRUCKS} element={loadLayout(AdminLayout, ListTruckComponent)} />
+                    <Route path={ROUTES.CHECKLIST} element={loadLayout(AdminLayout, ChecklistComponent)} />
                 </Route>
 
 

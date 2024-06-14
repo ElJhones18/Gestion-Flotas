@@ -5,7 +5,7 @@ import {
     PieChartOutlined,
     TeamOutlined,
     UserDeleteOutlined,
-    // UsergroupAddOutlined,
+    UnorderedListOutlined,
     TruckOutlined,
     RightOutlined,
     LeftOutlined,
@@ -34,6 +34,7 @@ const items = [
     getItem('Camiones', 'truck', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>, [
         getItem('Listar camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
         getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>),
+        getItem('Crear checklist', 'create-checklist', <Link to={ROUTES.CHECKLIST}><UnorderedListOutlined /></Link>),
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),

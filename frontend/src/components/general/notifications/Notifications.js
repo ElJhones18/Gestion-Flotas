@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { BellOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { Badge, Popover, List, Button } from 'antd';
+import { BellOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Badge, Popover, List } from 'antd';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
 
@@ -47,6 +47,19 @@ const Notifications = () => {
         }
     };
 
+    const handleDeleteNotification = async (notification) => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.DELETE_NOTIFICATION + notification.id;
+            const response = await axios.delete(URL);
+            if (response.status === 200) {
+                const updatedNotifications = notifications.filter((item) => item.id !== notification.id);
+                setNotifications(updatedNotifications);
+            }
+        } catch (error) {
+            console.error('Error deleting notification:', error);
+        }
+    }
+
     const renderNotificationItem = (notification) => (
         <List.Item style={{ width: '300px' }}>
             <List.Item.Meta
@@ -60,12 +73,16 @@ const Notifications = () => {
                         onClick={() => handleMarkAsRead(notification)}
                         style={{ fontSize: '24px', cursor: 'pointer', color: 'blue', marginLeft: '5px' }} />
             }
+            <DeleteOutlined
+                onClick={() => handleDeleteNotification(notification)}
+                style={{ fontSize: '24px', cursor: 'pointer', marginLeft: '5px' }}
+            />
         </List.Item>
     );
 
     const content = (
         <List
-            dataSource={notifications}
+            dataSource={notifications.reverse()}
             renderItem={renderNotificationItem}
         />
     );
@@ -80,7 +97,7 @@ const Notifications = () => {
             onOpenChange={handleVisibleChange}
         >
             <Badge count={notificationCount}>
-                <BellOutlined style={{ fontSize: '24px', cursor: 'pointer' }} />
+                <BellOutlined onClick={fetchNotifications} style={{ fontSize: '24px', cursor: 'pointer' }} />
             </Badge>
         </Popover>
     );

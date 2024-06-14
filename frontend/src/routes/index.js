@@ -15,5 +15,8 @@ export const ROUTES = {
     ADMIN_CREATE_TRUCK: "/admin/truck/create",
 
     /* TAREAS */
-    ADMIN_EDIT_TASK: "/admin/tasks/:driverId"
+    ADMIN_EDIT_TASK: "/admin/tasks/:driverId",
+
+    /* CHECKLIST */
+    CHECKLIST: "/checklist",
 }

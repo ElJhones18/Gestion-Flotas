@@ -5,7 +5,7 @@ import { Option } from 'antd/es/mentions';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
 
-const CreateTruckComponent = () => {
+const CreateTruckComponent   = () => {
     const [plate, setPlate] = useState('');
     const [brand, setBrand] = useState('');
     const [color, setColor] = useState('');
