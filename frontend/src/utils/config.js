@@ -15,6 +15,7 @@ export const PATHS = {
         /* NOTIFICACIONES */
         GET_NOTIFICATIONS_BY_EMAIL: `/notification/user/`,
         UPDATE_NOTIFICATION: `/notification/edit/`,
+        DELETE_NOTIFICATION: `/notification/delete/`,
 
         /* CONDUCTORES */
         CREATE_DRIVER: `/drivers/create`,
@@ -47,5 +48,8 @@ export const PATHS = {
 
         /* COMBUSTIBLES */
         LIST_FUELS: `/fuels`,
+
+        /* CHECKLIST */
+        CREATE_CHECKLIST: `/checklist/create`,
     }
 }
