@@ -14,9 +14,13 @@ import { ListComponent } from "../pages/adminPages/users/ListComponent";
 /* CAMIONES */
 import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
 
+/* NEUMATICOS */
+import { ListTireComponent } from "../pages/adminPages/tire/ListTireComponent";
+
 import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Logout } from "../pages/authPages/Logout.js";
 import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
+import CreateTireComponent from "../pages/adminPages/tire/CreateTireComponent.js";
 import ChecklistComponent from "../pages/adminPages/trucks/ChecklistComponent.js";
 
 export const AdminRoutes = () => {
@@ -43,6 +47,11 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.LOGOUT} element={loadLayout(AdminLayout, Logout)} />
                     <Route path={ROUTES.ADMIN_LIST_TRUCKS} element={loadLayout(AdminLayout, ListTruckComponent)} />
                     <Route path={ROUTES.CHECKLIST} element={loadLayout(AdminLayout, ChecklistComponent)} />
+                </Route>
+
+                <Route element={<RequireAuth allowedRoles={["Conductor", "Admin"]} />}>
+                    <Route path={ROUTES.ADMIN_LIST_TIRES} element={loadLayout(AdminLayout, ListTireComponent)} />
+                    <Route path={ROUTES.ADMIN_CREATE_TIRE} element={loadLayout(AdminLayout, CreateTireComponent)} />
                 </Route>
 
 

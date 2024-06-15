@@ -19,4 +19,8 @@ export const ROUTES = {
 
     /* CHECKLIST */
     CHECKLIST: "/checklist",
+
+    /* NEUMATICOS */
+    ADMIN_LIST_TIRES: "/admin/tires",
+    ADMIN_CREATE_TIRE: "/admin/tire/create",
 }

@@ -51,5 +51,12 @@ export const PATHS = {
 
         /* CHECKLIST */
         CREATE_CHECKLIST: `/checklist/create`,
+
+        /* NEUMATICOS */
+        CREATE_TIRE: `/tires/create`,
+        LIST_TIRES: `/tires`,
+        GET_TIRE: `/tires/`,
+        EDIT_TIRE: `/tires/edit/`,
+        DELETE_TIRE: `/tires/delete/`,
     }
 }
