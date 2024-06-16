@@ -19,4 +19,8 @@ export const ROUTES = {
 
     /* CHECKLIST */
     CHECKLIST: "/checklist",
+
+    /* COMBUSTIBLE */
+    ADMIN_CREATE_FUEL: "/admin/fuel/create",
+    ADMIN_LIST_FUELS: "/admin/fuels",
 }
