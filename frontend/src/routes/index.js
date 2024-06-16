@@ -9,6 +9,7 @@ export const ROUTES = {
 
     /* USUARIOS */
     ADMIN_LIST_USERS: "/admin/users",
+    DRIVER_PORTAL: "/driver-portal",
 
     /* CAMIONES */
     ADMIN_LIST_TRUCKS: "/admin/trucks",

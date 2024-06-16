@@ -65,6 +65,25 @@ const getUser = async (req, res) => {
     }
 }
 
+const getUserByEmail = async (req, res) => {
+    try {
+        const user = await prisma.users.findUnique(
+            {
+                where: { email: req.params.email },
+                include: {
+                    tasks: true,
+                    history_travel: true,
+                    truck: true,
+                }
+            });
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener el usuario');
+    }
+
+}
+
 const editUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -135,6 +154,7 @@ module.exports = {
     createUser,
     listUsers,
     getUser,
+    getUserByEmail,
     editUser,
     deleteUser
 }

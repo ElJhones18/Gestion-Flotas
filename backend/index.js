@@ -61,6 +61,9 @@ app.get("/users/", usersController.listUsers);
 // Endpoint para buscar un usuario por su id
 app.get("/users/:id", usersController.getUser);
 
+// Endpoint para buscar un usuario por su email
+app.get("/users/email/:email", usersController.getUserByEmail);
+
 // Endpoint para actualizar un usuario por su id
 app.patch('/users/edit/:id', upload.single('avatar'), usersController.editUser);
 

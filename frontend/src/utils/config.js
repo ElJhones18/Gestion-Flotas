@@ -7,6 +7,7 @@ export const PATHS = {
         CREATE_USER: `/users/create`,
         LIST_USERS: `/users`,
         GET_USER: `/users/`,
+        GET_USER_BY_EMAIL: `/users/email/`,
         EDIT_USER: `/users/edit/`,
         DELETE_USER: `/users/delete/`,
         SIGNUP: `/signup`,
