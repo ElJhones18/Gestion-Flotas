@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const createMaintenance = async (req, res) => {
-    const { repairs, next_event, truckId } = req.body
+    const { date, repairs, next_event, truckId } = req.body
     try {
 
         if (!truckId) {
@@ -22,6 +22,7 @@ const createMaintenance = async (req, res) => {
 
         const newMaintenance = await prisma.total_maintenance.create({
             data: {
+                date: date,
                 repairs: repairs,
                 next_event: next_event,
                 truckId: truckId
@@ -37,7 +38,13 @@ const createMaintenance = async (req, res) => {
 
 const listMaintenance = async (req, res) => {
     try {
-        const maintenance = await prisma.total_maintenance.findMany();
+        const maintenance = await prisma.total_maintenance.findMany(
+            {
+                include: {
+                    truck: true
+                }
+            }
+        );
         res.json(maintenance);
     } catch (error) {
         console.log(error);
@@ -66,6 +73,7 @@ const editMaintenance = async (req, res) => {
     try {
         const { id } = req.params;
         const {
+            date,
             repairs,
             next_event,
             truckId
@@ -82,6 +90,7 @@ const editMaintenance = async (req, res) => {
         }
 
         const maintenanceEdit = {
+            date: date || maintenanceExists.date,
             repairs: repairs || maintenanceExists.repairs,
             next_event: next_event || maintenanceExists.next_event,
             truckId: truckId || maintenanceExists.truckId
@@ -110,7 +119,7 @@ const deleteMaintenance = async (req, res) => {
                 id: id
             }
         });
-        res.json({maintenance, message: 'Mantenimiento eliminado'});
+        res.json({ maintenance, message: 'Mantenimiento eliminado' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al eliminar el mantenimiento' });

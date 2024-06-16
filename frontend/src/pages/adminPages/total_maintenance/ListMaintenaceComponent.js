@@ -1,10 +1,10 @@
-import { useDispatch } from "react-redux";
+const ListMaintenanceComponent = () => {
 
-
-const { confirm } = Modal;
-
-export const ListMaintenanceComponent = () => {
-    const dispatch = useDispatch();
-    const maintenance = useSelector((state) => state.maintenance);
-    const maintenanceApi = new Maintenance();
+    return (
+        <div>
+            <h1>Historial de mantenimientos</h1>
+        </div>
+    );
 }
+
+export default ListMaintenanceComponent;

@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const createTruck = async (req, res) => {
     const { plate, brand, model, color, fuel_consumption, load_capacity, rotation_programming, fuelId, driverId } = req.body;
-    const photo = req.file ? req.file.filename: "Truck.jpg";
+    const photo = req.file ? req.file.filename : "Truck.jpg";
     console.log(req.file);
     try {
 
@@ -35,6 +35,7 @@ const listTruck = async (req, res) => {
                 checklist: true,
                 driver: true,
                 fuel: true,
+                maintenance: true,
             }
         });
         res.json(truck);
@@ -54,6 +55,7 @@ const getTruck = async (req, res) => {
                 fuel: true,
                 travel: true,
                 driver: true,
+                maintenance: true,
             }
         });
         res.json(truck);

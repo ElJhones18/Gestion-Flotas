@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     FileOutlined,
-    PieChartOutlined,
+    SlidersOutlined,
     TeamOutlined,
     UserDeleteOutlined,
     InfoCircleOutlined,
@@ -13,7 +13,8 @@ import {
     HomeOutlined,
     FireOutlined,
     ToolOutlined,
-    FileAddOutlined
+    FileAddOutlined,
+    HistoryOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { ROUTES } from "../../../routes/index";
@@ -48,8 +49,9 @@ const items = [
         getItem('Listar neumáticos', 'list-tires', <Link to={ROUTES.ADMIN_LIST_TIRES}><UnorderedListOutlined /></Link>),
         getItem('Crear neumático', 'create-tire', <Link to={ROUTES.ADMIN_CREATE_TIRE}><FileAddOutlined /></Link>),
     ]),
-    getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Mantenimiento', 'maintenance', <SlidersOutlined />, [
+        getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
+        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
     getItem('Portal del Conductor', 'driver-portal', <Link to={ROUTES.DRIVER_PORTAL}><InfoCircleOutlined /></Link>),
     getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}>  <UserDeleteOutlined /> </Link>),
 ];
