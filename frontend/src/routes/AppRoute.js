@@ -22,6 +22,7 @@ import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Logout } from "../pages/authPages/Logout.js";
 import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
 import ChecklistComponent from "../pages/adminPages/trucks/ChecklistComponent.js";
+import DriverPortal from "../pages/driverPages/DriverPortal.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -42,6 +43,10 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.ADMIN_EDIT_TASK} element={loadLayout(AdminLayout, DragAndDrop)} />
                     <Route path={ROUTES.ADMIN_LIST_FUELS} element={loadLayout(AdminLayout, ListFuelComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_FUEL} element={loadLayout(AdminLayout, CreateFuelComponent)} />
+                </Route>
+
+                <Route element={<RequireAuth allowedRoles={["Conductor"]} />}>
+                    <Route path={ROUTES.DRIVER_PORTAL} element={loadLayout(AdminLayout, DriverPortal)} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={["Conductor", "Admin"]} />}>

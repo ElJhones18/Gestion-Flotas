@@ -5,6 +5,7 @@ import {
     PieChartOutlined,
     TeamOutlined,
     UserDeleteOutlined,
+    InfoCircleOutlined,
     UnorderedListOutlined,
     TruckOutlined,
     RightOutlined,
@@ -43,7 +44,8 @@ const items = [
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
-    getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}> <UserDeleteOutlined /> </Link>),
+    getItem('Portal del Conductor', 'driver-portal', <Link to={ROUTES.DRIVER_PORTAL}><InfoCircleOutlined /></Link>),
+    getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}>  <UserDeleteOutlined /> </Link>),
 ];
 
 export const MenuSide = (props) => {
