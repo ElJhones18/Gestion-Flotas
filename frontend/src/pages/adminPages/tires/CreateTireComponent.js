@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, DatePicker, Select, Upload } from 'antd';
-import { Option } from 'antd/es/mentions';
+import { Form, Input, Button, Tooltip, Select } from 'antd';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
 
@@ -49,37 +48,52 @@ const CreateTireComponent = () => {
     }, []);
 
     return (
-        <Form
-            labelCol={{
-                span: 4,
-            }}
-            wrapperCol={{
-                span: 14,
-            }}
-            layout="horizontal"
-            onFinish={handleSubmit}
-        >
-            <Form.Item label="Marca" name="brand" rules={[{ required: true}]}>
-                <Input onChange={(e) => setBrand(e.target.value)} />
-            </Form.Item>
-            <Form.Item label="Desgaste" name="wear" rules={[{ required: true}]}>
-                <Input onChange={(e) => setWear(e.target.value)} />
-            </Form.Item>
-            <Form.Item label="Camión" name="truckId" rules={[{ required: true}]}>
-                <Select value={selectedTruck} onChange={(e) => setSelectedTruck(e)}>
-                    {trucks.map((truck) => (
-                        <Option key={truck.id} value={truck.id}>
-                            {truck.plate}
-                        </Option>
-                    ))}
-                </Select>
-            </Form.Item>
-            <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
-                <Button type="primary" htmlType="submit">
-                    Crear neumático
-                </Button>
-            </Form.Item>
-        </Form>
+        <div style={{ maxWidth: 700, marginRight: 'auto', marginLeft: 'auto' }}>
+            <h1>Crear neumático</h1>
+            <br />
+            <p>Ingrese los datos del nuevo neumático.</p>
+            <p>Los campos con asterísco son obligatorios.</p>
+            <br />
+            <Form
+                labelCol={{
+                    span: 4,
+                }}
+                wrapperCol={{
+                    span: 14,
+                }}
+                layout="horizontal"
+                onFinish={handleSubmit}
+            >
+                <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
+                    <Input onChange={(e) => setBrand(e.target.value)} />
+                </Form.Item>
+                <Form.Item label="Desgaste" name="wear" rules={[{ required: true }]}>
+                    <Input onChange={(e) => setWear(e.target.value)} />
+                </Form.Item>
+                <Form.Item label="Camión" name="truckId" rules={[{ required: true }]}>
+                    <Select placeholder="Selecciona un camión"
+                        value={selectedTruck}
+                        onChange={(value) => {
+                            setSelectedTruck(value)
+                        }}>
+                        {trucks.map((truck) => {
+                            return (
+                                <Select.Option key={truck.id} value={truck.id}>
+                                    <Tooltip title={`Color: ${truck.color} - Marca: ${truck.brand} - Conductor: ${truck.driver.username} ${truck.driver.lastname}`}>
+                                        <span>{truck.plate}</span>
+                                    </Tooltip>
+                                </Select.Option>
+                            )
+                        })}
+                    </Select>
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
+                    <Button type="primary" htmlType="submit">
+                        Crear neumático
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     );
 };
 
