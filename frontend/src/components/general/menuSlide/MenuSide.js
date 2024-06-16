@@ -37,7 +37,11 @@ const items = [
         getItem('Listar camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
         getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>),
     ]),
-    getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Viajes', 'travel', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><PieChartOutlined /></Link>,[
+        getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><PieChartOutlined /></Link>), 
+        getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><PieChartOutlined /></Link>),
+    ]),
+
     getItem('Files', '9', <FileOutlined />),
     getItem('Cerrar Sesión', '10', <Link to="/logout"> <UserDeleteOutlined /> </Link>),
 ];

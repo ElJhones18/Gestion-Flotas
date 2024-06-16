@@ -44,5 +44,12 @@ export const PATHS = {
         GET_MAINTENANCE: `/maintenance/`,
         EDIT_MAINTENANCE: `/maintenance/edit/`,
         DELETE_MAINTENANCE: `/maintenance/delete/`,
+
+        /* VIAJES */
+        CREATE_TRAVEL: `/travel/create`,
+        LIST_TRAVELS: `/travels`,
+        GET_TRAVEL: `/travel/`,
+        EDIT_TRAVEL: `/travel/edit/`,
+        DELETE_TRAVEL: `/travel/delete/`,
     }
 }

@@ -8,5 +8,9 @@ export const ROUTES = {
     ADMIN_CREATE_TRUCK: "/admin/truck/create",
 
     /* TAREAS */
-    ADMIN_EDIT_TASK: "/admin/tasks/:driverId"
+    ADMIN_EDIT_TASK: "/admin/tasks/:driverId",
+
+    /* VIAJES */
+    ADMIN_CREATE_TRAVEL: "/admin/travel/create",
+    ADMIN_LIST_TRAVELS: "/admin/travels",
 }
