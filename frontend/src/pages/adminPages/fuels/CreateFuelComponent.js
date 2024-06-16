@@ -29,31 +29,37 @@ const CreateFuelComponent = () => {
     };
 
     return (
-        <Form
-            labelCol={{
-                span: 4,
-            }}
-            wrapperCol={{
-                span: 14,
-            }}
-            layout="horizontal"
-            onFinish={handleSubmit}
-        >
-            <Form.Item label="Costo" name="cost" rules={[{ required: true}]}>
-                <Input onChange={(e) => setCost(e.target.value)} />
-            </Form.Item>
-            <Form.Item label="Eficiencia" name="efficiency" rules={[{ required: true}]}>
-                <Input onChange={(e) => setEfficiency(e.target.value)} />
-            </Form.Item>
-            <Form.Item label="Marca" name="brand" rules={[{ required: true}]}>
-                <Input onChange={(e) => setBrand(e.target.value)} />
-            </Form.Item>
-            <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
-                <Button type="primary" htmlType="submit">
-                    Crear
-                </Button>
-            </Form.Item>
-        </Form>
+        <div style={{maxWidth:700, marginRight:'auto', marginLeft:'auto'}}>
+            <h1>Crear combustible</h1>
+            <br />
+            <p>Ingrese los datos del nuevo combustible.</p>
+            <p>Los campos con asterísco son obligatorios.</p>
+            <Form
+                labelCol={{
+                    span: 4,
+                }}
+                wrapperCol={{
+                    span: 20,
+                }}
+                layout="horizontal"
+                onFinish={handleSubmit}
+            >
+                <Form.Item label="Costo" name="cost" rules={[{ required: true }]}>
+                    <Input onChange={(e) => setCost(e.target.value)} />
+                </Form.Item>
+                <Form.Item label="Eficiencia" name="efficiency" rules={[{ required: true }]}>
+                    <Input onChange={(e) => setEfficiency(e.target.value)} />
+                </Form.Item>
+                <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
+                    <Input onChange={(e) => setBrand(e.target.value)} />
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
+                    <Button type="primary" htmlType="submit">
+                        Crear
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     );
 };
 
