@@ -9,7 +9,8 @@ import {
     TruckOutlined,
     RightOutlined,
     LeftOutlined,
-    HomeOutlined
+    HomeOutlined,
+    FireOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { ROUTES } from "../../../routes/index";
@@ -35,6 +36,10 @@ const items = [
         getItem('Listar camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
         getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>),
         getItem('Crear checklist', 'create-checklist', <Link to={ROUTES.CHECKLIST}><UnorderedListOutlined /></Link>),
+    ]),
+    getItem('Combustibles', 'fuel', <Link to={ROUTES.ADMIN_LIST_FUELS}><FireOutlined /></Link>, [
+        getItem('Listar combustibles', 'list-fuels', <Link to={ROUTES.ADMIN_LIST_FUELS}><UnorderedListOutlined /></Link>),
+        getItem('Crear combustible', 'create-fuel', <Link to={ROUTES.ADMIN_CREATE_FUEL}><FileOutlined /></Link>),
     ]),
     getItem('Team', 'sub3', <PieChartOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),

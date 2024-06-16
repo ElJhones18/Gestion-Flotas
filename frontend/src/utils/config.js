@@ -48,6 +48,10 @@ export const PATHS = {
 
         /* COMBUSTIBLES */
         LIST_FUELS: `/fuels`,
+        GET_FUEL: `/fuel/`,
+        CREATE_FUEL: `/fuel/create`,
+        EDIT_FUEL: `/fuel/edit/`,
+        DELETE_FUEL: `/fuel/delete/`,
 
         /* CHECKLIST */
         CREATE_CHECKLIST: `/checklist/create`,
