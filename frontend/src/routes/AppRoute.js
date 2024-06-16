@@ -10,20 +10,23 @@ import { ROUTES } from "./index"
 
 /* USUARIOS */
 import { ListComponent } from "../pages/adminPages/users/ListComponent";
-import { CreateUserComponent } from "../pages/adminPages/users/CreateUserComponent";
 
 /* CAMIONES */
 import { ListTruckComponent } from "../pages/adminPages/trucks/ListTruckComponent";
-import { CreateTruckComponent } from "../pages/adminPages/trucks/CreateTruckComponent";
+
+/* COMBUSTIBLE */
+import { ListFuelComponent } from "../pages/adminPages/fuels/ListFuelComponent";
+import CreateFuelComponent from "../pages/adminPages/fuels/CreateFuelComponent";
 
 /* VIAJES */
 import { ListTravelComponent } from "../pages/adminPages/travels/ListTravelComponent";
 import { CreateTravelComponent } from "../pages/adminPages/travels/CreateTravelComponent.js";
 
 import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
-import { ListDriversComponent } from "../pages/adminPages/drivers/ListDriversComponent";
-
 import { Logout } from "../pages/authPages/Logout.js";
+import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
+import ChecklistComponent from "../pages/adminPages/trucks/ChecklistComponent.js";
+import DriverPortal from "../pages/driverPages/DriverPortal.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -40,24 +43,27 @@ export const AdminRoutes = () => {
 
                 <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
                     <Route path={ROUTES.ADMIN_LIST_USERS} element={loadLayout(AdminLayout, ListComponent)} />
-                    <Route path={ROUTES.ADMIN_CREATE_USER} element={loadLayout(AdminLayout, CreateUserComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_TRUCK} element={loadLayout(AdminLayout, CreateTruckComponent)} />
                     <Route path={ROUTES.ADMIN_EDIT_TASK} element={loadLayout(AdminLayout, DragAndDrop)} />
                     <Route path={ROUTES.ADMIN_CREATE_TRAVEL} element={loadLayout(AdminLayout, CreateTravelComponent)} />
                     <Route path={ROUTES.ADMIN_LIST_TRAVELS} element={loadLayout(AdminLayout, ListTravelComponent)} />
+                    <Route path={ROUTES.ADMIN_LIST_FUELS} element={loadLayout(AdminLayout, ListFuelComponent)} />
+                    <Route path={ROUTES.ADMIN_CREATE_FUEL} element={loadLayout(AdminLayout, CreateFuelComponent)} />
+                </Route>
+
+                <Route element={<RequireAuth allowedRoles={["Conductor"]} />}>
+                    <Route path={ROUTES.DRIVER_PORTAL} element={loadLayout(AdminLayout, DriverPortal)} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={["Conductor", "Admin"]} />}>
-                    <Route path="/home" element={loadLayout(AdminLayout, Home)} />
-                    <Route path="/logout" element={loadLayout(AdminLayout, Logout)} />
-                    <Route path="/admin/trucks" element={loadLayout(AdminLayout, ListTruckComponent)} />
-                    <Route path="/admin/drivers" element={loadLayout(AdminLayout, ListDriversComponent)} />
+                    <Route path={ROUTES.HOME} element={loadLayout(AdminLayout, Home)} />
+                    <Route path={ROUTES.LOGOUT} element={loadLayout(AdminLayout, Logout)} />
+                    <Route path={ROUTES.ADMIN_LIST_TRUCKS} element={loadLayout(AdminLayout, ListTruckComponent)} />
+                    <Route path={ROUTES.CHECKLIST} element={loadLayout(AdminLayout, ChecklistComponent)} />
                 </Route>
 
-            </Route>
-            {/* USUARIOS */}
 
-            {/* CAMIONES */}
+            </Route>
 
         </Routes >
     )

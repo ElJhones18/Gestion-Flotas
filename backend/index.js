@@ -61,6 +61,9 @@ app.get("/users/", usersController.listUsers);
 // Endpoint para buscar un usuario por su id
 app.get("/users/:id", usersController.getUser);
 
+// Endpoint para buscar un usuario por su email
+app.get("/users/email/:email", usersController.getUserByEmail);
+
 // Endpoint para actualizar un usuario por su id
 app.patch('/users/edit/:id', upload.single('avatar'), usersController.editUser);
 
@@ -237,6 +240,9 @@ app.get("/notifications/", notificationController.listNotifications);
 
 // Endpoint para buscar una notificacion por su id
 app.get("/notification/:id", notificationController.getNotification);
+
+// Endpoint para buscar notificaciones de un usuario por su correo
+app.get("/notification/user/:email", notificationController.getNotificationsByEmail);
 
 // Endpoint para actualizar una notificacion por su id
 app.patch('/notification/edit/:id', notificationController.editNotification);

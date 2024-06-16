@@ -57,6 +57,30 @@ const getNotification = async (req, res) => {
     }
 };
 
+const getNotificationsByEmail = async (req, res) => {
+    try {
+        const user = await prisma.users.findUnique({
+            where: {
+                email: req.params.email
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const notifications = await prisma.notification.findMany({
+            where: {
+                userId: user.id
+            }
+        });
+        res.json(notifications);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error al obtener las notificaciones' });
+    }
+};
+
 const editNotification = async (req, res) => {
     try {
         const { id } = req.params;
@@ -99,6 +123,7 @@ module.exports = {
     createNotification,
     listNotifications,
     getNotification,
+    getNotificationsByEmail,
     editNotification,
     deleteNotification
 };

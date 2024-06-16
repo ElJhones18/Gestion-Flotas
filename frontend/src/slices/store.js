@@ -4,6 +4,7 @@ import taskReducer from './taskSlice';
 import travelReducer from './travelSlice';
 import truckReducer from './truckSlice';
 import userReducer from './userSlice';
+import fuelReducer from './fuelSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         travel: travelReducer,
         truck: truckReducer,
         user: userReducer,
+        fuel: fuelReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false,

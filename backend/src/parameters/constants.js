@@ -1,5 +1,5 @@
 const CONSTANTS = {
-    adminID: "666913168fd908af62c192f5",
+    adminID: "6667bb6d7c9075f15ee69c96",
 }
 
 module.exports = CONSTANTS;

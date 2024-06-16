@@ -12,6 +12,7 @@ import {
     Upload,
 } from "antd";
 import { useNavigate } from "react-router-dom";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Travel } from "../../../api/travel";
 import { useEffect, useState } from "react";
 import { deleteTravelById, editTravelById, getTravels} from "../../../slices/travelSlice";
@@ -21,20 +22,11 @@ const { confirm } = Modal;
 
 export const ListTravelComponent = () => { 
     const dispatch = useDispatch();
-    const travels = useSelector((state) => state.travel.travels);
+    const travels = useSelector((state) => state.travel);
     const travelApi = new Travel();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedTravel, setSelectedTravel] = useState(null);
     const navigate = useNavigate()
-
-    const[formData, setFormData] = useState({
-        distance: "",
-        origin: "",
-        destination: "",
-        stops: [],
-        driverId: "",
-        truckId: ""
-    })
 
     useEffect(() => {
         const fetchTravels = async () => {
@@ -81,12 +73,12 @@ export const ListTravelComponent = () => {
 
     const handleOk = () => {
         const formDataToSend = new FormData();
-        formDataToSend.append("distance", formData.distance);
-        formDataToSend.append("origin", formData.origin);
-        formDataToSend.append("destination", formData.destination);
-        formDataToSend.append("stops", formData.stops);
-        formDataToSend.append("driverId", formData.driverId);
-        formDataToSend.append("truckId", formData.truckId);
+        formDataToSend.append("distance", selectedTravel.distance);
+        formDataToSend.append("origin", selectedTravel.origin);
+        formDataToSend.append("destination", selectedTravel.destination);
+        formDataToSend.append("stops", selectedTravel.stops);
+        formDataToSend.append("driverId", selectedTravel.driverId);
+        formDataToSend.append("truckId", selectedTravel.truckId);
 
         travelApi
             .editTravelById(selectedTravel.id, selectedTravel)
@@ -145,21 +137,14 @@ export const ListTravelComponent = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Tooltip title="Editar">
-                        <Button
-                            type="primary"
-                            onClick={() => handleEdit(record.id)}
-                        >
-                            Editar
-                        </Button>
+                        <EditOutlined 
+                        style={{ color: "blue", cursor: "pointer" }}
+                        onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Tooltip title="Eliminar">
-                        <Button
-                            type="primary"
-                            danger
-                            onClick={() => handleDelete(record.id)}
-                        >
-                            Eliminar
-                        </Button>
+                        <DeleteOutlined 
+                        style={{ color: "red", cursor: "pointer" }}
+                        onClick={() => handleDelete(record.id)} />
                     </Tooltip>
                 </Space>
             )

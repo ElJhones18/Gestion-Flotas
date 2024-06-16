@@ -56,8 +56,9 @@ export const userSlice = createSlice({
         getUsersById: (state, action) => {
         },
         editUserById: (state, action) => {
+            // console.log(JSON.stringify(state));
             const { id, email, username, lastname, cedula, phone, rol, performance_driver, avatar, active_user, history_travel, tasks, truck } = action.payload;
-            const existingUser = state.users.find(user => user.id === id);
+            const existingUser = state.find(user => user.id === id);
             if (existingUser) {
                 existingUser.email = email;
                 existingUser.username = username;

@@ -7,6 +7,7 @@ export const PATHS = {
         CREATE_USER: `/users/create`,
         LIST_USERS: `/users`,
         GET_USER: `/users/`,
+        GET_USER_BY_EMAIL: `/users/email/`,
         EDIT_USER: `/users/edit/`,
         DELETE_USER: `/users/delete/`,
         SIGNUP: `/signup`,
@@ -15,6 +16,7 @@ export const PATHS = {
         /* NOTIFICACIONES */
         GET_NOTIFICATIONS_BY_EMAIL: `/notification/user/`,
         UPDATE_NOTIFICATION: `/notification/edit/`,
+        DELETE_NOTIFICATION: `/notification/delete/`,
 
         /* CONDUCTORES */
         CREATE_DRIVER: `/drivers/create`,
@@ -51,5 +53,15 @@ export const PATHS = {
         GET_TRAVEL: `/travel/`,
         EDIT_TRAVEL: `/travel/edit/`,
         DELETE_TRAVEL: `/travel/delete/`,
+
+        /* COMBUSTIBLES */
+        LIST_FUELS: `/fuels`,
+        GET_FUEL: `/fuel/`,
+        CREATE_FUEL: `/fuel/create`,
+        EDIT_FUEL: `/fuel/edit/`,
+        DELETE_FUEL: `/fuel/delete/`,
+
+        /* CHECKLIST */
+        CREATE_CHECKLIST: `/checklist/create`,
     }
 }

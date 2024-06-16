@@ -1,7 +1,15 @@
 export const ROUTES = {
+    HOME: "/home",
+
+    /* AUTH */
+    LOGIN: "/login",
+    REGISTER: "/register",
+    UNAUTHORIZED: "/unauthorized",
+    LOGOUT: "/logout",
+
     /* USUARIOS */
     ADMIN_LIST_USERS: "/admin/users",
-    ADMIN_CREATE_USER: "/admin/users/create",
+    DRIVER_PORTAL: "/driver-portal",
 
     /* CAMIONES */
     ADMIN_LIST_TRUCKS: "/admin/trucks",
@@ -9,6 +17,13 @@ export const ROUTES = {
 
     /* TAREAS */
     ADMIN_EDIT_TASK: "/admin/tasks/:driverId",
+
+    /* CHECKLIST */
+    CHECKLIST: "/checklist",
+
+    /* COMBUSTIBLE */
+    ADMIN_CREATE_FUEL: "/admin/fuel/create",
+    ADMIN_LIST_FUELS: "/admin/fuels",
 
     /* VIAJES */
     ADMIN_CREATE_TRAVEL: "/admin/travel/create",
