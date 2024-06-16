@@ -36,23 +36,10 @@ export const travelSlice = createSlice({
         getTravelById: (state, action) => {
         },
         editTravelById: (state, action) => {
-            /* const { id, type, state, description, driverId } = action.payload;
-            const existingTravel = state.travels.find(travel => travel.id === id);
-            if (existingTravel) {
-                existingTravel.type = type;
-                existingTravel.state = state;
-                existingTravel.description = description;
-                existingTravel.driverId = driverId;
-            } */
-
-            const { updatedTravelData } = action.payload;
-            return {
-                ...state,
-                travels: state.trav.map(travel => travel.id === updatedTravelData.id ? updatedTravelData : travel)
-            }
+            return state.map(travel => travel.id === action.payload.id ? action.payload : travel)
         },
         deleteTravelById: (state, action) => {
-            state.travels = state.travels.filter(travel => travel.id !== action.payload);
+            return state.filter(travel => travel.id !== action.payload);
         }
     }
 });

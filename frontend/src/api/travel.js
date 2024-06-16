@@ -38,7 +38,6 @@ export class Travel {
             console.log(URL);  
             const response = await fetch(URL);
             const travels = response.json();
-            console.log("Se están recuperando los viajes", travels);
             return travels;
         } catch (error) {
             console.log(error);
@@ -61,7 +60,7 @@ export class Travel {
         try {
             const URL = `${this.baseApi}${this.editTravelPath}${travelId}`;
             console.log(URL);
-            const response = await axios.put(URL, updatedData);
+            const response = await axios.patch(URL, updatedData);
             console.log(response.data);
             return response.data;
         } catch (error) {

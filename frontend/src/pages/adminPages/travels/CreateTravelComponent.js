@@ -1,122 +1,132 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTravel } from "../../../slices/travelSlice";
-import { Travel } from "../../../api/travel";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button, Input, Select, Form } from "antd";
+import { PATHS } from "../../../utils/config";
+import axios from "axios";
+
+const { Option } = Select;
 
 export const CreateTravelComponent = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  const travelApi = new Travel();
-  const [formData, setFormData] = useState({
-    distance: "",
-    origin: "",
-    destination:"",
-    stops:[],
-    driverId:"",
-    truckId:""
-  })
+  const navigate = useNavigate();
+  const [distance, setDistance] = useState('');
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
 
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.id]: event.target.value
-    })
-  }
+  const [trucks, setTrucks] = useState([]);
+  const [selectedTruck, setSelectedTruck] = useState('');
 
-  const handleCreateTravel = async (e) => {
-    e.preventDefault();
+  const [drivers, setDrivers] = useState([]);
+  const [selectedDriver, setSelectedDriver] = useState('');
+
+  const handleSubmit = async () => {
+    const travel = {
+      distance,
+      origin,
+      destination,
+      driverId: selectedDriver,
+      truckId: selectedTruck
+    };
+
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("distance", formData.distance);
-      formDataToSend.append("origin", formData.origin);
-      formDataToSend.append("destination", formData.destination);
-      formDataToSend.append("stops", formData.stops);
-      formDataToSend.append("driverId", formData.driverId);
-      formDataToSend.append("truckId", formData.truckId);
-    
-      console.log("formDataToSend", formDataToSend);
+      const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_TRAVEL;
+      console.log("Entra la url", URL);
+      console.log("Travel data:", travel);
 
-      await travelApi.createTravel(formData);
-      dispatch(addTravel(formData));
-      setFormData({
-        distance: "",
-        origin: "",
-        destination:"",
-        stops:[],
-        driverId:"",
-        truckId:""
+      const response = await axios.post(URL, travel, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
       });
+      console.log(response);
+      
     } catch (error) {
-      console.log("Error al crear el viaje", error);
+      console.error("Error creating travel", error);
+      console.error("Response data:", error.response?.data);
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchDrivers();
+    fetchTrucks();
+  }, []);
+
+  const fetchDrivers = async () =>  {
+    try {
+      const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_USERS;
+      console.log(URL);
+      const response = await axios.get(URL);
+      const drivers = response.data.filter((driver) => driver.rol === 'Conductor');
+      setDrivers(drivers);
+    } catch (error) {
+      console.error('Error fetching drivers:', error);
+    }
+  };
+
+  const fetchTrucks = async () => {
+    try {
+      const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_TRUCKS;
+      const response = await axios.get(URL);
+      setTrucks(response.data);
+    } catch (error) {
+      console.error("Error fetching trucks", error);
+    }
+  };
 
   return (
     <>
-    <Button onClick={() => navigate(-1)}>Volver</Button>
+      <Button onClick={() => navigate(-1)}>Volver</Button>
       <h2>Crear Viaje</h2>
-      <form onSubmit={handleCreateTravel}>
-        <div>
-          <label htmlFor="distance">Distancia</label>
-          <input 
-              type="text" 
-              id="distance" 
-              value={formData.distance} 
-              onChange={handleChange} 
-              required>
-          </input>
-        </div>
+      <Form
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 19 }}
+        labelWrap={true}
+        onFinish={handleSubmit}>
+        <Form.Item label="Distancia" name="distance" rules={[{ required: true }]}>
+          <Input
+            id="distance"
+            value={distance}
+            onChange={(e) => setDistance(e.target.value)}
+            required />
+        </Form.Item>
 
-        <div>
-          <label htmlFor="origin">Origen</label>
-          <input 
-              type="text" 
-              id="origin" 
-              value={formData.origin} 
-              onChange={handleChange} 
-              required>
-          </input>
-        </div>
+        <Form.Item label="Origen" name="origin" rules={[{ required: true }]}>
+          <Input
+            id="origin"
+            value={origin}
+            onChange={(e) => setOrigin(e.target.value)}
+            required />
+        </Form.Item>
 
-        <div>
-          <label htmlFor="destination">Destino</label>
-          <input 
-              type="text" 
-              id="destination" 
-              value={formData.destination} 
-              onChange={handleChange} 
-              required>
-          </input>
-        </div>
+        <Form.Item label="Destino" name="destination" rules={[{ required: true }]}>
+          <Input
+            id="destination"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            required />
+        </Form.Item>
 
-        <div>
-          <label htmlFor="driverId">Conductor</label>
-          <input 
-              type="text" 
-              id="driverId" 
-              value={formData.driverId} 
-              onChange={handleChange} 
-              required>
-          </input>
-        </div>
+        <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
+          <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
+            {drivers.map((driver) => (
+              <Option key={driver.id} value={driver.id}>
+                {driver.username} {driver.lastname}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-        <div>
-          <label htmlFor="truckId">Camión</label>
-          <input 
-              type="text" 
-              id="truckId" 
-              value={formData.truckId} 
-              onChange={handleChange} 
-              required>
-          </input>
-        </div>
+        <Form.Item label="Camión" name="truckId" rules={[{ required: true }]}>
+          <Select value={selectedTruck} onChange={(value) => setSelectedTruck(value)}>
+            {trucks.map((truck) => (
+              <Option key={truck.id} value={truck.id}>
+                {truck.plate} - {truck.model}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-        <button type="submit">Crear Viaje</button>
-      </form>
+        <Button type="primary" htmlType="submit">Crear Viaje</Button>
+      </Form>
     </>
-  )
-
-
-}
+  );
+};

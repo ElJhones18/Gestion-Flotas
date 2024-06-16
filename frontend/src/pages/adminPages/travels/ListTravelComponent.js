@@ -83,7 +83,9 @@ export const ListTravelComponent = () => {
         travelApi
             .editTravelById(selectedTravel.id, selectedTravel)
             .then((result) => {
-                dispatch(editTravelById(result));
+                dispatch(
+                    editTravelById(result)
+                );
 
                 setIsModalVisible(false);
                 setSelectedTravel(null);
