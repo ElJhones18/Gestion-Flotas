@@ -5,6 +5,7 @@ import travelReducer from './travelSlice';
 import truckReducer from './truckSlice';
 import userReducer from './userSlice';
 import fuelReducer from './fuelSlice';
+import tireReducer from './tireSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         travel: travelReducer,
         truck: truckReducer,
         user: userReducer,
-        fuel: fuelReducer
+        fuel: fuelReducer,
+        tire: tireReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false,
