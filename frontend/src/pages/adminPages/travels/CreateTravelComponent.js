@@ -5,12 +5,8 @@ import { PATHS } from "../../../utils/config";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import {
-  CloseCircleFilled,
   CloseCircleOutlined,
-  CloseOutlined,
-  LeftCircleFilled,
   LeftCircleOutlined,
-  PlusCircleFilled,
   PlusCircleOutlined,
 } from '@ant-design/icons';
 import "leaflet/dist/leaflet.css";
@@ -19,7 +15,6 @@ import "leaflet-routing-machine";
 import iconGreen from "../../../uploads/marks/green-mark.svg";
 import iconRed from "../../../uploads/marks/red-mark.svg";
 import AsyncSelect from 'react-select/async';
-import { MarkerComponent } from './StopsMark'; // Import the MarkerComponent
 import './CreateTravelComponent.css';
 
 const { Option } = Select;
@@ -41,7 +36,7 @@ export const CreateTravelComponent = () => {
   const [drivers, setDrivers] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
 
-  const [waypoints, setWaypoints] = useState([{ id: 1, location: null }]);
+  const [waypoints, setWaypoints] = useState([{ id: 1, location: null }, { id: 2, location: null }]);
 
   const originIcon = L.icon({
     iconUrl: iconGreen,
@@ -60,7 +55,6 @@ export const CreateTravelComponent = () => {
   });
 
   const intermediateIcon = (number) => L.divIcon({
-    /* <MarkerComponent color="blue" number={number} size={50} cursor="ns-resize" /> */
     html: `<div style="position: relative;"><svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height="37" stroke: none;><path d="${MARKER_PATH}" fill="#76d0f7" /><circle cx="190" cy="190" r="110" fill="white" /><text x="50%" y="50%" text-anchor="middle" style="font-size: 180px;" fill="black">${number}</text></svg></div>`,
     className: "custom-icon",
     iconSize: [50, 50],
@@ -89,16 +83,18 @@ export const CreateTravelComponent = () => {
     newWaypoints[index].location = selectedOption.value;
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
+    updateRoutingControl(newWaypoints);
   };
 
   const addWaypoint = () => {
-    setWaypoints([...waypoints, { id: waypoints.length + 1, location: null }]);
+    setWaypoints([...waypoints.slice(0, waypoints.length - 1), { id: waypoints.length + 1, location: null }, waypoints[waypoints.length - 1]]);
   };
 
   const removeWaypoint = (index) => {
     const newWaypoints = waypoints.filter((_, wpIndex) => wpIndex !== index);
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
+    updateRoutingControl(newWaypoints);
   };
 
   const updateBounds = (waypoints) => {
@@ -169,22 +165,34 @@ export const CreateTravelComponent = () => {
     return null;
   };
 
+  const updateRoutingControl = (waypoints) => {
+    if (routingControl) {
+      routingControl.setWaypoints(waypoints.map(wp => wp.location ? L.latLng(wp.location[0], wp.location[1]) : L.latLng(0, 0)));
+    }
+  };
+
   const RouteDrawer = ({ waypoints }) => {
     const map = useMap();
+
+    useEffect(() => {
+      if (routingControl) {
+        updateRoutingControl(waypoints);
+      }
+    }, [waypoints]);
 
     useEffect(() => {
       if (waypoints.length > 1 && waypoints.every(wp => wp.location !== null)) {
         const locations = waypoints.map(wp => L.latLng(wp.location[0], wp.location[1]));
 
         if (routingControl) {
-          routingControl.getPlan().setWaypoints(locations);
+          routingControl.setWaypoints(locations);
         } else {
           const control = L.Routing.control({
             waypoints: locations,
             language: 'es',
-            createMarker: function (i, wp) {
+            createMarker: function (i, wp, n) {
               return L.marker(wp.latLng, {
-                icon: i === 0 ? originIcon : i === waypoints.length - 1 ? destinationIcon : intermediateIcon(i + 1)
+                icon: i === 0 ? originIcon : i === n - 1 ? destinationIcon : intermediateIcon(i)
               });
             },
             routeWhileDragging: true,
@@ -209,6 +217,7 @@ export const CreateTravelComponent = () => {
         }
       }
     }, [waypoints, map, routingControl]);
+
     return null;
   };
 
@@ -228,133 +237,115 @@ export const CreateTravelComponent = () => {
     setIsModalVisible(false);
   };
 
-  const cleanField = (index) => {
-    setWaypoints(null);
-  };
-
   return (
     <>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}>
-        <Button type="danger" onClick={() => navigate(-1)}><LeftCircleOutlined style={{
-          fontSize: '25px',
-        }} /></Button>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Button type="danger" onClick={() => navigate(-1)}><LeftCircleOutlined style={{ fontSize: '25px' }} /></Button>
         <h2>Crear Viaje</h2>
       </div>
       <div className="form-container">
         <div className="form-column column-left">
-        <Form layout="vertical" onFinish={handleSubmit} style={{ margin: "20px" }}>
-
-
-
-          <Form.Item label="Origen" rules={[{ required: true }]}>
-            <AsyncSelect
-              components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
-              placeholder="Desde"
-              cacheOptions
-              loadOptions={fetchSuggestions}
-              onChange={selectedOption => handleWaypointChange(0, selectedOption)}
-              defaultOptions
-            />
-          </Form.Item>
-          {waypoints.slice(1, waypoints.length - 1).map((waypoint, index) => (
-            <Form.Item key={waypoint.id} label={`Parada ${index + 1}`} style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                <AsyncSelect
-                  components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
-                  placeholder="Pasando por"
-                  cacheOptions
-                  loadOptions={fetchSuggestions}
-                  onChange={selectedOption => handleWaypointChange(index + 1, selectedOption)}
-                  defaultOptions
-                  styles={{
-                    container: base => ({
-                      ...base,
-                      flexGrow: 1,
-                    }),
-                    control: base => ({
-                      ...base,
-                      height: '38px',
-                      minWidth: '250px',
-                    }),
-                  }}
-                />
-                <Button type="danger" onClick={() => removeWaypoint(index + 1)} style={{ marginLeft: "5px", padding: "0px", display: 'flex', alignItems: 'center', height: '38px' }}>
-                  <CloseCircleOutlined style={{ fontSize: '20px' }} /></Button>
-              </div>
+          <Form layout="vertical" onFinish={handleSubmit} style={{ margin: "20px" }}>
+            <Form.Item label="Origen" rules={[{ required: true }]}>
+              <AsyncSelect
+                components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                placeholder="Desde"
+                cacheOptions
+                loadOptions={fetchSuggestions}
+                onChange={selectedOption => handleWaypointChange(0, selectedOption)}
+                defaultOptions
+              />
             </Form.Item>
-          ))}
-          <Form.Item label="Destino" rules={[{ required: true }]}>
-            <AsyncSelect
-              components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
-              placeholder="Hasta"
-              cacheOptions
-              loadOptions={fetchSuggestions}
-              onChange={selectedOption => handleWaypointChange(waypoints.length - 1, selectedOption)}
-              defaultOptions
-            />
-          </Form.Item>
-          <Button type="danger" onClick={addWaypoint} style={{alignContent:"center", marginBottom:"6px", padding:"0"}}>
-            <PlusCircleOutlined style={{
-              fontSize: '20px', height: '10px',
-            }} />Añadir ubicación
-          </Button>
-          <Form.Item label="Distancia">
-            <Input id="distance" value={distance} readOnly />
-          </Form.Item>
-          <Divider style={{marginBottom: "14px"}}/>
-          <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
-            <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
-              {drivers.map((driver) => (
-                <Option key={driver.id} value={driver.id}>
-                  {driver.username} {driver.lastname}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label="Camión" name="truckId" rules={[{ required: true }]}>
-            <Select value={selectedTruck} onChange={(value) => setSelectedTruck(value)}>
-              {trucks.map((truck) => (
-                <Option key={truck.id} value={truck.id}>
-                  {truck.plate} - {truck.model}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-
-          
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop:"10px" }}>
-            <Button type="primary" htmlType="submit">Crear Viaje</Button>
+            {waypoints.slice(1, waypoints.length - 1).map((waypoint, index) => (
+              <Form.Item key={waypoint.id} label={`Parada ${index + 1}`} style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                  <AsyncSelect
+                    components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                    placeholder="Pasando por"
+                    cacheOptions
+                    loadOptions={fetchSuggestions}
+                    onChange={selectedOption => handleWaypointChange(index + 1, selectedOption)}
+                    defaultOptions
+                    styles={{
+                      container: base => ({
+                        ...base,
+                        flexGrow: 1,
+                      }),
+                      control: base => ({
+                        ...base,
+                        height: '38px',
+                        minWidth: '250px',
+                      }),
+                    }}
+                  />
+                  <Button type="danger" onClick={() => removeWaypoint(index + 1)} style={{ marginLeft: "5px", padding: "0px", display: 'flex', alignItems: 'center', height: '38px' }}>
+                    <CloseCircleOutlined style={{ fontSize: '20px' }} /></Button>
+                </div>
+              </Form.Item>
+            ))}
+            <Form.Item label="Destino" rules={[{ required: true }]}>
+              <AsyncSelect
+                components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                placeholder="Hasta"
+                cacheOptions
+                loadOptions={fetchSuggestions}
+                onChange={selectedOption => handleWaypointChange(waypoints.length - 1, selectedOption)}
+                defaultOptions
+              />
+            </Form.Item>
+            <Button type="danger" onClick={addWaypoint} style={{ alignContent: "center", marginBottom: "6px", padding: "0" }}>
+              <PlusCircleOutlined style={{ fontSize: '20px', height: '10px' }} />Añadir ubicación
+            </Button>
+            <Form.Item label="Distancia">
+              <Input id="distance" value={distance} readOnly />
+            </Form.Item>
+            <Divider style={{ marginBottom: "14px" }} />
+            <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
+              <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
+                {drivers.map((driver) => (
+                  <Option key={driver.id} value={driver.id}>
+                    {driver.username} {driver.lastname}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="Camión" name="truckId" rules={[{ required: true }]}>
+              <Select value={selectedTruck} onChange={(value) => setSelectedTruck(value)}>
+                {trucks.map((truck) => (
+                  <Option key={truck.id} value={truck.id}>
+                    {truck.plate} - {truck.model}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+              <Button type="primary" htmlType="submit">Crear Viaje</Button>
+            </div>
+          </Form>
+        </div>
+        <div className="form-column">
+          {/* MAPA */}
+          <MapContainer center={mapCenter} zoom={6} style={{ height: "430px", width: "100%" }} whenCreated={handleMapLoad}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <MapUpdater bounds={bounds} />
+            {waypoints.map((waypoint, index) => (
+              waypoint.location && (
+                <Marker key={index} position={waypoint.location} icon={index === 0 ? originIcon : index === waypoints.length - 1 ? destinationIcon : intermediateIcon(index)}>
+                  <Popup>
+                    {index === 0 ? "Origen" : index === waypoints.length - 1 ? "Destino" : `Parada ${index}`}
+                  </Popup>
+                </Marker>
+              )
+            ))}
+            <RouteDrawer waypoints={waypoints} />
+          </MapContainer>
+          {/* INSTRUCCIONES */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+            <Button type="primary" onClick={showModal}>
+              Ver Instrucciones
+            </Button>
           </div>
-        </Form>
-         </div>
-         <div className="form-column">
-      {/* MAPA */}
-      <MapContainer center={mapCenter} zoom={6} style={{ height: "430px", width: "100%" }} whenCreated={handleMapLoad}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <MapUpdater bounds={bounds} />
-        {waypoints.map((waypoint, index) => (
-          waypoint.location && (
-            <Marker key={index} position={waypoint.location} icon={index === 0 ? originIcon : index === waypoints.length - 1 ? destinationIcon : intermediateIcon(index + 1)}>
-              <Popup>
-                {index === 0 ? "Origen" : index === waypoints.length - 1 ? "Destino" : `Parada ${index}`}
-              </Popup>
-            </Marker>
-          )
-        ))}
-        <RouteDrawer waypoints={waypoints} />
-      </MapContainer>
-
-      {/* INSTRUCCIONES */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-      <Button type="primary" onClick={showModal}>
-        Ver Instrucciones
-      </Button>
-      </div>
-      </div>
+        </div>
       </div>
       <Modal title="Instrucciones de Ruta" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <div className="modal-content">{instructions}</div>
