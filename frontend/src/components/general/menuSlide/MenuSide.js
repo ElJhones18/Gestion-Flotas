@@ -4,8 +4,6 @@ import {
     FileOutlined,
     SlidersOutlined,
     TeamOutlined,
-    UserDeleteOutlined,
-    InfoCircleOutlined,
     UnorderedListOutlined,
     TruckOutlined,
     RightOutlined,
@@ -52,8 +50,6 @@ const items = [
     getItem('Mantenimiento', 'maintenance', <SlidersOutlined />, [
         getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
         getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
-    getItem('Portal del Conductor', 'driver-portal', <Link to={ROUTES.DRIVER_PORTAL}><InfoCircleOutlined /></Link>),
-    getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}>  <UserDeleteOutlined /> </Link>),
 ];
 
 export const MenuSide = (props) => {
