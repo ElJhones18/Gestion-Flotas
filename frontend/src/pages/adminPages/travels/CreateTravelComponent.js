@@ -32,12 +32,15 @@ export const CreateTravelComponent = () => {
 
   const [trucks, setTrucks] = useState([]);
   const [selectedTruck, setSelectedTruck] = useState('');
-
+  const [selectedDriverTrucks, setSelectedDriverTrucks] = useState([]);
   const [drivers, setDrivers] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
 
   const [waypoints, setWaypoints] = useState([{ id: 1, location: null }, { id: 2, location: null }]);
   const [waypointLabels, setWaypointLabels] = useState({});
+
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
 
   const originIcon = L.icon({
     iconUrl: iconGreen,
@@ -91,6 +94,14 @@ export const CreateTravelComponent = () => {
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
+
+    if (index === 0) {
+      setOrigin(selectedOption.label);
+      console.log("Origen",selectedOption.label);
+    } else {
+      setDestination(selectedOption.label);
+      console.log("Destino",selectedOption.label);
+    }
   };
 
   const addWaypoint = () => {
@@ -123,13 +134,17 @@ export const CreateTravelComponent = () => {
   const handleSubmit = async () => {
     const travel = {
       distance,
-      waypoints: waypoints.map(wp => wp.location),
+      /* waypoints: waypoints.map(wp => wp.location), */
+      origin,
+      destination,
       driverId: selectedDriver,
       truckId: selectedTruck
     };
 
     try {
+      console.log(travel);
       const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_TRAVEL;
+      console.log("Entra a la URL", URL);
       const response = await axios.post(URL, travel, {
         headers: {
           'Content-Type': 'application/json'
@@ -144,7 +159,7 @@ export const CreateTravelComponent = () => {
   useEffect(() => {
     fetchDrivers();
     fetchTrucks();
-  }, []);
+  }, [selectedDriver]);
 
   const fetchDrivers = async () => {
     try {
@@ -161,9 +176,13 @@ export const CreateTravelComponent = () => {
     try {
       const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_TRUCKS;
       const response = await axios.get(URL);
-      setTrucks(response.data);
+      const trucks = response.data;
+      if (selectedDriver) {
+        const selectedDriverTrucks = trucks.filter(truck => truck.driverId === selectedDriver);
+        setSelectedDriverTrucks(selectedDriverTrucks);
+      }
     } catch (error) {
-      console.error("Error fetching trucks", error);
+      console.error('Error fetching trucks:', error);
     }
   };
 
@@ -337,7 +356,7 @@ export const CreateTravelComponent = () => {
             </Form.Item>
             <Form.Item label="Camión" name="truckId" rules={[{ required: true }]}>
               <Select value={selectedTruck} onChange={(value) => setSelectedTruck(value)}>
-                {trucks.map((truck) => (
+                {selectedDriverTrucks.map((truck) => (
                   <Option key={truck.id} value={truck.id}>
                     {truck.plate} - {truck.model}
                   </Option>
