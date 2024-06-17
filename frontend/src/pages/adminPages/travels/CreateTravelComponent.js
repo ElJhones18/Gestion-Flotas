@@ -37,6 +37,7 @@ export const CreateTravelComponent = () => {
   const [selectedDriver, setSelectedDriver] = useState('');
 
   const [waypoints, setWaypoints] = useState([{ id: 1, location: null }, { id: 2, location: null }]);
+  const [waypointLabels, setWaypointLabels] = useState({});
 
   const originIcon = L.icon({
     iconUrl: iconGreen,
@@ -71,6 +72,7 @@ export const CreateTravelComponent = () => {
       return response.data.hits.map(hit => ({
         label: `${hit.name}, ${hit.country}`,
         value: [hit.point.lat, hit.point.lng],
+        name: hit.name,
       }));
     } catch (error) {
       console.error("Error fetching suggestions:", error);
@@ -81,6 +83,11 @@ export const CreateTravelComponent = () => {
   const handleWaypointChange = (index, selectedOption) => {
     const newWaypoints = [...waypoints];
     newWaypoints[index].location = selectedOption.value;
+
+    const newLabels = { ...waypointLabels };
+    newLabels[index] = selectedOption.label;
+    setWaypointLabels(newLabels);
+
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
@@ -92,6 +99,11 @@ export const CreateTravelComponent = () => {
 
   const removeWaypoint = (index) => {
     const newWaypoints = waypoints.filter((_, wpIndex) => wpIndex !== index);
+
+    const newLabels = { ...waypointLabels };
+    delete newLabels[index];
+    setWaypointLabels(newLabels);
+
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
@@ -191,9 +203,23 @@ export const CreateTravelComponent = () => {
             waypoints: locations,
             language: 'es',
             createMarker: function (i, wp, n) {
-              return L.marker(wp.latLng, {
-                icon: i === 0 ? originIcon : i === n - 1 ? destinationIcon : intermediateIcon(i)
-              });
+              const markerOptions = {
+                icon: i === 0 ? originIcon : i === n - 1 ? destinationIcon : intermediateIcon(i),
+              };
+
+              const marker = L.marker(wp.latLng, markerOptions);
+
+              let label = '';
+              if (i === 0) {
+                label = 'Origen ';
+              } else if (i === n - 1) {
+                label = 'Destino ';
+              } else {
+                label = `Parada ${i} `;
+              }
+
+              marker.bindPopup(label, { closeButton: true, autoClose: false, closeOnClick: true });
+              return marker;
             },
             routeWhileDragging: true,
             lineOptions: {
@@ -331,8 +357,8 @@ export const CreateTravelComponent = () => {
             {waypoints.map((waypoint, index) => (
               waypoint.location && (
                 <Marker key={index} position={waypoint.location} icon={index === 0 ? originIcon : index === waypoints.length - 1 ? destinationIcon : intermediateIcon(index)}>
-                  <Popup>
-                    {index === 0 ? "Origen" : index === waypoints.length - 1 ? "Destino" : `Parada ${index}`}
+                  <Popup closeButton={true} autoClose={false} closeOnClick={false}>
+                    {index === 0 ? `Origen: ${waypointLabels[index]}` : index === waypoints.length - 1 ? `Destino: ${waypointLabels[index]}` : `Parada ${index}: ${waypointLabels[index]}`}
                   </Popup>
                 </Marker>
               )
