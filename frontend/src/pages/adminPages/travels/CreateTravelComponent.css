@@ -1,6 +1,49 @@
+.leaflet-routing-container .leaflet-routing-alt {
+  display:none;
+}
 
+.modal-content {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.instruction-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inline-form .ant-form-item {
+  display: inline-block;
+  margin-right: 3px;
+}
+
+.inline-form .ant-form-item-label {
+  margin-right: 1px;
+}
+
+#distance {
+  width: 80px;
+  pointer-events: none;
+}
+
+.inline-form .ant-select,
+.inline-form .react-select__control {
+  width: 150px;
+  margin-bottom:10px;
+}
+
+.css-13cymwt-control {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.ant-select-dropdown,
+.react-select__menu {
+  z-index: 1000 !important;
+}
 
 .leaflet-container {
-  height: 100vh;
-  width: 100wh;
+  z-index: 0 !important;
 }
+
+
