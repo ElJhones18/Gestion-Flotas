@@ -149,30 +149,45 @@ export const ListComponent = () => {
             render: (text, record) => <Avatar src={`http://localhost:3001/uploads/avatars/${record.avatar}`} />,
         },
         {
-            title: "Email",
+            title: "Correo",
             dataIndex: "email",
             key: "email",
         },
         {
-            title: "User Name",
+            title: "Nombre de Usuario",
             dataIndex: "username",
             key: "username",
         },
         {
-            title: "Last Name",
+            title: "Apellido",
             dataIndex: "lastname",
             key: "lastname",
         },
         {
-            title: "Active",
+            title: "Celular",
+            dataIndex: "phone",
+            key: "phone",
+        },
+        {
+            title: "Cedula",
+            dataIndex: "cedula",
+            key: "cedula",
+        },
+        {
+            title: "Rendimiento",
+            dataIndex: "performance_driver",
+            key: "performance_driver",
+        },
+        {
+            title: "Activo",
             dataIndex: "active_user",
             key: "active_user",
             render: (text, record) => (
-                <span>{record.active_user ? "Yes" : "No"}</span>
+                <span>{record.active_user ? "Si" : "No"}</span>
             ),
         },
         {
-            title: "Actions",
+            title: "Acciones",
             key: "actions",
             render: (text, record) => (
                 <Space size="middle">
