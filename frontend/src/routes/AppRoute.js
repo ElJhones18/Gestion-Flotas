@@ -30,6 +30,7 @@ import DriverPortal from "../pages/driverPages/DriverPortal.js";
 
 import CreateMaintenanceComponent from "../pages/adminPages/total_maintenance/CreateMaintenaceComponent.js";
 import ListMaintenanceComponent from "../pages/adminPages/total_maintenance/ListMaintenaceComponent.js";
+import MyTasks from "../pages/driverPages/MyTasks.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -57,6 +58,7 @@ export const AdminRoutes = () => {
 
                 <Route element={<RequireAuth allowedRoles={["Conductor"]} />}>
                     <Route path={ROUTES.DRIVER_PORTAL} element={loadLayout(AdminLayout, DriverPortal)} />
+                    <Route path={ROUTES.MY_TASKS} element={loadLayout(AdminLayout, MyTasks)} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={["Conductor", "Admin"]} />}>
