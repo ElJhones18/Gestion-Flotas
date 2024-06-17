@@ -2,10 +2,8 @@ import { React, useState } from "react";
 import { MenuSide } from "../../components/general/menuSlide/MenuSide"
 import logo from "../../uploads/images/logoCocaCola.svg"
 import './AdminLayout.css'
-import {
-    UserOutlined,
-} from '@ant-design/icons';
 import Notifications from "../../components/general/notifications/Notifications";
+import UserOptions from "../../components/general/user/UserOptions";
 
 export const AdminLayout = (props) => {
     const { children } = props
@@ -19,7 +17,9 @@ export const AdminLayout = (props) => {
                     <div className="bell">
                         <Notifications />
                     </div>
-                    <UserOutlined style={{ fontSize: '23px' }} />
+
+                    <UserOptions />
+
                 </div>
             </div>
             <div className='admin-layout__left'>
