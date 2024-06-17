@@ -96,7 +96,7 @@ export const ListTireComponent = () => {
 
     const handleOk = () => {
 
-       const formDataToSend = new FormData();
+        const formDataToSend = new FormData();
         formDataToSend.append("brand", selectedTire.brand);
         formDataToSend.append("wear", selectedTire.wear);
         formDataToSend.append("truckId", selectedTire.truckId);
