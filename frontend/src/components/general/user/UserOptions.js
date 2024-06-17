@@ -1,4 +1,4 @@
-import { UserOutlined, UserDeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, UserDeleteOutlined, InfoCircleOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { List, Popover } from 'antd';
 import { useState } from 'react';
 import { ROUTES } from '../../../routes';
@@ -18,6 +18,7 @@ const UserOptions = () => {
                 localStorage.getItem('role') === 'Conductor'
                     ? [
                         { title: 'Portal del Conductor', icon: <InfoCircleOutlined />, route: ROUTES.DRIVER_PORTAL },
+                        { title: 'Mis tareas', icon: <AppstoreOutlined />, route: ROUTES.MY_TASKS },
                         { title: 'Cerrar sesión', icon: <UserDeleteOutlined />, route: ROUTES.LOGOUT },
                     ]
                     : [
