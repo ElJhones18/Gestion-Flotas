@@ -28,4 +28,8 @@ export const ROUTES = {
     /* NEUMATICOS */
     ADMIN_CREATE_TIRE: "/admin/tire/create",
     ADMIN_LIST_TIRES: "/admin/tires",
+    
+    /* MANTENIMIENTO */
+    ADMIN_CREATE_MAINTENANCE: "/admin/maintenance/create",
+    ADMIN_LIST_MAINTENANCES: "/admin/maintenances",
 }
