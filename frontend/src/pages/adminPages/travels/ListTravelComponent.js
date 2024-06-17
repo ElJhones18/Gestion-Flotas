@@ -12,9 +12,11 @@ import {
     Upload,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Travel } from "../../../api/travel";
 import { useEffect, useState } from "react";
+import { PATHS } from "../../../utils/config";
+import axios from "axios";
 import { deleteTravelById, editTravelById, getTravels} from "../../../slices/travelSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,6 +28,11 @@ export const ListTravelComponent = () => {
     const travelApi = new Travel();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedTravel, setSelectedTravel] = useState(null);
+    const [trucks, setTrucks] = useState([]);
+    const [selectedTruck, setSelectedTruck] = useState('');
+  
+    const [drivers, setDrivers] = useState([]);
+    const [selectedDriver, setSelectedDriver] = useState('');
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -38,8 +45,31 @@ export const ListTravelComponent = () => {
             }
         }
         fetchTravels();
+        fetchDrivers();
+        fetchTrucks();
     }, [dispatch])
 
+    const fetchDrivers = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_USERS;
+            const response = await axios.get(URL);
+            const drivers = response.data.filter((driver) => driver.rol === 'Conductor');
+            setDrivers(drivers);
+        } catch (error) {
+            console.error('Error fetching drivers:', error);
+        }
+    };
+
+    const fetchTrucks = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_TRUCKS;
+            const response = await axios.get(URL);
+            setTrucks(response.data);
+        } catch (error) {
+            console.error("Error fetching trucks", error);
+        }
+    };
+    
     const handleEdit = (id) => {
         const travel = travels.find((travel) => travel.id === id);
         setSelectedTravel(travel);
@@ -48,7 +78,7 @@ export const ListTravelComponent = () => {
 
     const handleDelete = (id) => {
         confirm({
-            title: "¿Quiere eliminar este viaje",
+            title: "¿Quiere eliminar este viaje?",
             content: "Esta acción no se puede deshacer",
             onOk() {
                 travelApi.deleteTravelById(id)
@@ -102,6 +132,20 @@ export const ListTravelComponent = () => {
         });
     }
 
+    const getDriverNameById = (id) => {
+        const driver = drivers.find((driver) => driver.id === id);
+        if (driver) {
+            return driver.username + " " + driver.lastname;
+        }
+        return "Desconocido";
+    }
+    
+
+    const getTruckDetailsById = (id) => {
+        const truck = trucks.find((truck) => truck.id === id);
+        return truck ? `${truck.plate} - ${truck.model}` : "Desconocido";
+    }
+
     const columns = [
         {
             title: "Distancia",
@@ -126,12 +170,14 @@ export const ListTravelComponent = () => {
         {
             title: "Conductor",
             dataIndex: "driverId",
-            key: "driverId"
+            key: "driverId",
+            render: (id) => getDriverNameById(id)
         },
         {
             title: "Camión",
             dataIndex: "truckId",
-            key: "truckId"
+            key: "truckId",
+            render: (id) => getTruckDetailsById(id)
         },
         {
             title: "Acciones",
@@ -157,8 +203,12 @@ export const ListTravelComponent = () => {
     return (
         <div className="container">
             <div style={{display:"flex", justifyContent: "space-between"}}>
-                <h2>Listado de Viajes</h2>
-                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRAVEL)}>Crear Viaje</Button>
+                <h2>Mis Viajes</h2>
+                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRAVEL)} style={{ display:'flex', marginBottom:'10px' }}>
+                
+                    <PlusOutlined style={{fontSize:'20px', alignItems:'middle'}} />
+                        <span style={{alignItems:'middle', fontSize:'15px'}}>Crear Viaje</span>
+                    </Button>
             </div>
             <Table dataSource={travels} columns={columns} rowKey="id"/>
             {selectedTravel && (
