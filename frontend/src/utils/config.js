@@ -54,6 +54,10 @@ export const PATHS = {
         EDIT_TRAVEL: `/travel/edit/`,
         DELETE_TRAVEL: `/travel/delete/`,
 
+        /* PARADAS */
+        CREATE_STOP: `/stop/create`,
+        LIST_STOPS: `/stops`,
+
         /* COMBUSTIBLES */
         LIST_FUELS: `/fuels`,
         GET_FUEL: `/fuel/`,

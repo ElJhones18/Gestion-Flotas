@@ -36,4 +36,8 @@ export const ROUTES = {
     /* VIAJES */
     ADMIN_CREATE_TRAVEL: "/admin/travel/create",
     ADMIN_LIST_TRAVELS: "/admin/travels",
+
+    /* PARADAS */
+    ADMIN_CREATE_STOP: "/admin/stop/create",
+    ADMIN_LIST_STOPS: "/admin/stops",
 }

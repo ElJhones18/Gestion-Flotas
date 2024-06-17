@@ -34,6 +34,7 @@ import DriverPortal from "../pages/driverPages/DriverPortal.js";
 
 import CreateMaintenanceComponent from "../pages/adminPages/total_maintenance/CreateMaintenaceComponent.js";
 import ListMaintenanceComponent from "../pages/adminPages/total_maintenance/ListMaintenaceComponent.js";
+import { CreateStopComponent } from "../pages/adminPages/travels/CreateStopComponent.js";
 
 export const AdminRoutes = () => {
     const loadLayout = (Layout, Page) => {
@@ -59,6 +60,7 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.ADMIN_CREATE_TIRE} element={loadLayout(AdminLayout, CreateTireComponent)} />
                     <Route path={ROUTES.ADMIN_LIST_TIRES} element={loadLayout(AdminLayout, ListTireComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_MAINTENANCE} element={loadLayout(AdminLayout, CreateMaintenanceComponent)} />
+                    <Route path={ROUTES.ADMIN_CREATE_STOP} element={loadLayout(AdminLayout, CreateStopComponent)} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={["Conductor"]} />}>
