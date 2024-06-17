@@ -2,16 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     FileOutlined,
-    PieChartOutlined,
+    SlidersOutlined,
     TeamOutlined,
-    UserDeleteOutlined,
-    InfoCircleOutlined,
     UnorderedListOutlined,
     TruckOutlined,
     RightOutlined,
     LeftOutlined,
     HomeOutlined,
-    FireOutlined
+    FireOutlined,
+    ToolOutlined,
+    FileAddOutlined,
+    HistoryOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { ROUTES } from "../../../routes/index";
@@ -42,14 +43,18 @@ const items = [
         getItem('Listar combustibles', 'list-fuels', <Link to={ROUTES.ADMIN_LIST_FUELS}><UnorderedListOutlined /></Link>),
         getItem('Crear combustible', 'create-fuel', <Link to={ROUTES.ADMIN_CREATE_FUEL}><FileOutlined /></Link>),
     ]),
+    getItem('Neumáticos', 'tire', <Link to={ROUTES.ADMIN_LIST_TIRES}><ToolOutlined /></Link>, [
+        getItem('Listar neumáticos', 'list-tires', <Link to={ROUTES.ADMIN_LIST_TIRES}><UnorderedListOutlined /></Link>),
+        getItem('Crear neumático', 'create-tire', <Link to={ROUTES.ADMIN_CREATE_TIRE}><FileAddOutlined /></Link>),
+    ]),
+    getItem('Mantenimiento', 'maintenance', <SlidersOutlined />, [
+        getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
+        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
     getItem('Viajes', 'travel', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><PieChartOutlined /></Link>,[
         getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><PieChartOutlined /></Link>), 
         getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><PieChartOutlined /></Link>),
     ]),
 
-    getItem('Files', '9', <FileOutlined />),
-    getItem('Portal del Conductor', 'driver-portal', <Link to={ROUTES.DRIVER_PORTAL}><InfoCircleOutlined /></Link>),
-    getItem('Cerrar Sesión', '10', <Link to={ROUTES.LOGOUT}>  <UserDeleteOutlined /> </Link>),
 ];
 
 export const MenuSide = (props) => {

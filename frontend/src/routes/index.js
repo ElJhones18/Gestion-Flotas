@@ -25,6 +25,14 @@ export const ROUTES = {
     ADMIN_CREATE_FUEL: "/admin/fuel/create",
     ADMIN_LIST_FUELS: "/admin/fuels",
 
+    /* NEUMATICOS */
+    ADMIN_CREATE_TIRE: "/admin/tire/create",
+    ADMIN_LIST_TIRES: "/admin/tires",
+    
+    /* MANTENIMIENTO */
+    ADMIN_CREATE_MAINTENANCE: "/admin/maintenance/create",
+    ADMIN_LIST_MAINTENANCES: "/admin/maintenances",
+
     /* VIAJES */
     ADMIN_CREATE_TRAVEL: "/admin/travel/create",
     ADMIN_LIST_TRAVELS: "/admin/travels",

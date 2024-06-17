@@ -105,6 +105,7 @@ model Checklist {
 
 model Total_maintenance {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
+  date       String
   repairs    String
   next_event String
   truckId    String @unique @db.ObjectId

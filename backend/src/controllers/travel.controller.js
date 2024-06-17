@@ -53,6 +53,16 @@ const createTravel = async (req, res) => {
                 truckId: truckId
             }
         })
+
+        await prisma.notification.create({
+            data: {
+                userId: driverId,
+                type: 'Nuevo viaje',
+                description: `Tienes un nuevo viaje con destino a ${destination}!`,
+                read: false
+            }
+        });
+
         res.json(newTravel);
     } catch (error) {
         console.log(error);
