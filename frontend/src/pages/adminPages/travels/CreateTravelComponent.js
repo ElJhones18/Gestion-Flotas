@@ -99,18 +99,17 @@ export const CreateTravelComponent = () => {
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
 
-    const newStops = newWaypoints.map((wp, idx) => ({
-      id: idx + 1,
-      label: newLabels[idx] || '',
-      location: wp.location
-    }));
-
-    setStops(newStops);
-
     if (index === 0) {
       setOrigin(selectedOption.label);
     } else if (index === waypoints.length - 1) {
       setDestination(selectedOption.label);
+    } else {
+      const newStops = newWaypoints.slice(1, newWaypoints.length - 1).map((wp, idx) => ({
+        id: idx + 1,
+        label: newLabels[idx + 1] || '',
+        location: wp.location
+      }));
+      setStops(newStops);
     }
   };
 
@@ -129,12 +128,11 @@ export const CreateTravelComponent = () => {
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
 
-    const newStops = newWaypoints.map((wp, idx) => ({
+    const newStops = newWaypoints.slice(1, newWaypoints.length - 1).map((wp, idx) => ({
       id: idx + 1,
-      label: newLabels[idx] || '',
+      label: newLabels[idx + 1] || '',
       location: wp.location
     }));
-
     setStops(newStops);
   };
 
