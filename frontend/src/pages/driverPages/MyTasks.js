@@ -68,6 +68,24 @@ const MyTasks = () => {
             >
                 <strong className="title">{item.type}</strong>
                 <p className="body">{item.description}</p>
+
+                {item.origen &&
+                    <>
+                        <p className="body"> <b>Origen: </b> {item.origen}</p>
+                        <p className="body"> <b>Destino: </b>{item.destino}</p>
+
+                        <p className="body"> <b>Paradas: </b>{
+                            (
+                                item.paradas.map((parada, index) => (
+                                    <>
+                                        <br />
+                                        <span key={index}>{parada}</span>
+                                    </>
+                                ))
+                            )
+                        }</p>
+                    </>
+                }
             </div>
         )
     }
