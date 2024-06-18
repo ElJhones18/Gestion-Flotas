@@ -34,13 +34,13 @@ function getItem(label, key, icon, children) {
 const items = [
     getItem('Home', 'home', <Link to="/home"><HomeOutlined /></Link>),
     getItem('Usuarios', 'user', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>, [
-        getItem('Listar usuarios', 'list-users', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>),
+        getItem('Usuarios', 'list-users', <Link to={ROUTES.ADMIN_LIST_USERS}><TeamOutlined /></Link>),
         // getItem('Crear usuario', 'create-user', <Link to={ROUTES.ADMIN_CREATE_USER}><UsergroupAddOutlined /></Link>),
     ]),
     getItem('Camiones', 'truck', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>, [
-        getItem('Listar camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
-        getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>),
-        getItem('Crear checklist', 'create-checklist', <Link to={ROUTES.CHECKLIST}><UnorderedListOutlined /></Link>),
+        getItem('Mis camiones', 'list-trucks', <Link to={ROUTES.ADMIN_LIST_TRUCKS}><TruckOutlined /></Link>),
+       /*  getItem('Crear camión', 'create-truck', <Link to={ROUTES.ADMIN_CREATE_TRUCK}><TruckOutlined /></Link>), */
+        getItem('Checklist', 'create-checklist', <Link to={ROUTES.CHECKLIST}><UnorderedListOutlined /></Link>),
     ]),
     getItem('Combustibles', 'fuel', <Link to={ROUTES.ADMIN_LIST_FUELS}><FireOutlined /></Link>, [
         getItem('Listar combustibles', 'list-fuels', <Link to={ROUTES.ADMIN_LIST_FUELS}><UnorderedListOutlined /></Link>),
@@ -54,8 +54,8 @@ const items = [
         getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
         getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
     getItem('Viajes', 'travel', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>,[
-        getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>), 
-        getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><EnvironmentOutlined /></Link>),
+        getItem('Mis viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>), 
+       /*  getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><EnvironmentOutlined /></Link>), */
     ]),
     getItem('Inventario', 'inventory', <InboxOutlined />, [
         getItem('Listar inventario', 'list-inventory', <Link to={ROUTES.ADMIN_LIST_INVENTORY}><OrderedListOutlined /></Link>),

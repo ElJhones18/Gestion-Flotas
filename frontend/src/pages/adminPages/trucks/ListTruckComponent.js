@@ -15,6 +15,8 @@ import { Truck } from "../../../api/truck";
 import { getTrucks, editTruckById, deleteTruckById } from "../../../slices/truckSlice";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/index"
+import { PATHS } from "../../../utils/config";
+import axios from "axios";
 
 const { confirm } = Modal;
 
@@ -24,6 +26,8 @@ export const ListTruckComponent = () => {
     const truckApi = new Truck();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedTruck, setSelectedTruck] = useState(null);
+    const [drivers, setDrivers] = useState([])
+    const [fuels, setFuels] = useState([]);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -40,6 +44,37 @@ export const ListTruckComponent = () => {
         // console.log(JSON.stringify(trucks));
     }, [dispatch]);
 
+
+    useEffect(() => {
+        fetchDrivers();
+        fetchFuels();
+    }, []);
+
+    const fetchDrivers = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_USERS;
+            // console.log(URL);
+            const response = await axios.get(URL);
+            const drivers = response.data.filter((driver) => driver.rol === 'Conductor');
+            console.log(drivers);
+            setDrivers(drivers);
+        } catch (error) {
+            console.error('Error fetching drivers:', error);
+        }
+    };
+
+    const fetchFuels = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_FUELS;
+            // console.log(URL);
+            const response = await axios.get(URL);
+            const fuels = response.data;
+            console.log(fuels);
+            setFuels(fuels);
+        } catch (error) {
+            console.error('Error fetching fuels:', error);
+        }
+    };
     const handleEdit = (id) => {
         const truck = trucks.find((truck) => truck.id === id);
         console.log(truck);
@@ -111,12 +146,28 @@ export const ListTruckComponent = () => {
         });
     }
 
+    const getDriverNameById = (id) => {
+        const driver = drivers.find((driver) => driver.id === id);
+        if (driver) {
+            return driver.username + " " + driver.lastname;
+        }
+        return "Desconocido";
+    }
+
+    const getFuelNameById = (id) => {
+        const fuel = fuels.find((fuel) => fuel.id === id);
+        if (fuel) {
+            return fuel.brand;
+        }
+        return "Desconocido";
+    }
+
     const columns = [
         {
             title: "Foto",
             dataIndex: "photo",
             key: "photo",
-            render: (text, record) => <Avatar src={`http://localhost:3001/uploads/avatars/${record.photo}`} />,
+            render: (text, record) => <Avatar src={`http://localhost:3001/uploads/trucks/${record.photo}`} />,
         },
         {
             title: "Placa",
@@ -153,11 +204,11 @@ export const ListTruckComponent = () => {
             dataIndex: "load_capacity",
             key: "load_capacity",
         },
-        {
+/*         {
             title: "Llantas",
             dataIndex: "tires",
             key: "tires",
-        },
+        }, */
         {
             title: "Combustible",
             dataIndex: "fuelId",
@@ -166,11 +217,13 @@ export const ListTruckComponent = () => {
             //     return fuel.slice(1, -1);
             // },
             key: "fuelId",
+            render: (id) => getFuelNameById(id)
         },
         {
             title: "Conductor",
             dataIndex: "driverId",
             key: "driverId",
+            render: (id) => getDriverNameById(id)
         },
         {
             title: "Acciones",
