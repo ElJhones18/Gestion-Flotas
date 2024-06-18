@@ -47,6 +47,17 @@ export const PATHS = {
         EDIT_MAINTENANCE: `/maintenance/edit/`,
         DELETE_MAINTENANCE: `/maintenance/delete/`,
 
+        /* VIAJES */
+        CREATE_TRAVEL: `/travel/create`,
+        LIST_TRAVELS: `/travels`,
+        GET_TRAVEL: `/travel/`,
+        EDIT_TRAVEL: `/travel/edit/`,
+        DELETE_TRAVEL: `/travel/delete/`,
+
+        /* PARADAS */
+        CREATE_STOP: `/stop/create`,
+        LIST_STOPS: `/stops`,
+
         /* COMBUSTIBLES */
         LIST_FUELS: `/fuels`,
         GET_FUEL: `/fuel/`,

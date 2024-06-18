@@ -34,6 +34,14 @@ export const ROUTES = {
     ADMIN_CREATE_MAINTENANCE: "/admin/maintenance/create",
     ADMIN_LIST_MAINTENANCES: "/admin/maintenances",
 
+    /* VIAJES */
+    ADMIN_CREATE_TRAVEL: "/admin/travel/create",
+    ADMIN_LIST_TRAVELS: "/admin/travels",
+
+    /* PARADAS */
+    ADMIN_CREATE_STOP: "/admin/stop/create",
+    ADMIN_LIST_STOPS: "/admin/stops",
+
     /* INVENTORY */
     ADMIN_LIST_INVENTORY: "/admin/inventory",
 }

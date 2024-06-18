@@ -13,6 +13,7 @@ import {
     ToolOutlined,
     FileAddOutlined,
     HistoryOutlined,
+    EnvironmentOutlined,
     InboxOutlined,
     OrderedListOutlined
 } from '@ant-design/icons';
@@ -51,7 +52,10 @@ const items = [
     ]),
     getItem('Mantenimiento', 'maintenance', <SlidersOutlined />, [
         getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
-        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),
+        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
+    getItem('Viajes', 'travel', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>,[
+        getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>), 
+        getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><EnvironmentOutlined /></Link>),
     ]),
     getItem('Inventario', 'inventory', <InboxOutlined />, [
         getItem('Listar inventario', 'list-inventory', <Link to={ROUTES.ADMIN_LIST_INVENTORY}><OrderedListOutlined /></Link>),

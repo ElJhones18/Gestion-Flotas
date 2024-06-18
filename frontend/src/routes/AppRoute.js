@@ -22,6 +22,10 @@ import CreateFuelComponent from "../pages/adminPages/fuels/CreateFuelComponent";
 import { ListTireComponent } from "../pages/adminPages/tires/ListTireComponent";
 import CreateTireComponent from "../pages/adminPages/tires/CreateTireComponent";
 
+/* VIAJES */
+import { ListTravelComponent } from "../pages/adminPages/travels/ListTravelComponent";
+import { CreateTravelComponent } from "../pages/adminPages/travels/CreateTravelComponent.js";
+
 /* INVENTORY */
 import { ListInventoryComponent } from "../pages/adminPages/inventory/ListInventoryComponent";
 
@@ -52,6 +56,8 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.ADMIN_LIST_USERS} element={loadLayout(AdminLayout, ListComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_TRUCK} element={loadLayout(AdminLayout, CreateTruckComponent)} />
                     <Route path={ROUTES.ADMIN_EDIT_TASK} element={loadLayout(AdminLayout, DragAndDrop)} />
+                    <Route path={ROUTES.ADMIN_CREATE_TRAVEL} element={loadLayout(AdminLayout, CreateTravelComponent)} />
+                    <Route path={ROUTES.ADMIN_LIST_TRAVELS} element={loadLayout(AdminLayout, ListTravelComponent)} />
                     <Route path={ROUTES.ADMIN_LIST_FUELS} element={loadLayout(AdminLayout, ListFuelComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_FUEL} element={loadLayout(AdminLayout, CreateFuelComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_TIRE} element={loadLayout(AdminLayout, CreateTireComponent)} />

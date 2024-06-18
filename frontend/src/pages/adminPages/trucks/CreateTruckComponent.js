@@ -4,8 +4,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Option } from 'antd/es/mentions';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateTruckComponent = () => {
+    const navigate = useNavigate()
     const [plate, setPlate] = useState('');
     const [brand, setBrand] = useState('');
     const [color, setColor] = useState('');
@@ -102,6 +104,7 @@ const CreateTruckComponent = () => {
                 marginLeft: 'auto',
                 marginRight: 'auto',
             }}>
+                <Button onClick={() => navigate(-1)}>Volver</Button>
                 <h1>Crear Camión</h1> <br />
 
                 <p>Complete el siguiente formulario para crear un nuevo camión</p>
@@ -165,7 +168,7 @@ const CreateTruckComponent = () => {
                         <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
                             {drivers.map((driver) => (
                                 <Option key={driver.id} value={driver.id}>
-                                    {driver.username}
+                                    {driver.username} {driver.lastname}
                                 </Option>
                             ))}
                         </Select>

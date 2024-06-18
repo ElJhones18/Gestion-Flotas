@@ -178,10 +178,14 @@ export const ListTruckComponent = () => {
             render: (_, record) => (
                 <Space size="middle">
                     <Tooltip title="Editar">
-                        <EditOutlined onClick={() => handleEdit(record.id)} />
+                        <EditOutlined 
+                        style={{ color: "blue", cursor: "pointer" }}
+                        onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Tooltip title="Eliminar">
-                        <DeleteOutlined onClick={() => handleDelete(record.id)} />
+                        <DeleteOutlined 
+                        style={{ color: "red", cursor: "pointer" }}
+                        onClick={() => handleDelete(record.id)} />
                     </Tooltip>
                 </Space>
             ),

@@ -1,58 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [{
-    id: "",
     distance: "",
     origin: "",
     destination: "",
     stops: [],
-    driverId: ""
+    driverId: "",
+    truckId: ""
 }]
 
 export const travelSlice = createSlice({
     name: "travel",
     initialState,
     reducers: {
-        addTravel: (estado, action) => {
+        addTravel: (state, action) => {
             const {
                 distance,
                 origin,
                 destination,
                 stops,
-                driverId
+                driverId,
+                truckId
             } = action.payload
-            estado.distance = distance
-            estado.origin = origin
-            estado.destination = destination
-            estado.stops = stops
-            estado.driverId = driverId
+            state.distance = distance
+            state.origin = origin
+            state.destination = destination
+            state.stops = stops
+            state.driverId = driverId
+            state.truckId = truckId
+
         },
-        getTravels: (estado, action) => {
+        getTravels: (state, action) => {
             return action.payload
         },
-        getTravelById: (estado, action) => {
+        getTravelById: (state, action) => {
         },
-        editTravelById: (estado, action) => {
-            /* const { id, type, state, description, driverId } = action.payload;
-            const existingTask = state.tasks.find(task => task.id === id);
-            if (existingTask) {
-                existingTask.type = type;
-                existingTask.state = state;
-                existingTask.description = description;
-                existingTask.driverId = driverId;
-            } */
-
-            const { updatedTaskData } = action.payload;
-            return {
-                ...estado,
-                tasks: estado.tasks.map(task => task.id === updatedTaskData.id ? updatedTaskData : task)
-            }
+        editTravelById: (state, action) => {
+            return state.map(travel => travel.id === action.payload.id ? action.payload : travel)
         },
-        deleteTravelById: (estado, action) => {
-            estado.tasks = estado.tasks.filter(task => task.id !== action.payload);
+        deleteTravelById: (state, action) => {
+            return state.filter(travel => travel.id !== action.payload);
         }
     }
 });
 
-export const { addTask, getTasks, getTaskById, editTaskById, deleteTaskById } = travelSlice.actions;
+export const { addTravel, getTravels, getTravelById, editTravelById, deleteTravelById } = travelSlice.actions;
 export default travelSlice.reducer;
