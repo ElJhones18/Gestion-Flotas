@@ -79,7 +79,9 @@ const MyTasks = () => {
                                 item.paradas.map((parada, index) => (
                                     <>
                                         <br />
-                                        <span key={index}>{parada}</span>
+                                        <span key={index}> <b>{index + 1}</b> {parada}</span>
+                                        <p className="body"> &nbsp; <b>Indicaciones: </b> {item.indicaciones[index]} </p>
+
                                     </>
                                 ))
                             )
