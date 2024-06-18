@@ -23,6 +23,7 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
     const [cantidadParadas, setCantidadParadas] = useState(1);
     const [origen, setOrigen] = useState("");
     const [destino, setDestino] = useState("");
+    const [paradas, setParadas] = useState([]);
 
     const [task, setTask] = useState(currentTask || {
         type: "",
@@ -42,7 +43,9 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
     const onFinish = (values) => {
         values.origen = origen;
         values.destino = destino;
+        values.paradas = paradas;
         console.log(values);
+
         try {
             if (currentTask) {
                 taskApi.editTaskById(currentTask.id, { ...values, driverId }).then((response) => {
@@ -59,19 +62,22 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                 setCurrentTask(null)
                 setIsModalOpen(false);
             } else {
-                // taskApi.createTask({ ...values, driverId }).then((response) => {
-                //     console.log("values:", driverId);
-                //     console.log("response:", response.data);
-                //     dispatch(addTask(response.data));
-                // }).catch((e) => {
-                //     console.log("error1", e)
-                // })
-                // setTask({
-                //     type: "",
-                //     state: "",
-                //     description: "",
-                //     driverId: ""
-                // });
+                taskApi.createTask({ ...values, driverId }).then((response) => {
+                    console.log("values:", driverId);
+                    console.log("response:", response.data);
+                    dispatch(addTask(response.data));
+                }).catch((e) => {
+                    console.log("error1", e)
+                })
+                setTask({
+                    type: "",
+                    state: "",
+                    description: "",
+                    origen: "",
+                    paradas: [],
+                    destino: "",
+                    driverId: ""
+                });
                 setCurrentTask(null);
                 setIsModalOpen(false);
             }
@@ -124,13 +130,6 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                     </Select>
                 </Form.Item>
 
-                <Form.Item label="Descripción" name="description">
-                    <TextArea
-                        name="description"
-                        value={task.description}
-                        rows={4}
-                    />
-                </Form.Item>
 
                 {/* <Form.Item label="Conductor" name="driverId">
                     <Select
@@ -188,8 +187,26 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                     <InputNumber min={1} max={3} value={cantidadParadas} onChange={setCantidadParadas} />
                 </Form.Item>
 
+                {[...Array(cantidadParadas)].map((_, index) => (
+                    <Form.Item key={index} label={`Parada ${index + 1}`}>
+                        <AsyncSelect
+                            components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+                            placeholder="Parada"
+                            cacheOptions
+                            loadOptions={fetchSuggestions}
+                            onChange={(selectedOption) => setParadas([...paradas, selectedOption.name])}
+                            defaultOptions
+                        />
+                    </Form.Item>
+                ))}
 
-
+                <Form.Item label="Descripción" name="description">
+                    <TextArea
+                        name="description"
+                        value={task.description}
+                        rows={4}
+                    />
+                </Form.Item>
                 <Form.Item label="Estado" name="state">
                     <Select
                         name="state"
