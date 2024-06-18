@@ -34,12 +34,15 @@ model Users {
 }
 
 model Tasks {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   type        String
+  origen      String?
+  destino     String?
+  paradas     String[]
   state       String
   description String
-  driverId    String @db.ObjectId
-  driver      Users  @relation(fields: [driverId], references: [id])
+  driverId    String  @db.ObjectId
+  driver      Users   @relation(fields: [driverId], references: [id])
 }
 
 model Notification {

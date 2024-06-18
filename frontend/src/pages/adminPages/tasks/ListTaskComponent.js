@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTasks, editTaskById, deleteTaskById } from "../../../slices/taskSlice";
 import { Space, Tooltip, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { CreateTravelTaskComponent } from "./CreateTravelTaskComponent copy";
 const { confirm } = Modal;
 
 export const DragAndDrop = () => {
@@ -101,6 +102,25 @@ export const DragAndDrop = () => {
       >
         <strong className="title">{item.type}</strong>
         <p className="body">{item.description}</p>
+
+        {item.origen &&
+          <>
+            <p className="body"> <b>Origen: </b> {item.origen}</p>
+            <p className="body"> <b>Destino: </b>{item.destino}</p>
+
+            <p className="body"> <b>Paradas: </b>{
+              (
+                item.paradas.map((parada, index) => (
+                  <>
+                    <br />
+                    <span key={index}>{parada}</span>
+                  </>
+                ))
+              )
+            }</p>
+          </>
+        }
+
         <Space size="middle">
           <Tooltip title="Edit">
             <EditOutlined
@@ -124,10 +144,19 @@ export const DragAndDrop = () => {
       <h1>Tablero de tareas&nbsp;</h1>
       <br />
 
-      {/* BOTÓN AGREGAR TAREAS */}
-      <div className="container">
-        <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea</button>
-        {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} setCurrentTask={setCurrentTask} />}
+      <div style={{ display: 'flex', marginBottom: '20px' }}>
+
+        {/* BOTÓN AGREGAR TAREAS */}
+        <div className="container">
+          <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea</button>
+          {isModalOpen && <CreateTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} setCurrentTask={setCurrentTask} />}
+        </div>
+
+        {/* BOTÓN AGREGAR TAREAS */}
+        <div className="container" style={{ marginLeft: '20px' }}>
+          <button className="pulse-effect btn btn-agregar" type="primary" onClick={showModal}>Agregar tarea de viaje</button>
+          {isModalOpen && <CreateTravelTaskComponent driverId={driverId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} currentTask={currentTask} setCurrentTask={setCurrentTask} />}
+        </div>
       </div>
 
       {/* TABLAS PARA LAS TAREAS */}
