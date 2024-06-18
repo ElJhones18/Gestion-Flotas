@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, DatePicker, Select, Upload } from 'antd';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
+import fuel from '../../../uploads/images/Gas.png';
+import { Card, Col, Row } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { LeftCircleOutlined } from '@ant-design/icons';
 
 const CreateFuelComponent = () => {
+    const navigate = useNavigate()
     const [cost, setCost] = useState('');
     const [efficiency, setEfficiency] = useState('');
     const [brand, setBrand] = useState('');
@@ -29,37 +34,43 @@ const CreateFuelComponent = () => {
     };
 
     return (
-        <div style={{maxWidth:700, marginRight:'auto', marginLeft:'auto'}}>
-            <h1>Crear combustible</h1>
-            <br />
-            <p>Ingrese los datos del nuevo combustible.</p>
-            <p>Los campos con asterísco son obligatorios.</p>
-            <Form
-                labelCol={{
-                    span: 4,
-                }}
-                wrapperCol={{
-                    span: 20,
-                }}
-                layout="horizontal"
-                onFinish={handleSubmit}
-            >
-                <Form.Item label="Costo" name="cost" rules={[{ required: true }]}>
-                    <Input onChange={(e) => setCost(e.target.value)} />
-                </Form.Item>
-                <Form.Item label="Eficiencia" name="efficiency" rules={[{ required: true }]}>
-                    <Input onChange={(e) => setEfficiency(e.target.value)} />
-                </Form.Item>
-                <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
-                    <Input onChange={(e) => setBrand(e.target.value)} />
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
-                    <Button type="primary" htmlType="submit">
-                        Crear
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
+        <>
+            <div style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px'  }}>
+                <Button type="danger" onClick={() => navigate(-1)}>
+                    <LeftCircleOutlined style={{ fontSize: '25px' }} />
+                </Button>
+                <h2>Crear Combustible</h2>
+                </div>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Card>
+                            <Form layout="vertical" onFinish={handleSubmit}>
+                                <Form.Item label="Costo" name="cost" rules={[{ required: true }]}>
+                                    <Input value={cost} onChange={(e) => setCost(e.target.value)} />
+                                </Form.Item>
+                                <Form.Item label="Eficiencia" name="efficiency" rules={[{ required: true }]}>
+                                    <Input value={efficiency} onChange={(e) => setEfficiency(e.target.value)} />
+                                </Form.Item>
+                                <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
+                                    <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" style={{ float: 'right', marginTop:"10px" }}>
+                                        Crear Combustible
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+                    </Col>
+                    <Col span={12}>
+                        <div style={{ height: '50%' }}>
+                            <img src={fuel} alt="Combustible" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+        </>
     );
 };
 

@@ -26,6 +26,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/uploads/avatars', express.static('uploads/avatars'));
+app.use('/uploads/trucks', express.static('uploads/trucks'));
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })
@@ -44,7 +45,7 @@ const upload = multer({ storage: storage });
 // middleware para subir archivos
 const storage1 = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/truck');
+        cb(null, 'uploads/trucks');
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);

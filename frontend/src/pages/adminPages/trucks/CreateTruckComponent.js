@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, DatePicker, Select, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, DatePicker, Select, Upload, Row, Col, Card } from 'antd';
+import { LeftCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { Option } from 'antd/es/mentions';
 import { PATHS } from '../../../utils/config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import camion from '../../../uploads/images/camion.webp';
 
 const CreateTruckComponent = () => {
     const navigate = useNavigate()
@@ -99,120 +100,121 @@ const CreateTruckComponent = () => {
 
     return (
         <>
-            <div style={{
-                maxWidth: 700,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            }}>
-                <Button onClick={() => navigate(-1)}>Volver</Button>
-                <h1>Crear Camión</h1> <br />
-
-                <p>Complete el siguiente formulario para crear un nuevo camión</p>
-                <p>Los campos con asterísco son obligatorios.</p>
-
-                <Form
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{ span: 19 }}
-                    labelWrap={true}
-                    onFinish={handleSubmit}>
-                    <Form.Item label="Placa" name="plate" rules={[{ required: true }]}>
-                        <Input value={plate} onChange={(e) => setPlate(e.target.value)} />
-                    </Form.Item>
-
-                    <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
-                        <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
-                    </Form.Item>
-
-                    <Form.Item label="Color" name="color" rules={[{ required: true }]}>
-                        <Input value={color} onChange={(e) => setColor(e.target.value)} />
-                    </Form.Item>
-
-                    <Form.Item label="Modelo" name="model" rules={[{ required: true }]}>
-                        <Input value={color} onChange={(e) => setModel(e.target.value)} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Rotación de neumáticos"
-                        name="rotationProgramming"
-                        rules={[{ required: true }]}
-                    >
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            // value={rotationProgramming}
-                            onChange={(date, dateString) => setRotationProgramming(dateString)}
-                        />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Consumo de Combustible"
-                        name="fuelConsumption"
-                        rules={[{ required: true }]}
-                    >
-                        <Select value={fuelConsumption} onChange={(value) => setFuelConsumption(value)}>
-                            <Option value="Alto">Alto</Option>
-                            <Option value="Bajo">Bajo</Option>
-                            <Option value="Medio">Medio</Option>
-                        </Select>
-                    </Form.Item>
-
-
-                    <Form.Item label="Capacidad de carga" name="loadCapacity" rules={[{ required: true }]}>
-                        <Select value={loadCapacity} onChange={(value) => setLoadCapacity(value)}>
-                            <Option value="Alta">Alta</Option>
-                            <Option value="Baja">Baja</Option>
-                            <Option value="Media">Media</Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
-                        <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
-                            {drivers.map((driver) => (
-                                <Option key={driver.id} value={driver.id}>
-                                    {driver.username} {driver.lastname}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item label="Marca de combustible" name="fuel" rules={[{ required: true }]}>
-                        <Select value={selectedFuel} onChange={(value) => setSelectedFuel(value)}>
-                            {fuels.map((fuel) => (
-                                <Option key={fuel.id} value={fuel.id}>
-                                    {fuel.brand}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item label="Foto">
-                        <Upload
-                            accept="image/*"
-                            beforeUpload={() => {
-                                return false;
-                            }}
-                            onChange={(info) => {
-                                console.log(info.fileList);
-                                if (info.fileList.length > 0) {
-                                    const file = info.fileList[0].originFileObj;
-                                    // setFormData({
-                                    //     ...formData,
-                                    //     avatar: file,
-                                    // });
-                                    setPhoto(file);
-                                }
-                            }}
-                            // onChange={handleUpload}
-                            fileList={[]}>
-                            <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
-                        </Upload>
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Crear camión
-                        </Button>
-                    </Form.Item>
-                </Form>
+            <div style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px'  }}>
+                <Button type="danger" onClick={() => navigate(-1)}>
+                    <LeftCircleOutlined style={{ fontSize: '25px' }} />
+                </Button>
+                <h2>Crear Camión</h2>
+                </div>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Card>
+                            <Form layout="vertical" onFinish={handleSubmit}>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <Form.Item label="Placa" name="plate" rules={[{ required: true }]}>
+                                            <Input value={plate} onChange={(e) => setPlate(e.target.value)} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item label="Modelo" name="model" rules={[{ required: true }]}>
+                                            <Input value={model} onChange={(e) => setModel(e.target.value)} />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <Form.Item label="Marca" name="brand" rules={[{ required: true }]}>
+                                            <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item label="Color" name="color" rules={[{ required: true }]}>
+                                            <Input value={color} onChange={(e) => setColor(e.target.value)} />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Form.Item
+                                    label="Rotación de neumáticos"
+                                    name="rotationProgramming"
+                                    rules={[{ required: true }]}
+                                    style={{ width: '100%' }}
+                                >
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        onChange={(date, dateString) => setRotationProgramming(dateString)}
+                                        style={{ width: '100%' }}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Consumo de Combustible"
+                                    name="fuelConsumption"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select value={fuelConsumption} onChange={(value) => setFuelConsumption(value)}>
+                                        <Option value="Alto">Alto</Option>
+                                        <Option value="Bajo">Bajo</Option>
+                                        <Option value="Medio">Medio</Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item label="Capacidad de carga" name="loadCapacity" rules={[{ required: true }]}>
+                                    <Select value={loadCapacity} onChange={(value) => setLoadCapacity(value)}>
+                                        <Option value="Alta">Alta</Option>
+                                        <Option value="Baja">Baja</Option>
+                                        <Option value="Media">Media</Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item label="Conductor" name="driver" rules={[{ required: true }]}>
+                                    <Select value={selectedDriver} onChange={(value) => setSelectedDriver(value)}>
+                                        {drivers.map((driver) => (
+                                            <Option key={driver.id} value={driver.id}>
+                                                {driver.username} {driver.lastname}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item label="Marca de combustible" name="fuel" rules={[{ required: true }]}>
+                                    <Select value={selectedFuel} onChange={(value) => setSelectedFuel(value)}>
+                                        {fuels.map((fuel) => (
+                                            <Option key={fuel.id} value={fuel.id}>
+                                                {fuel.brand}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item label="Foto">
+                                    <Upload
+                                        accept="image/*"
+                                        beforeUpload={() => {
+                                            return false;
+                                        }}
+                                        onChange={(info) => {
+                                            console.log(info.fileList);
+                                            if (info.fileList.length > 0) {
+                                                const file = info.fileList[0].originFileObj;
+                                                setPhoto(file);
+                                            }
+                                        }}
+                                        fileList={[]}
+                                    >
+                                        <Button icon={<UploadOutlined />}>Seleccionar archivo</Button>
+                                    </Upload>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" style={{ float: 'right' }}>
+                                        Crear camión
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+                    </Col>
+                    <Col span={12}>
+                        <div style={{ height: '100%' }}>
+                            <img src={camion} alt="Camión" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                    </Col>
+                </Row>
             </div>
         </>
     );

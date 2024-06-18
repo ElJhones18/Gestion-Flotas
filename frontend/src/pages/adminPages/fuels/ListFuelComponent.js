@@ -141,12 +141,11 @@ export const ListFuelComponent = () => {
 
     return (
         <div>
-            <Button
-                type="primary"
-                onClick={() => navigate(ROUTES.ADMIN_CREATE_FUEL)}
-            >
-                Agregar combustible
-            </Button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h2>Combustibles</h2>
+                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_FUEL)}>Agregar combustible</Button>
+            </div>
+
             <Table
                 columns={columns}
                 dataSource={fuels}
