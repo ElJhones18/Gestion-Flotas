@@ -12,7 +12,9 @@ import {
     FireOutlined,
     ToolOutlined,
     FileAddOutlined,
-    HistoryOutlined
+    HistoryOutlined,
+    InboxOutlined,
+    OrderedListOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { ROUTES } from "../../../routes/index";
@@ -49,7 +51,11 @@ const items = [
     ]),
     getItem('Mantenimiento', 'maintenance', <SlidersOutlined />, [
         getItem('', '6', <Link to={ROUTES.ADMIN_CREATE_MAINTENANCE}>Crear mantenimiento</Link>),
-        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),]),
+        getItem('Historial', '8', <Link to={ROUTES.ADMIN_LIST_MAINTENANCES}><HistoryOutlined /></Link>),
+    ]),
+    getItem('Inventario', 'inventory', <InboxOutlined />, [
+        getItem('Listar inventario', 'list-inventory', <Link to={ROUTES.ADMIN_LIST_INVENTORY}><OrderedListOutlined /></Link>),
+    ]),
 ];
 
 export const MenuSide = (props) => {
