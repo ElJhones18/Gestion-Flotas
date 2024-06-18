@@ -33,4 +33,7 @@ export const ROUTES = {
     /* MANTENIMIENTO */
     ADMIN_CREATE_MAINTENANCE: "/admin/maintenance/create",
     ADMIN_LIST_MAINTENANCES: "/admin/maintenances",
+
+    /* INVENTORY */
+    ADMIN_LIST_INVENTORY: "/admin/inventory",
 }

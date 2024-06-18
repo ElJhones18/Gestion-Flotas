@@ -5,20 +5,18 @@ const createTire = async (req, res) => {
     const { brand, wear, truckId } = req.body
     try {
 
-        if (!truckId) {
-            return res.status(400).json({ error: 'El ID del camión es requerido' });
-        }
-
-        //validar que el camión exista
-        const truckExist = await prisma.truck.findUnique({
-            where: {
-                id: truckId
+        if (truckId) {
+            //validar que el camión exista
+            const truckExist = await prisma.truck.findUnique({
+                where: {
+                    id: truckId
+                }
+            });
+            if (!truckExist) {
+                return res.status(400).json({ error: 'El camión no existe' });
             }
-        });
-
-        if (!truckExist) {
-            return res.status(400).json({ error: 'El camión no existe' });
         }
+
         const newTire = await prisma.tires.create({
             data: {
                 brand: brand,
