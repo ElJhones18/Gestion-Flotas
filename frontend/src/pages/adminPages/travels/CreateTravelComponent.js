@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Select, Form, Modal, Divider } from "antd";
+import { Button, Input, Select, Form, Modal, Divider, message } from "antd";
 import { PATHS } from "../../../utils/config";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -24,11 +24,12 @@ const MARKER_PATH = 'M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.9
 export const CreateTravelComponent = () => {
   const navigate = useNavigate();
   const [distance, setDistance] = useState('');
-  const [mapCenter, setMapCenter] = useState([4.570868, -74.297333]); // Center map on Colombia
+  const [mapCenter, setMapCenter] = useState([4.570868, -74.297333]);
   const [mapReady, setMapReady] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [routingControl, setRoutingControl] = useState(null);
   const [instructions, setInstructions] = useState('');
+  const [travelId, setTravelId] = useState(null);
 
   const [trucks, setTrucks] = useState([]);
   const [selectedTruck, setSelectedTruck] = useState('');
@@ -41,6 +42,9 @@ export const CreateTravelComponent = () => {
 
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
+
+  const [bounds, setBounds] = useState(null);
+  const [stops, setStops] = useState([]);
 
   const originIcon = L.icon({
     iconUrl: iconGreen,
@@ -95,12 +99,18 @@ export const CreateTravelComponent = () => {
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
 
+    const newStops = newWaypoints.map((wp, idx) => ({
+      id: idx + 1,
+      label: newLabels[idx] || '',
+      location: wp.location
+    }));
+
+    setStops(newStops);
+
     if (index === 0) {
       setOrigin(selectedOption.label);
-      console.log("Origen",selectedOption.label);
-    } else {
+    } else if (index === waypoints.length - 1) {
       setDestination(selectedOption.label);
-      console.log("Destino",selectedOption.label);
     }
   };
 
@@ -118,6 +128,14 @@ export const CreateTravelComponent = () => {
     setWaypoints(newWaypoints);
     updateBounds(newWaypoints);
     updateRoutingControl(newWaypoints);
+
+    const newStops = newWaypoints.map((wp, idx) => ({
+      id: idx + 1,
+      label: newLabels[idx] || '',
+      location: wp.location
+    }));
+
+    setStops(newStops);
   };
 
   const updateBounds = (waypoints) => {
@@ -129,12 +147,9 @@ export const CreateTravelComponent = () => {
     }
   };
 
-  const [bounds, setBounds] = useState(null);
-
   const handleSubmit = async () => {
     const travel = {
       distance,
-      /* waypoints: waypoints.map(wp => wp.location), */
       origin,
       destination,
       driverId: selectedDriver,
@@ -142,17 +157,62 @@ export const CreateTravelComponent = () => {
     };
 
     try {
-      console.log(travel);
+      console.log("Creating travel with data:", travel);
       const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_TRAVEL;
-      console.log("Entra a la URL", URL);
+      console.log("Travel creation URL:", URL);
       const response = await axios.post(URL, travel, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      console.log(response);
+
+      if (response.status === 200 && response.data.id) {
+        const travelId = response.data.id;
+        setTravelId(travelId);
+
+        message.success("El viaje fue creado correctamente");
+      } else {
+        message.error("No se pudo obtener el ID del viaje");
+      }
     } catch (error) {
       console.error("Error creating travel", error);
+      if (error.response) {
+        message.error("Error: El checklist del camión no existe");
+        console.error("Response data:", error.response.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (travelId) {
+      createStops(travelId);
+    }
+  }, [travelId]);
+
+  const createStops = async (travelId) => {
+    for (const stop of stops) {
+      try {
+        const stopData = {
+          direction: stop.label,
+          latitude: stop.location ? stop.location[0].toString() : null,
+          longitude: stop.location ? stop.location[1].toString() : null,
+          travelId
+        };
+        const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_STOP;
+
+        const response = await axios.post(URL, stopData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+      } catch (error) {
+        console.error('Error creating stop:', error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+          message.error(`Error creating stop: ${error.response.data.message}`);
+        }
+      }
     }
   };
 

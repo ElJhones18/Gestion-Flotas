@@ -55,8 +55,6 @@ const items = [
         getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>), 
         getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><EnvironmentOutlined /></Link>),
     ]),
-    getItem('Paradas', 'stop', <Link to={ROUTES.ADMIN_CREATE_STOP}><EnvironmentOutlined /></Link>)
-
 ];
 
 export const MenuSide = (props) => {
