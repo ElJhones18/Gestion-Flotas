@@ -74,5 +74,8 @@ export const PATHS = {
         GET_TIRE: `/tire/`,
         EDIT_TIRE: `/tire/edit/`,
         DELETE_TIRE: `/tire/delete/`,
+
+        /* VIAJES */
+        LIST_TRAVELS: `/travels/`,
     }
 }

@@ -13,7 +13,9 @@ import {
     ToolOutlined,
     FileAddOutlined,
     HistoryOutlined,
-    EnvironmentOutlined
+    EnvironmentOutlined,
+    InboxOutlined,
+    OrderedListOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { ROUTES } from "../../../routes/index";
@@ -54,6 +56,9 @@ const items = [
     getItem('Viajes', 'travel', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>,[
         getItem('Listar viajes', 'list-travels', <Link to={ROUTES.ADMIN_LIST_TRAVELS}><EnvironmentOutlined /></Link>), 
         getItem('Crear viaje', 'create-travel', <Link to={ROUTES.ADMIN_CREATE_TRAVEL}><EnvironmentOutlined /></Link>),
+    ]),
+    getItem('Inventario', 'inventory', <InboxOutlined />, [
+        getItem('Listar inventario', 'list-inventory', <Link to={ROUTES.ADMIN_LIST_INVENTORY}><OrderedListOutlined /></Link>),
     ]),
 ];
 

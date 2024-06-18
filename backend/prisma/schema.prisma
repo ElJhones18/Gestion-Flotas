@@ -131,9 +131,9 @@ model Fuel {
 }
 
 model Tires {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
   brand   String
   wear    String
-  truckId String @unique @db.ObjectId
-  truck   Truck  @relation(fields: [truckId], references: [id])
+  truckId String? @unique @db.ObjectId
+  truck   Truck?  @relation(fields: [truckId], references: [id])
 }

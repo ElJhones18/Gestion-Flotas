@@ -1,0 +1,15 @@
+.custom-table .ant-table-cell {
+  border-right: 6px solid #f0f0f0; /* Color de borde derecho para separar columnas */
+}
+
+.custom-table .ant-table-row {
+  border-bottom: 10px solid #f0f0f0; /* Color de borde inferior para separar filas */
+}
+
+.custom-table .ant-table-tbody > tr.ant-table-row {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.custom-table .ant-table-tbody > tr.ant-table-row:first-child {
+  border-top: 10px solid #f0f0f0 !important;
+}

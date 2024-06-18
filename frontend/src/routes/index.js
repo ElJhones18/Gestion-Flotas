@@ -41,4 +41,7 @@ export const ROUTES = {
     /* PARADAS */
     ADMIN_CREATE_STOP: "/admin/stop/create",
     ADMIN_LIST_STOPS: "/admin/stops",
+
+    /* INVENTORY */
+    ADMIN_LIST_INVENTORY: "/admin/inventory",
 }

@@ -26,6 +26,9 @@ import CreateTireComponent from "../pages/adminPages/tires/CreateTireComponent";
 import { ListTravelComponent } from "../pages/adminPages/travels/ListTravelComponent";
 import { CreateTravelComponent } from "../pages/adminPages/travels/CreateTravelComponent.js";
 
+/* INVENTORY */
+import { ListInventoryComponent } from "../pages/adminPages/inventory/ListInventoryComponent";
+
 import { DragAndDrop } from "../pages/adminPages/tasks/ListTaskComponent";
 import { Logout } from "../pages/authPages/Logout.js";
 import CreateTruckComponent from "../pages/adminPages/trucks/CreateTruckComponent.js";
@@ -60,6 +63,7 @@ export const AdminRoutes = () => {
                     <Route path={ROUTES.ADMIN_CREATE_TIRE} element={loadLayout(AdminLayout, CreateTireComponent)} />
                     <Route path={ROUTES.ADMIN_LIST_TIRES} element={loadLayout(AdminLayout, ListTireComponent)} />
                     <Route path={ROUTES.ADMIN_CREATE_MAINTENANCE} element={loadLayout(AdminLayout, CreateMaintenanceComponent)} />
+                    <Route path={ROUTES.ADMIN_LIST_INVENTORY} element={loadLayout(AdminLayout, ListInventoryComponent)} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={["Conductor"]} />}>
