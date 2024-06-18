@@ -43,8 +43,8 @@ const items = [
         getItem('Checklist', 'create-checklist', <Link to={ROUTES.CHECKLIST}><UnorderedListOutlined /></Link>),
     ]),
     getItem('Combustibles', 'fuel', <Link to={ROUTES.ADMIN_LIST_FUELS}><FireOutlined /></Link>, [
-        getItem('Listar combustibles', 'list-fuels', <Link to={ROUTES.ADMIN_LIST_FUELS}><UnorderedListOutlined /></Link>),
-        getItem('Crear combustible', 'create-fuel', <Link to={ROUTES.ADMIN_CREATE_FUEL}><FileOutlined /></Link>),
+        getItem('Combustibles', 'list-fuels', <Link to={ROUTES.ADMIN_LIST_FUELS}><UnorderedListOutlined /></Link>),
+        /* getItem('Crear combustible', 'create-fuel', <Link to={ROUTES.ADMIN_CREATE_FUEL}><FileOutlined /></Link>), */
     ]),
     getItem('Neumáticos', 'tire', <Link to={ROUTES.ADMIN_LIST_TIRES}><ToolOutlined /></Link>, [
         getItem('Listar neumáticos', 'list-tires', <Link to={ROUTES.ADMIN_LIST_TIRES}><UnorderedListOutlined /></Link>),
