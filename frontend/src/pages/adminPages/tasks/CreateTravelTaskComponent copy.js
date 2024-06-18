@@ -24,6 +24,7 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
     const [origen, setOrigen] = useState("");
     const [destino, setDestino] = useState("");
     const [paradas, setParadas] = useState([]);
+    const [indicaciones, setIndicaciones] = useState([]);
 
     const [task, setTask] = useState(currentTask || {
         type: "",
@@ -44,6 +45,8 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
         values.origen = origen;
         values.destino = destino;
         values.paradas = paradas;
+        values.indicaciones = indicaciones;
+        // console.log(indicaciones);
         console.log(values);
 
         try {
@@ -75,6 +78,7 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                     description: "",
                     origen: "",
                     paradas: [],
+                    indicaciones: [],
                     destino: "",
                     driverId: ""
                 });
@@ -121,7 +125,7 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                 state: "",
                 driverId: driverId
             }}>
-                <Form.Item label="Tipo" name="type">
+                <Form.Item label="Tipo" name="type" rules={[{ required: true }]}>
                     <Select
                         name="type"
                         value={task.type}
@@ -130,34 +134,6 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                     </Select>
                 </Form.Item>
 
-
-                {/* <Form.Item label="Conductor" name="driverId">
-                    <Select
-                        name="driverId"
-                    >
-                        <Option value={task.driverId}>{task.driverId}</Option>
-                    </Select>
-
-                </Form.Item> */}
-
-
-                {/* <Form.Item label="Origen" name="type">
-                    <Select
-                        name="origen"
-                        value={task.origin}
-                    >
-                        <Option value=""></Option>
-                    </Select>
-                </Form.Item>
-
-                <Form.Item label="Destino" name="type">
-                    <Select
-                        name="destino"
-                        value={task.destino}
-                    >
-                        <Option value=""></Option>
-                    </Select>
-                </Form.Item> */}
 
                 <Form.Item label="Origen" rules={[{ required: true }]}>
                     <AsyncSelect
@@ -188,7 +164,7 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                 </Form.Item>
 
                 {[...Array(cantidadParadas)].map((_, index) => (
-                    <Form.Item key={index} label={`Parada ${index + 1}`}>
+                    <Form.Item key={index} label={`Parada ${index + 1}`} rules={[{ required: true }]}>
                         <AsyncSelect
                             components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
                             placeholder="Parada"
@@ -200,14 +176,31 @@ export const CreateTravelTaskComponent = ({ driverId, isModalOpen, setIsModalOpe
                     </Form.Item>
                 ))}
 
-                <Form.Item label="Descripción" name="description">
+                {[...Array(cantidadParadas)].map((_, index) => (
+                    <Form.Item key={index} label={`Indicaciones ${index + 1}`} rules={[{ required: true }]}>
+
+                        <TextArea
+                            name="indicacion"
+                            value={indicaciones[index]}
+                            onChange={(e) => {
+                                const updatedIndicaciones = [...indicaciones];
+                                updatedIndicaciones[index] = e.target.value;
+                                setIndicaciones(updatedIndicaciones);
+                            }}
+                            rows={2}
+                        />
+
+                    </Form.Item>
+                ))}
+
+                <Form.Item label="Descripción" name="description" rules={[{ required: true }]}>
                     <TextArea
                         name="description"
                         value={task.description}
-                        rows={4}
+                        rows={3}
                     />
                 </Form.Item>
-                <Form.Item label="Estado" name="state">
+                <Form.Item label="Estado" name="state" rules={[{ required: true }]}>
                     <Select
                         name="state"
                     >
