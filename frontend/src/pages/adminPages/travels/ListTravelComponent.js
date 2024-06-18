@@ -4,6 +4,7 @@ import {
     Button,
     Form,
     Input,
+    List,
     Modal,
     Space,
     Switch,
@@ -12,17 +13,17 @@ import {
     Upload,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import { EditOutlined, DeleteOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusCircleOutlined, PlusOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { Travel } from "../../../api/travel";
 import { useEffect, useState } from "react";
 import { PATHS } from "../../../utils/config";
 import axios from "axios";
-import { deleteTravelById, editTravelById, getTravels} from "../../../slices/travelSlice";
+import { deleteTravelById, editTravelById, getTravels } from "../../../slices/travelSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const { confirm } = Modal;
 
-export const ListTravelComponent = () => { 
+export const ListTravelComponent = () => {
     const dispatch = useDispatch();
     const travels = useSelector((state) => state.travel);
     const travelApi = new Travel();
@@ -30,9 +31,11 @@ export const ListTravelComponent = () => {
     const [selectedTravel, setSelectedTravel] = useState(null);
     const [trucks, setTrucks] = useState([]);
     const [selectedTruck, setSelectedTruck] = useState('');
-  
+
     const [drivers, setDrivers] = useState([]);
     const [selectedDriver, setSelectedDriver] = useState('');
+    const [isStopsModalVisible, setIsStopsModalVisible] = useState(false);
+    const [stops, setStops] = useState([]);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -47,6 +50,7 @@ export const ListTravelComponent = () => {
         fetchTravels();
         fetchDrivers();
         fetchTrucks();
+        fetchStops();
     }, [dispatch])
 
     const fetchDrivers = async () => {
@@ -69,7 +73,17 @@ export const ListTravelComponent = () => {
             console.error("Error fetching trucks", error);
         }
     };
-    
+
+    const fetchStops = async () => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_STOPS;
+            const response = await axios.get(URL);
+            setStops(response.data);
+        } catch (error) {
+            console.error("Error fetching stops", error);
+        }
+    };
+
     const handleEdit = (id) => {
         const travel = travels.find((travel) => travel.id === id);
         setSelectedTravel(travel);
@@ -82,17 +96,17 @@ export const ListTravelComponent = () => {
             content: "Esta acción no se puede deshacer",
             onOk() {
                 travelApi.deleteTravelById(id)
-                .then(() => {
-                    dispatch(deleteTravelById(id));
-                })
-                .catch((error) => {
-                    console.log("Error al eliminar el viaje", error);
-                });
+                    .then(() => {
+                        dispatch(deleteTravelById(id));
+                    })
+                    .catch((error) => {
+                        console.log("Error al eliminar el viaje", error);
+                    });
             },
             onCancel() {
                 console.log("Cancel delete");
             }
-            })
+        })
 
     }
 
@@ -139,12 +153,30 @@ export const ListTravelComponent = () => {
         }
         return "Desconocido";
     }
-    
+
 
     const getTruckDetailsById = (id) => {
         const truck = trucks.find((truck) => truck.id === id);
         return truck ? `${truck.plate} - ${truck.model}` : "Desconocido";
     }
+
+    const showStopsModal = async (record) => {
+        try {
+            const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.LIST_STOPS;
+            const response = await axios.get(URL);
+            const stops = response.data.filter((stop) => stop.travelId === record.id);
+            console.log('stops:', stops);
+            setStops(stops);
+            
+            setIsStopsModalVisible(true);
+        } catch (error) {
+            console.error('Error fetching stops:', error);
+        }
+    };
+
+    const handleStopsModalOk = () => {
+        setIsStopsModalVisible(false);
+    };
 
     const columns = [
         {
@@ -165,7 +197,12 @@ export const ListTravelComponent = () => {
         {
             title: "Paradas",
             dataIndex: "stops",
-            key: "stops"
+            key: "stops",
+            render: (stops, record) => (
+                <Button type="link" onClick={() => showStopsModal(record)}>
+                    Detalles
+                </Button>
+            )
         },
         {
             title: "Conductor",
@@ -184,33 +221,33 @@ export const ListTravelComponent = () => {
             key: "action",
             render: (text, record) => (
                 <Space size="middle">
-                    <Tooltip title="Editar">
-                        <EditOutlined 
-                        style={{ color: "blue", cursor: "pointer" }}
-                        onClick={() => handleEdit(record.id)} />
-                    </Tooltip>
+{/*                     <Tooltip title="Editar">
+                        <EditOutlined
+                            style={{ color: "blue", cursor: "pointer" }}
+                            onClick={() => handleEdit(record.id)} />
+                    </Tooltip> */}
                     <Tooltip title="Eliminar">
-                        <DeleteOutlined 
-                        style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => handleDelete(record.id)} />
+                        <DeleteOutlined
+                            style={{ color: "red", cursor: "pointer" }}
+                            onClick={() => handleDelete(record.id)} />
                     </Tooltip>
                 </Space>
             )
         }
     ]
-   
+
 
     return (
         <div className="container">
-            <div style={{display:"flex", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h2>Mis Viajes</h2>
-                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRAVEL)} style={{ display:'flex', marginBottom:'10px' }}>
-                
-                    <PlusOutlined style={{fontSize:'20px', alignItems:'middle'}} />
-                        <span style={{alignItems:'middle', fontSize:'15px'}}>Crear Viaje</span>
-                    </Button>
+                <Button onClick={() => navigate(ROUTES.ADMIN_CREATE_TRAVEL)} style={{ display: 'flex', marginBottom: '10px' }}>
+
+                    <PlusOutlined style={{ fontSize: '20px', alignItems: 'middle' }} />
+                    <span style={{ alignItems: 'middle', fontSize: '15px' }}>Crear Viaje</span>
+                </Button>
             </div>
-            <Table dataSource={travels} columns={columns} rowKey="id"/>
+            <Table dataSource={travels} columns={columns} rowKey="id" />
             {selectedTravel && (
                 <Modal
                     title="Eliminar Viaje"
@@ -240,7 +277,7 @@ export const ListTravelComponent = () => {
                                 onChange={handleChange}
                             />
                         </Form.Item>
-{/*                         <Form.Item label="Paradas">
+                        {/*                         <Form.Item label="Paradas">
                             <Input
                                 id="stops"
                                 value={selectedTravel.stops}
@@ -263,8 +300,39 @@ export const ListTravelComponent = () => {
                         </Form.Item>
                     </Form>
 
-                    </Modal>
+                </Modal>
+
+
             )}
+
+            <Modal
+                title="Detalles de Paradas"
+                open={isStopsModalVisible}
+                onOk={handleStopsModalOk}
+                footer={[
+                    <Button key="ok" type="primary" onClick={handleStopsModalOk}>
+                        OK
+                    </Button>,
+                ]}
+            >
+                {stops.length > 0 ? (
+                    <List
+                        itemLayout="horizontal"
+                        dataSource={stops}
+                        renderItem={(stop) => (
+                            <List.Item>
+                                <List.Item.Meta
+                                    avatar={<EnvironmentOutlined style={{ color: '#1890ff', fontSize: '24px' }} />}
+                                    title={stop.direction}
+                                    description={`Latitud: ${stop.latitude}, Longitud: ${stop.longitude}`}
+                                />
+                            </List.Item>
+                        )}
+                    />
+                ) : (
+                    <p>No hay paradas disponibles</p>
+                )}
+            </Modal>
 
         </div>
     )
