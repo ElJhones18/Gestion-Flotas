@@ -169,6 +169,23 @@ export const CreateTravelComponent = () => {
         setTravelId(travelId);
 
         message.success("El viaje fue creado correctamente");
+
+        // Esperar a que las paradas se creen antes de restablecer los estados
+        await createStops(travelId);
+
+        // Restablecer los estados después de la creación del viaje
+        setDistance('');
+        setSelectedTruck('');
+        setSelectedDriver('');
+        setWaypoints([{ id: 1, location: null }, { id: 2, location: null }]);
+        setWaypointLabels({});
+        setOrigin('');
+        setDestination('');
+        setBounds(null);
+        setStops([]);
+        if (routingControl) {
+          routingControl.setWaypoints([]);
+        }
       } else {
         message.error("No se pudo obtener el ID del viaje");
       }
@@ -181,12 +198,6 @@ export const CreateTravelComponent = () => {
     }
   };
 
-  useEffect(() => {
-    if (travelId) {
-      createStops(travelId);
-    }
-  }, [travelId]);
-
   const createStops = async (travelId) => {
     for (const stop of stops) {
       try {
@@ -198,7 +209,7 @@ export const CreateTravelComponent = () => {
         };
         const URL = PATHS.BASE_PATH + PATHS.API_ROUTES.CREATE_STOP;
 
-        const response = await axios.post(URL, stopData, {
+        await axios.post(URL, stopData, {
           headers: {
             'Content-Type': 'application/json'
           }
