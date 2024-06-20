@@ -201,10 +201,11 @@ const CreateMaintenanceComponent = () => {
                     getMaintenances(value)
                     setTruckSelected(true)
                 }}>
+                    console.log(trucks.driver.username);
                 {trucks.map((truck) => {
                     return (
                         <Select.Option key={truck.id} value={truck.id}>
-                            <Tooltip title={`Color: ${truck.color} - Marca: ${truck.brand} - Conductor: ${truck.driver.username} ${truck.driver.lastname}`}>
+                            <Tooltip title={`Color: ${truck.color} - Marca: ${truck.brand} - Conductor: ${truck.driver?.username} ${truck.driver?.lastname}`}>
                                 <span>{truck.plate}</span>
                             </Tooltip>
                         </Select.Option>

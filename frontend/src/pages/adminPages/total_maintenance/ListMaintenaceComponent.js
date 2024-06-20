@@ -32,7 +32,7 @@ const ListMaintenanceComponent = () => {
     }
 
     const handleEdit = async (id) => {
-        const maintenance = maintenances.find((m) => m.id == id);
+        const maintenance = maintenances.find((m) => m.id === id);
         console.log(maintenance);
         setSelectedMaintenance(maintenance);
         setRepairs(maintenance.repairs);
